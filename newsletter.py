@@ -97,7 +97,8 @@ class NewsletterGenerator:
     def save_to_csv(self, news_list):
         try:
             # 현재 날짜를 파일명에 포함
-            today = datetime.now().strftime("%Y%m%d")
+            current_dir = os.getcwd()
+            # today = datetime.now().strftime("%Y%m%d")
             # 데이터프레임 생성을 위한 리스트 준비
             data = []
             for news in news_list:
@@ -115,7 +116,7 @@ class NewsletterGenerator:
             df = pd.DataFrame(data)
             
             # CSV 파일로 저장 (현재 작업 디렉토리에 저장)
-            file_path = f'news_{today}.csv'
+            file_path = os.path.join(current_dir, 'newsletter.csv')
             
             # 파일이 이미 존재하는 경우 추가 모드로 저장
             if os.path.exists(file_path):
@@ -458,8 +459,9 @@ class NewsletterGenerator:
     def save_html(self, html_content):
         try:
             # 현재 날짜를 파일명에 포함
-            today = datetime.now().strftime("%Y%m%d")
-            file_path = f"newsletter_{today}.html"
+            current_dir = os.getcwd()
+            # today = datetime.now().strftime("%Y%m%d")
+            file_path = os.path.join(current_dir, 'newsletter.html')
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
             return file_path
