@@ -26,8 +26,12 @@ jobs:
     - name: access to secrets
       run: |
         echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+        echo "SENDER_EMAIL=$SENDER_EMAIL" >> .env
+        echo "SENDER_PASSWORD=$SENDER_PASSWORD" >> .env
       env:
         OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
+        SENDER_EMAIL: ${{secrets.SENDER_EMAIL}}
+        SENDER_PASSWORD: ${{secrets.SENDER_PASSWORD}}
     - name: Run
       run: |
         python newsletter.py
