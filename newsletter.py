@@ -36,7 +36,7 @@ class NewsletterGenerator:
                 "topic": "산업부",
                 "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
                 "count": 10
-            }
+            },
             {
                 "topic": "원자력",
                 "keywords": ["원자력", "원자로", "원전", "방폐물", "SMR", "핵융합", "핵연료"],
