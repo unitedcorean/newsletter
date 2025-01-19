@@ -5,7 +5,7 @@ name: newsletter
 
 on:
   schedule:
-    - cron: '0 7 * * 1,5' # 24마다 시간 실행
+    - cron: '30 15 * * *' # 24마다 시간 실행
   workflow_dispatch:
 
 jobs:
@@ -40,9 +40,7 @@ jobs:
         echo "Current directory:"
         pwd
         echo "Files in current directory:"
-        ls -l
-        echo "Checking output directory:"
-        ls -l output || echo "No output directory found"
+        ls -l $GITHUB_WORKSPACE
     - name: Commit and push generated files to repository
       run: |
         git config --global user.name "GitHub Actions"
