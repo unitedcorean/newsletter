@@ -98,9 +98,6 @@ class NewsletterGenerator:
         try:
             # 현재 날짜를 파일명에 포함
             today = datetime.now().strftime("%Y%m%d")
-            output_dir = "output"
-            os.makedirs(output_dir, exist_ok=True)
-            
             # 데이터프레임 생성을 위한 리스트 준비
             data = []
             for news in news_list:
@@ -117,8 +114,8 @@ class NewsletterGenerator:
             # 데이터프레임 생성
             df = pd.DataFrame(data)
             
-            # CSV 파일로 저장
-            file_path = os.path.join(output_dir, f'news_{today}.csv')
+            # CSV 파일로 저장 (현재 작업 디렉토리에 저장)
+            file_path = f'news_{today}.csv'
             
             # 파일이 이미 존재하는 경우 추가 모드로 저장
             if os.path.exists(file_path):
@@ -453,20 +450,16 @@ class NewsletterGenerator:
     def generate_newsletter(self):
         newsletter_html = self.generate_html()
         # HTML 파일 저장
-        html_path = self.save_html(newsletter_html)
+        self.save_html(newsletter_html)
         recipients = ["kimyh@ketep.re.kr"]  # 수신자 목록
         self.send_email(newsletter_html, recipients)  # 이메일 전송
         return newsletter_html
 
     def save_html(self, html_content):
         try:
-            # 현재 작업 디렉토리 내에 output 디렉토리 생성
-            output_dir = "output"
-            os.makedirs(output_dir, exist_ok=True)
-            
             # 현재 날짜를 파일명에 포함
             today = datetime.now().strftime("%Y%m%d")
-            file_path = os.path.join(output_dir, f"newsletter_{today}.html")
+            file_path = f"newsletter_{today}.html"
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
             return file_path
