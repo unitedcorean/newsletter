@@ -5,7 +5,7 @@ name: newsletter
 
 on:
   schedule:
-    - cron: '0 7 * * *' # 24마다 시간 실행
+    - cron: '20 7 * * *' # 24마다 시간 실행
   workflow_dispatch:
 
 jobs:
