@@ -35,6 +35,14 @@ jobs:
     - name: Run
       run: |
         python newsletter.py
+    - name: List files in the workspace
+      run: |
+        echo "Current directory:"
+        pwd
+        echo "Files in current directory:"
+        ls -l
+        echo "Checking output directory:"
+        ls -l output || echo "No output directory found"
     - name: Commit and push generated files to repository
       run: |
         git config --global user.name "GitHub Actions"
