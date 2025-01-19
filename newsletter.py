@@ -39,52 +39,52 @@ class NewsletterGenerator:
             },
             {
                 "topic": "원자력",
-                "keywords": ["원자력", "원자로", "원전", "방폐물", "SMR", "핵융합", "핵연료"],
+                "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
                 "count": 10
             },
             { 
                 "topic": "수소, 연료전지",
-                "keywords": ["수소", "연료전지", "수전해", "개질"],
+                "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
                 "count": 10
             },
             {
                 "topic": "태양광",
-                "keywords": ["태양광", "결정질실리콘", "무기박막", "유기박막", "탠덤태양전지", "페로브스카이트"],
+                "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
                 "count": 10
             },
             {
                 "topic": "풍력",
-                "keywords": ["풍력", "해상변전소"],
+                "keywords": ["풍력 OR 해상변전소"],
                 "count": 10
             },
             {
                 "topic": "전력",
-                "keywords": ["화력발전", "터빈", "혼소", "송배전", "전력전자", "전력계통", "전력시장", "그리드"],
+                "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
                 "count": 10
             },
             {
                 "topic": "에너지수요관리",
-                "keywords": ["히트펌프", "전동기", "유체기기", "전력변환", "에너지효율", "수요자원", "수요반응", "VPP"],
+                "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
                 "count": 10
             },     
             {
                 "topic": "자원, CCUS",
-                "keywords": ["온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 탄소포집 OR 탄소저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
+                "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
                 "count": 10
             },      
             {
-                "topic": "에너지저장장치",
-                "keywords": ["ESS", "열저장", "기계식저장", "압축공기", "카르노배터리"],
+                "topic": "ESS",
+                "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
                 "count": 10
             },
             {
                 "topic": "에너지안전",
-                "keywords": ["에너지안전", "가스안전", "전기안전", "ESS안전", "안전성평가", "재해예방"],
+                "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
                 "count": 10
             },
             {
                 "topic": "기술사업화",
-                "keywords": ["기후테크", "에너지벤처", "에너지스타트업", "에너지기술", "에너지R&D"],
+                "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
                 "count": 10
             }
         ]
