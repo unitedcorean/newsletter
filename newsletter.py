@@ -24,8 +24,6 @@ from email.mime.text import MIMEText
 class NewsletterGenerator:
     def __init__(self):
         load_dotenv()
-        self.api_key = os.getenv("OPENAI_API_KEY")
-        self.client = openai.OpenAI(api_key=self.api_key)
         locale.setlocale(locale.LC_TIME, 'ko_KR.UTF-8')
         self.keyword_groups = [
             # {
@@ -266,8 +264,9 @@ class NewsletterGenerator:
             return "내용이 없습니다."
 
         try:
+            api_key = os.getenv("OPENAI_API_KEY")
             prompt = PromptTemplate.from_template("{topic}을 간결하게 3줄로 요약해주세요. 각 문장은 줄바꿈해주세요.")
-            model = ChatOpenAI(model="gpt-4o-mini")
+            model = ChatOpenAI(model="gpt-4o-mini", api_key=api_key)
             chain = prompt | model | StrOutputParser()
             input = {"topic" : content}
             answer = chain.invoke(input)
