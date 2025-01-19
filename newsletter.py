@@ -19,6 +19,8 @@ import ssl
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import schedule
+import time
 
 class NewsletterGenerator:
     def __init__(self):
@@ -265,7 +267,7 @@ class NewsletterGenerator:
         try:
             api_key = os.getenv("OPENAI_API_KEY")
             prompt = PromptTemplate.from_template("{topic}을 간결하게 3줄로 요약해주세요. 각 문장은 줄바꿈해주세요.")
-            model = ChatOpenAI(model="gpt-4o-mini", api_key=api_key)
+            model = ChatOpenAI(model="gpt-4o-mini", api_key=api_key)  # API 키 추가
             chain = prompt | model | StrOutputParser()
             input = {"topic" : content}
             answer = chain.invoke(input)
@@ -419,9 +421,9 @@ class NewsletterGenerator:
             
         return newsletter_html
 
-    def send_email(self, html_content):
-        sender_email = "unitedcorean@naver.com"
-        recipients = ["kimyh@ketep.re.kr"]  # 수신자 목록 추가
+    def send_email(self, html_content, recipients):
+        sender_email = os.getenv("SENDER_EMAIL")
+        sender_password = os.getenv("SENDER_PASSWORD")
         
         # 이메일 메시지 설정
         msg = MIMEMultipart()
@@ -433,8 +435,7 @@ class NewsletterGenerator:
         try:
             # SMTP 서버 설정
             with smtplib.SMTP_SSL('smtp.naver.com', 465) as server:
-                # server.starttls()  # TLS 보안 연결
-                server.login(sender_email, "Sh.chang2006")  # 비밀번호 입력
+                server.login(sender_email, sender_password)  # 비밀번호 입력
                 for recipient in recipients:
                     msg['To'] = recipient
                     server.sendmail(sender_email, recipient, msg.as_string())
@@ -442,11 +443,19 @@ class NewsletterGenerator:
         except Exception as e:
             print(f"메일 전송 실패: {str(e)}")
 
+    def schedule_email(self, html_content, recipients, send_time):
+        schedule.every().day.at(send_time).do(self.send_email, html_content, recipients)
+
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+
     def generate_newsletter(self):
         newsletter_html = self.generate_html()
         # HTML 파일 저장
         html_path = self.save_html(newsletter_html)
-        self.send_email(newsletter_html)  # 이메일 전송
+        recipients = ["kimyh@ketep.re.kr"]  # 수신자 목록
+        self.send_email(newsletter_html, recipients)  # 이메일 전송
         return newsletter_html
 
     def save_html(self, html_content):
@@ -473,7 +482,9 @@ def main():
     
     if newsletter_html:
         print("뉴스레터가 성공적으로 생성되었습니다!")
-        print("output 폴더에서 newsletter.html과 news_[날짜].csv 파일을 확인하세요.")
+        recipients = ["kimyh@ketep.re.kr"]  # 수신자 목록
+        send_time = "13:00"  # 예약 전송 시간 (24시간 형식)
+        newsletter_gen.schedule_email(newsletter_html, recipients, send_time)
 
 if __name__ == "__main__":
     main()
