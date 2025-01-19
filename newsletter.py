@@ -482,9 +482,6 @@ def main():
     
     if newsletter_html:
         print("뉴스레터가 성공적으로 생성되었습니다!")
-        recipients = ["kimyh@ketep.re.kr"]  # 수신자 목록
-        send_time = "13:00"  # 예약 전송 시간 (24시간 형식)
-        newsletter_gen.schedule_email(newsletter_html, recipients, send_time)
 
 if __name__ == "__main__":
     main()
