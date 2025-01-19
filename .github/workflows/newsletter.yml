@@ -32,6 +32,7 @@ jobs:
         OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
         SENDER_EMAIL: ${{secrets.SENDER_EMAIL}}
         SENDER_PASSWORD: ${{secrets.SENDER_PASSWORD}}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run
       run: |
         python newsletter.py
@@ -48,3 +49,4 @@ jobs:
         
         git add newsletter.html newsletter.csv  # 생성된 파일 추가
         git commit -m "Add generated newsletter files" 
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
