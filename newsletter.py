@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import trafilatura
-from trafilatura import fetch_url, extract
 from gnews import GNews
 from langchain_openai import ChatOpenAI
 from googlenewsdecoder import new_decoderv1
@@ -11,82 +10,78 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from kiwipiepy import Kiwi
 from newspaper import Article
-from datetime import datetime
-import pandas as pd
+from datetime import datetime, timedelta
 import requests
 import locale
 import ssl
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-import schedule
-import time
+import sqlite3
+import json
 
 class NewsletterGenerator:
     def __init__(self):
         load_dotenv()
         locale.setlocale(locale.LC_TIME, 'ko_KR.UTF-8')
         self.keyword_groups = [
-            {
-                "topic": "에기평",
-                "keywords": ["에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"],
-                "count": 10
-            },
+            # {
+            #     "topic": "에기평",
+            #     "keywords": ["에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"],
+            #     "count": 10
+            # },
             {
                 "topic": "산업부",
                 "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
                 "count": 10
-            },
-            {
-                "topic": "원자력",
-                "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
-                "count": 10
-            },
-            { 
-                "topic": "수소, 연료전지",
-                "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
-                "count": 10
-            },
-            {
-                "topic": "태양광",
-                "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
-                "count": 10
-            },
-            {
-                "topic": "풍력",
-                "keywords": ["풍력 OR 해상변전소"],
-                "count": 10
-            },
-            {
-                "topic": "전력",
-                "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
-                "count": 10
-            },
-            {
-                "topic": "에너지수요관리",
-                "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
-                "count": 10
-            },     
-            {
-                "topic": "자원, CCUS",
-                "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
-                "count": 10
-            },      
-            {
-                "topic": "ESS",
-                "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
-                "count": 10
-            },
-            {
-                "topic": "에너지안전",
-                "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
-                "count": 10
-            },
-            {
-                "topic": "기술사업화",
-                "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
-                "count": 10
             }
+            # {
+            #     "topic": "원자력",
+            #     "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
+            #     "count": 10
+            # },
+            # { 
+            #     "topic": "수소, 연료전지",
+            #     "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
+            #     "count": 10
+            # },
+            # {
+            #     "topic": "태양광",
+            #     "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
+            #     "count": 10
+            # },
+            # {
+            #     "topic": "풍력",
+            #     "keywords": ["풍력 OR 해상변전소"],
+            #     "count": 10
+            # },
+            # {
+            #     "topic": "전력",
+            #     "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
+            #     "count": 10
+            # },
+            # {
+            #     "topic": "에너지수요관리",
+            #     "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
+            #     "count": 10
+            # },     
+            # {
+            #     "topic": "자원, CCUS",
+            #     "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
+            #     "count": 10
+            # },      
+            # {
+            #     "topic": "ESS",
+            #     "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
+            #     "count": 10
+            # },
+            # {
+            #     "topic": "에너지안전",
+            #     "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
+            #     "count": 10
+            # },
+            # {
+            #     "topic": "기술사업화",
+            #     "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
+            #     "count": 10
+            # }
         ]
         
         # 검색 기간 설정
@@ -94,39 +89,60 @@ class NewsletterGenerator:
         self.start_date = None
         self.end_date = None
         
-    def save_to_csv(self, news_list):
+    def save_to_db(self, news_list):
         try:
-            # 현재 날짜를 파일명에 포함
-            current_dir = os.getcwd()
-            # today = datetime.now().strftime("%Y%m%d")
-            # 데이터프레임 생성을 위한 리스트 준비
-            data = []
+            # SQLite 데이터베이스 연결
+            conn = sqlite3.connect('news.db')
+            cursor = conn.cursor()
+            
+            # 테이블 생성 (존재하지 않는 경우)
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS news (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    topic TEXT,
+                    keywords TEXT,
+                    title TEXT,
+                    press TEXT,
+                    date TEXT,
+                    original_url TEXT
+                )
+            ''')
+            
+            # 뉴스 리스트를 데이터베이스에 저장
             for news in news_list:
-                data.append({
-                    'keyword': news['search_keyword'],
-                    'title': news['title'],
-                    'press': news['press'],
-                    'date': news['date'],
-                    'content': news['content'],
-                    'original_url': news['original_url'],
-                    'image_url' : news['image_url']
-                })
+                cursor.execute('''
+                    INSERT INTO news (topic, keywords, title, press, date, original_url)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                ''', (news['topic'], news['search_keyword'], news['title'], news['press'], news['date'], news['original_url']))
             
-            # 데이터프레임 생성
-            df = pd.DataFrame(data)
-            
-            # CSV 파일로 저장 (현재 작업 디렉토리에 저장)
-            file_path = os.path.join(current_dir, 'newsletter.csv')
-            
-            # 파일이 이미 존재하는 경우 추가 모드로 저장
-            if os.path.exists(file_path):
-                df.to_csv(file_path, mode='a', header=False, index=False, encoding='utf-8-sig')
-            else:
-                df.to_csv(file_path, index=False, encoding='utf-8-sig')
-                
-            return file_path
+            # 변경사항 저장
+            conn.commit()
+            conn.close()
+            return 'news.db'
         except Exception as e:
-            print(f"CSV 파일 저장 중 오류 발생: {str(e)}")
+            print(f"DB 저장 중 오류 발생: {str(e)}")
+            return None
+
+    def export_to_json(self):
+        try:
+            conn = sqlite3.connect('news.db')  # 데이터베이스 파일 연결
+            cursor = conn.cursor()
+            
+            # 뉴스 데이터 가져오기
+            cursor.execute("SELECT topic, keywords, title, press, date, original_url FROM news")  # 필요한 모든 필드 선택
+            rows = cursor.fetchall()
+            
+            # 데이터 리스트 생성
+            data = [{"topic": row[0], "keywords": row[1], "title": row[2], "press": row[3], "date": row[4], "original_url": row[5]} for row in rows]
+            
+            # JSON 파일로 저장
+            with open("news.json", "w", encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            
+            conn.close()
+            return "news.json"
+        except Exception as e:
+            print(f"JSON 파일 저장 중 오류 발생: {str(e)}")
             return None
 
     def get_news(self, keyword):
@@ -275,14 +291,16 @@ class NewsletterGenerator:
     
     def get_weather_info(self):
         try:
-            today = datetime.now().strftime('%Y%m%d')  
+            today = datetime.now()
+            today_kst = today + timedelta(hours=9)
+            date_str = today_kst.strftime('%Y%m%d')
             # WeatherAPI.com API 호출
             url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
             response1 = requests.get(url1)
             data1 = response1.json()
 
             # 기상청 API 호출
-            url2 = f"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=FD9ka0vGVDdt0SsGDRnaLrR3HgNK5TWkLXgxL5IQ1dmSmLhhDaBCRKgKXQLr%2Bd3iZNkcXAm56M82H3sxldhx5g%3D%3D&numOfRows=1000&pageNo=1&dataType=JSON&base_date={today}&base_time=0200&nx=61&ny=125"
+            url2 = f"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=FD9ka0vGVDdt0SsGDRnaLrR3HgNK5TWkLXgxL5IQ1dmSmLhhDaBCRKgKXQLr%2Bd3iZNkcXAm56M82H3sxldhx5g%3D%3D&numOfRows=1000&pageNo=1&dataType=JSON&base_date={date_str}&base_time=0200&nx=61&ny=125"
             response2 = requests.get(url2)
             data2 = response2.json()
 
@@ -299,7 +317,7 @@ class NewsletterGenerator:
                 items = data2['response']['body']['items']['item']
 
                 for item in items:
-                    if item['fcstDate'] == today:  # fcstDate가 오늘 날짜인지 확인
+                    if item['fcstDate'] == date_str:  # fcstDate가 오늘 날짜인지 확인
                         if item['category'] == 'TMX':  # 최고 기온
                             temp_max = round(float(item['fcstValue']))
                         elif item['category'] == 'TMN':  # 최저 기온
@@ -315,8 +333,9 @@ class NewsletterGenerator:
             return None
         
     def generate_html(self):
-        today = datetime.now()
-        date_str = today.strftime("%Y년 %m월 %d일(%a)")
+        today = datetime.now()  # 현재 UTC 시간
+        today_kst = today + timedelta(hours=9)  # 한국 시간으로 변환
+        date_str = today_kst.strftime("%Y년 %m월 %d일(%a)")
         all_news = []
         
         weather_info = self.get_weather_info()
@@ -328,7 +347,7 @@ class NewsletterGenerator:
             <meta charset="UTF-8">
         </head>
         <body>
-            <div style="width: 850px; margin: 0 auto;">
+            <div style="width: 850px; margin: 0 auto;"><span id="labell_up"></span>
             <div style="background: #ffffff; border-radius: 4px 4px 0px 0px; border: 1px solid #e6e6e6; padding: 30px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; position: relative; flex-shrink: 0;">
                 <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; align-self: stretch; position: relative; flex-shrink: 0;">
                     <div style="align-self: stretch; flex-shrink: 0; height: 86px; position: relative;">
@@ -364,6 +383,7 @@ class NewsletterGenerator:
             # 수집된 뉴스와 검색 키워드를 함께 저장
             for news in news_list:
                 news['search_keyword'] = keywords_combined
+                news['topic'] = group['topic']
                 all_news.append(news)
                 
             grouped_articles = self.group_articles_with_similarity(news_list)
@@ -427,55 +447,22 @@ class NewsletterGenerator:
         </html>
         """
         
-        # 모든 뉴스 수집이 완료된 후 CSV 저장
+        # 모든 뉴스 수집이 완료된 후 db 저장
         if all_news:
-            self.save_to_csv(all_news)
+            self.save_to_db(all_news)
+            self.export_to_json()
             
         return newsletter_html
-
-    def send_email(self, html_content, recipients):
-        sender_email = os.getenv("SENDER_EMAIL")
-        sender_password = os.getenv("SENDER_PASSWORD")
-        
-        # 이메일 메시지 설정
-        msg = MIMEMultipart()
-        msg['From'] = sender_email
-        today = datetime.now().strftime("%m월 %d일")  # 현재 날짜를 "1월 17일" 형식으로 포맷
-        msg['Subject'] = f"{today} KETEP 뉴스레터"  # 메일 제목 수정
-        msg.attach(MIMEText(html_content, 'html'))
-
-        try:
-            # SMTP 서버 설정
-            with smtplib.SMTP_SSL('smtp.naver.com', 465) as server:
-                server.login(sender_email, sender_password)  # 비밀번호 입력
-                for recipient in recipients:
-                    msg['To'] = recipient
-                    server.sendmail(sender_email, recipient, msg.as_string())
-                    print(f"메일 전송 완료: {recipient}")
-        except Exception as e:
-            print(f"메일 전송 실패: {str(e)}")
-
-    def schedule_email(self, html_content, recipients, send_time):
-        schedule.every().day.at(send_time).do(self.send_email, html_content, recipients)
-
-        while True:
-            schedule.run_pending()
-            time.sleep(1)
 
     def generate_newsletter(self):
         newsletter_html = self.generate_html()
         # HTML 파일 저장
         self.save_html(newsletter_html)
-        recipients = ["kimyh@ketep.re.kr"]  # 수신자 목록
-        self.send_email(newsletter_html, recipients)  # 이메일 전송
         return newsletter_html
 
     def save_html(self, html_content):
         try:
-            # 현재 날짜를 파일명에 포함
-            current_dir = os.getcwd()
-            # today = datetime.now().strftime("%Y%m%d")
-            file_path = os.path.join(current_dir, 'newsletter.html')
+            file_path = "newsletter.html"
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
             return file_path
