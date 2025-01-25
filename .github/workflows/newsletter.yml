@@ -44,8 +44,8 @@ jobs:
         ls -l $GITHUB_WORKSPACE
     - name: Commit and push generated files to repository
       run: |
-        git config --global unitedcorean "github-actions[bot]"
-        git config --global unitedcorean@gmail.com "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add news.db news.json newsletter.html
         git commit -m "Update news database, JSON and HTML"
         git push
