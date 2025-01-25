@@ -62,5 +62,85 @@
         "press": "비즈한국",
         "date": "Fri, 24 Jan 2025 04:46:53 GMT",
         "original_url": "https://www.bizhankook.com/bk/articlePrint/28977"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "딥아이-마이크로우라너스, SMR에 AI 비파괴검사 적용 협력 - 전자신문",
+        "press": "전자신문",
+        "date": "Sat, 25 Jan 2025 08:53:41 GMT",
+        "original_url": "https://www.etnews.com/20250125000069"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "체코원전, 주먹구구식 수주아닌지 다시 들여다 봐야 하는 이유 - 한국NGO신문",
+        "press": "한국NGO신문",
+        "date": "Sat, 25 Jan 2025 12:59:00 GMT",
+        "original_url": "https://www.ngonews.kr/news/articleView.html?idxno=201919"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "'원전 블랙아웃' 부추기는 계속운전 제도...30년까지 원전 10기 만료 - 머니투데이방송MTN",
+        "press": "머니투데이방송MTN",
+        "date": "Sat, 25 Jan 2025 02:02:01 GMT",
+        "original_url": "https://news.mtn.co.kr/news-detail/2025012509323352648"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "일 후쿠시마 원전 오염수 설비 부식 잇따라…도쿄전력 \"보수·감시 강화\" - 네이트 뉴스",
+        "press": "네이트 뉴스",
+        "date": "Sat, 25 Jan 2025 08:39:00 GMT",
+        "original_url": "https://news.nate.com/view/20250125n08747"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "AI 전력 수요 요구에 원전 또 재가동...크립토 태스크포스 출범 - 더밀크 The Miilk",
+        "press": "더밀크 The Miilk",
+        "date": "Fri, 24 Jan 2025 22:15:00 GMT",
+        "original_url": "https://themiilk.com/articles/a9c97167c"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "한전·한수원, 늘어난 바라카 원전 사업비 두고 이견 - 데일리한국",
+        "press": "데일리한국",
+        "date": "Sat, 25 Jan 2025 05:31:14 GMT",
+        "original_url": "https://daily.hankooki.com/news/articleView.html?idxno=1174218"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "\"45일 만에 화성 간다\"…핵 열추진 우주선, 개발 시동 [우주로 간다] - ZD넷 코리아",
+        "press": "ZD넷 코리아",
+        "date": "Sat, 25 Jan 2025 00:24:20 GMT",
+        "original_url": "https://zdnet.co.kr/view/?no=20250125070135"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "\"유럽과 아시아를 사로잡은 혁신\"… K-기술, 세계를 놀라게 하다 - 이콘밍글 - 이콘밍글",
+        "press": "이콘밍글",
+        "date": "Sat, 25 Jan 2025 04:00:00 GMT",
+        "original_url": "https://econmingle.com/economy/k-energys-overseas-expansion/"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "두산, AI·로봇·원자력 3박자 갖춰 미래 성장 기대... 목표가 36만원으로 상향 - 핀포인트뉴스",
+        "press": "핀포인트뉴스",
+        "date": "Sat, 25 Jan 2025 05:36:08 GMT",
+        "original_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=316355"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "intext:원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "공공기관 '리더십 공백' 장기화…체코원전 등 표류 우려 - 이데일리",
+        "press": "이데일리",
+        "date": "Fri, 24 Jan 2025 20:10:00 GMT",
+        "original_url": "https://www.edaily.co.kr/News/Read?newsId=01223446642041328&mediaCodeNo=257"
     }
 ]
