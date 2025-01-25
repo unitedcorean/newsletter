@@ -44,9 +44,8 @@ jobs:
         ls -l $GITHUB_WORKSPACE
     - name: Commit and push generated files to repository
       run: |
-        git config --global user.name "unitedcorean"
-        git config --global user.email "unitedcorean@gmail.com"  # GitHub Actions에서 자동으로 설정되는 사용자 정보
-        
-        git add newsletter.html newsletter.csv  # 생성된 파일 추가
-        git commit -m "Add generated newsletter files" 
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
+        git config --global unitedcorean "github-actions[bot]"
+        git config --global unitedcorean@gmail.com "github-actions[bot]@users.noreply.github.com"
+        git add news.db news.json newsletter.html
+        git commit -m "Update news database, JSON and HTML"
+        git push
