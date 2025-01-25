@@ -27,16 +27,16 @@ class NewsletterGenerator:
             #     "keywords": ["에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"],
             #     "count": 10
             # },
+            # {
+            #     "topic": "산업부",
+            #     "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
+            #     "count": 10
+            # }
             {
-                "topic": "산업부",
-                "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
+                "topic": "원자력",
+                "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
                 "count": 10
             }
-            # {
-            #     "topic": "원자력",
-            #     "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
-            #     "count": 10
-            # },
             # { 
             #     "topic": "수소, 연료전지",
             #     "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
