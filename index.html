@@ -3,109 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>뉴스 목록</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .search-container {
-            margin-bottom: 20px;
-        }
-    </style>
+    <title>뉴스레터 모음</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.3.0/papaparse.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-100">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg">
+            <div class="p-4">
+                <h1 class="text-xl font-bold text-gray-800 mb-4">뉴스레터 모음</h1>
+                <nav>
+                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">Topics</h2>
+                    <ul class="space-y-2" id="topicList">
+                        <!-- Topics will be dynamically populated -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
 
-<h1>뉴스 목록</h1>
+        <!-- Main Content -->
+        <div class="flex-1 p-8">
+            <!-- Search Bar -->
+            <div class="mb-6 flex justify-between items-center">
+                <div class="flex-1 max-w-2xl">
+                    <input type="text" 
+                           id="searchInput" 
+                           placeholder="키워드 또는 언론사 검색" 
+                           class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <button id="exportBtn" class="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    선택한 뉴스 내보내기
+                </button>
+            </div>
 
-<div class="search-container">
-    <label for="itemsPerPage">목록 개수:</label>
-    <select id="itemsPerPage">
-        <option value="50">50개</option>
-        <option value="100">100개</option>
-    </select>
-    <input type="text" id="searchInput" placeholder="검색어를 입력하세요...">
-    <button onclick="filterNews()">검색</button>
-</div>
+            <!-- Date Range Filter -->
+            <div class="mb-6 flex space-x-4">
+                <div class="flex items-center">
+                    <label class="mr-2 text-gray-700">기간:</label>
+                    <input type="date" id="startDate" class="p-2 border rounded">
+                    <span class="mx-2">~</span>
+                    <input type="date" id="endDate" class="p-2 border rounded">
+                </div>
+            </div>
 
-<table id="newsTable">
-    <thead>
-        <tr>
-            <th>주제</th>
-            <th>제목</th>
-            <th>출처</th>
-            <th>날짜</th>
-        </tr>
-    </thead>
-    <tbody id="newsBody">
-        <!-- 뉴스 항목이 여기에 추가됩니다. -->
-    </tbody>
-</table>
+            <!-- News Table -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="p-4 w-12"><input type="checkbox" id="selectAll"></th>
+                                <th class="p-4 text-left">날짜</th>
+                                <th class="p-4 text-left">언론사</th>
+                                <th class="p-4 text-left">제목</th>
+                            </tr>
+                        </thead>
+                        <tbody id="newsList">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-<script>
-    let newsData = [];
-    let currentPage = 1;
-    let itemsPerPage = 50;
+            <!-- Pagination -->
+            <div class="mt-4 flex justify-center" id="pagination">
+            </div>
+        </div>
+    </div>
 
-    // JSON 파일 로드
-    fetch('news.json')
-        .then(response => response.json())
-        .then(data => {
-            newsData = data;
+    <script>
+        let allNews = [];
+        let currentPage = 1;
+        const itemsPerPage = 15;
+        let currentTopic = null;
+
+        // Fetch and load news data
+        async function loadNews() {
+            try {
+                const response = await fetch('news.json');
+                allNews = await response.json();
+                updateTopicList();
+                displayNews();
+            } catch (error) {
+                console.error('Error loading news:', error);
+            }
+        }
+
+        // Update topic list in sidebar
+        function updateTopicList() {
+            const topics = [...new Set(allNews.map(item => item.topic))];
+            const topicList = document.getElementById('topicList');
+            topicList.innerHTML = `
+                <li>
+                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100 ${!currentTopic ? 'bg-green-100' : ''}"
+                            onclick="setTopic(null)">
+                        전체 뉴스
+                    </button>
+                </li>
+            `;
+            
+            topics.forEach(topic => {
+                if (!topic) return;
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100 ${currentTopic === topic ? 'bg-green-100' : ''}"
+                            onclick="setTopic('${topic}')">
+                        ${topic}
+                    </button>
+                `;
+                topicList.appendChild(li);
+            });
+        }
+
+        function setTopic(topic) {
+            currentTopic = topic;
+            currentPage = 1;
+            updateTopicList();
+            displayNews();
+        }
+
+        // Filter news based on current filters
+        function filterNews() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            return allNews.filter(news => {
+                // Topic filter
+                if (currentTopic && news.topic !== currentTopic) return false;
+
+                // Search term filter (keyword or press)
+                const matchSearch = !searchTerm || 
+                    news.title.toLowerCase().includes(searchTerm) || 
+                    news.press.toLowerCase().includes(searchTerm);
+
+                // Date range filter
+                const newsDate = new Date(news.date).toISOString().split('T')[0];
+                const matchStartDate = !startDate || newsDate >= startDate;
+                const matchEndDate = !endDate || newsDate <= endDate;
+
+                return matchSearch && matchStartDate && matchEndDate;
+            });
+        }
+
+        // Display filtered news with pagination
+        function displayNews() {
+            const filteredNews = filterNews();
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const newsToDisplay = filteredNews.slice(startIndex, endIndex);
+
+            const tbody = document.getElementById('newsList');
+            tbody.innerHTML = '';
+
+            newsToDisplay.forEach(news => {
+                const row = document.createElement('tr');
+                row.className = 'border-t hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="p-4"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
+                    <td class="p-4">${new Date(news.date).toLocaleDateString()}</td>
+                    <td class="p-4">${news.press}</td>
+                    <td class="p-4"><a href="${news.original_url}" target="_blank" class="text-blue-600 hover:underline">${news.title}</a></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updatePagination(filteredNews.length);
+        }
+
+        // Update pagination controls
+        function updatePagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.className = `mx-1 px-3 py-1 rounded ${currentPage === i ? 'bg-green-500 text-white' : 'bg-gray-200'}`;
+                button.onclick = () => {
+                    currentPage = i;
+                    displayNews();
+                };
+                pagination.appendChild(button);
+            }
+        }
+
+        // Export selected news to CSV
+        function exportToCSV() {
+            const selectedNews = [];
+            document.querySelectorAll('.newsCheckbox:checked').forEach(checkbox => {
+                const url = checkbox.dataset.url;
+                const newsItem = allNews.find(news => news.original_url === url);
+                if (newsItem) selectedNews.push(newsItem);
+            });
+
+            if (selectedNews.length === 0) {
+                alert('내보낼 뉴스를 선택해주세요.');
+                return;
+            }
+
+            const csv = Papa.unparse(selectedNews);
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'selected_news.csv';
+            link.click();
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', () => {
+            currentPage = 1;
             displayNews();
         });
-
-    function displayNews() {
-        const newsBody = document.getElementById('newsBody');
-        newsBody.innerHTML = '';
-
-        const filteredNews = newsData.filter(news => {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            return news.topic.toLowerCase().includes(searchTerm) || 
-                   news.title.toLowerCase().includes(searchTerm) || 
-                   news.press.toLowerCase().includes(searchTerm) || 
-                   news.date.toLowerCase().includes(searchTerm);
+        document.getElementById('startDate').addEventListener('change', () => {
+            currentPage = 1;
+            displayNews();
+        });
+        document.getElementById('endDate').addEventListener('change', () => {
+            currentPage = 1;
+            displayNews();
+        });
+        document.getElementById('exportBtn').addEventListener('click', exportToCSV);
+        document.getElementById('selectAll').addEventListener('change', (e) => {
+            document.querySelectorAll('.newsCheckbox').forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
         });
 
-        itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const paginatedNews = filteredNews.slice(startIndex, endIndex);
-
-        paginatedNews.forEach(news => {
-            const row = `<tr>
-                <td>${news.topic}</td>
-                <td><a href="${news.original_url}" target="_blank">${news.title}</a></td>
-                <td>${news.press}</td>
-                <td>${news.date}</td>
-            </tr>`;
-            newsBody.innerHTML += row;
-        });
-    }
-
-    function filterNews() {
-        currentPage = 1; // 검색 후 페이지를 1로 초기화
-        displayNews();
-    }
-
-    document.getElementById('itemsPerPage').addEventListener('change', () => {
-        currentPage = 1; // 페이지 변경 시 초기화
-        displayNews();
-    });
-</script>
-
+        // Initialize
+        loadNews();
+    </script>
 </body>
 </html>
