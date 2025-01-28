@@ -201,53 +201,69 @@
         }
 
         // Export selected news to CSV
-        function exportToCSV() {
-            const selectedNews = [];
-            document.querySelectorAll('.newsCheckbox:checked').forEach(checkbox => {
-                const url = checkbox.dataset.url;
-                const newsItem = allNews.find(news => news.original_url === url);
-                if (newsItem) {
-                    // CSV에 필요한 필드만 선택하여 정제된 데이터 생성
-                    selectedNews.push({
-                        날짜: new Date(newsItem.date).toLocaleDateString(),
-                        언론사: newsItem.press,
-                        제목: newsItem.title,
-                        URL: newsItem.original_url,
-                        토픽: newsItem.topic
-                    });
-                }
-            });
-
-            if (selectedNews.length === 0) {
-                alert('내보낼 뉴스를 선택해주세요.');
-                return;
-            }
-
+        async function exportToCSV() {
             try {
+                const selectedCheckboxes = document.querySelectorAll('.newsCheckbox:checked');
+                
+                if (selectedCheckboxes.length === 0) {
+                    alert('내보낼 뉴스를 선택해주세요.');
+                    return;
+                }
+
+                const selectedNews = Array.from(selectedCheckboxes).map(checkbox => {
+                    const url = checkbox.dataset.url;
+                    const newsItem = allNews.find(news => news.original_url === url);
+                    if (!newsItem) return null;
+                    
+                    return {
+                        '날짜': new Date(newsItem.date).toLocaleDateString('ko-KR'),
+                        '언론사': newsItem.press || '',
+                        '제목': newsItem.title || '',
+                        'URL': newsItem.original_url || '',
+                        '토픽': newsItem.topic || ''
+                    };
+                }).filter(item => item !== null);
+
+                if (selectedNews.length === 0) {
+                    throw new Error('선택된 뉴스 데이터를 처리할 수 없습니다.');
+                }
+
                 // CSV 파일 생성 설정
                 const csv = Papa.unparse(selectedNews, {
                     delimiter: ",",
                     header: true,
-                    encoding: "utf-8"
+                    skipEmptyLines: true
                 });
                 
-                // BOM 추가하여 한글 깨짐 방지
+                // BOM 추가 및 CSV 컨텐츠 생성
                 const bomPrefix = new Uint8Array([0xEF, 0xBB, 0xBF]);
-                const csvContent = new Blob([bomPrefix, csv], { 
+                const csvBlob = new Blob([bomPrefix, csv], { 
                     type: 'text/csv;charset=utf-8;' 
                 });
                 
-                // 다운로드 링크 생성 및 클릭
+                // 안전한 파일명 생성
+                const safeDate = new Date().toISOString().split('T')[0];
+                const fileName = `뉴스목록_${safeDate}.csv`;
+                
+                // 다운로드 처리
+                const downloadUrl = URL.createObjectURL(csvBlob);
                 const link = document.createElement('a');
-                link.href = URL.createObjectURL(csvContent);
-                link.download = `뉴스목록_${new Date().toLocaleDateString()}.csv`;
+                link.href = downloadUrl;
+                link.download = fileName;
+                
+                // 비동기 다운로드 처리
                 document.body.appendChild(link);
                 link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
+                
+                // cleanup
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(downloadUrl);
+                }, 100);
+
             } catch (error) {
-                console.error('CSV 생성 중 오류 발생:', error);
-                alert('CSV 파일 생성 중 오류가 발생했습니다.');
+                console.error('CSV 내보내기 오류:', error);
+                alert(`CSV 파일 생성 중 오류가 발생했습니다: ${error.message}`);
             }
         }
 
