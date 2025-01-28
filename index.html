@@ -12,7 +12,7 @@
         <!-- Sidebar -->
         <div class="w-64 bg-white shadow-lg">
             <div class="p-4">
-                <h1 class="text-xl font-bold text-gray-800 mb-4">뉴스레터 모음</h1>
+                <h1 class="text-xl font-bold text-gray-800 mb-4">뉴스 아카이빙</h1>
                 <nav>
                     <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">Topics</h2>
                     <ul class="space-y-2" id="topicList">
@@ -202,6 +202,11 @@
 
         // Export selected news to CSV
         async function exportToCSV() {
+            // Papa Parse 사용 가능 여부 확인
+            if (typeof Papa === 'undefined') {
+                alert('데이터 처리 라이브러리가 로드되지 않았습니다. 페이지를 새로고침 해주세요.');
+                return;
+            }
             try {
                 const selectedCheckboxes = document.querySelectorAll('.newsCheckbox:checked');
                 
@@ -220,7 +225,7 @@
                         '언론사': newsItem.press || '',
                         '제목': newsItem.title || '',
                         'URL': newsItem.original_url || '',
-                        '토픽': newsItem.topic || ''
+                        '분야': newsItem.topic || ''
                     };
                 }).filter(item => item !== null);
 
