@@ -87,8 +87,7 @@
 
         // 이메일 유효성 검사 함수
         function isValidEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
+            return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
         }
 
         // 구독 상태 확인 함수
@@ -104,6 +103,7 @@
         async function handleSubscription() {
             const emailInput = document.getElementById('subscriberEmail');
             const email = emailInput.value.trim();
+            const subscribeBtn = document.getElementById('subscribeBtn');
 
             if (!isValidEmail(email)) {
                 alert('유효한 이메일 주소를 입력해주세요.');
@@ -116,52 +116,26 @@
                 const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
 
                 if (isSubscribed) {
-                    // 구독 취소
                     await remove(subscriptionRef);
                     alert('뉴스레터 구독이 취소되었습니다.');
+                    subscribeBtn.textContent = '뉴스레터 구독하기';
+                    subscribeBtn.className = 'w-full py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200';
                 } else {
-                    // 구독 추가
                     await set(subscriptionRef, {
                         email: email,
                         timestamp: Date.now()
                     });
                     alert('뉴스레터 구독이 완료되었습니다.');
+                    subscribeBtn.textContent = '뉴스레터 구독 취소';
+                    subscribeBtn.className = 'w-full py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200';
                 }
-
-                // UI 업데이트
-                await updateSubscriptionUI(email);
                 
-                // 입력 필드 초기화
                 emailInput.value = '';
-                
             } catch (error) {
                 console.error('구독 처리 중 오류:', error);
                 alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
             }
         }
-
-        // UI 업데이트 함수
-        async function updateSubscriptionUI(email) {
-            const subscribeBtn = document.getElementById('subscribeBtn');
-            const isSubscribed = await checkSubscriptionStatus(email);
-            
-            if (email && isValidEmail(email)) {
-                subscribeBtn.textContent = isSubscribed ? '뉴스레터 구독 취소' : '뉴스레터 구독하기';
-                subscribeBtn.className = isSubscribed 
-                    ? 'w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded' 
-                    : 'w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 rounded';
-                subscribeBtn.disabled = false;
-            } else {
-                subscribeBtn.textContent = '뉴스레터 구독하기';
-                subscribeBtn.className = 'w-full text-left px-4 py-2 text-sm text-gray-400 cursor-not-allowed rounded';
-                subscribeBtn.disabled = true;
-            }
-        }
-
-        // 이메일 입력 변경 감지
-        document.getElementById('subscriberEmail').addEventListener('input', function(e) {
-            updateSubscriptionUI(e.target.value.trim());
-        });
 
         // 전역 스코프에 함수 추가
         window.handleSubscription = handleSubscription;
@@ -179,6 +153,7 @@
             <div class="p-4 flex flex-col h-full">
                 <h1 class="text-xl font-bold text-green-500 mb-16">KETEP NEWS CLOUD</h1>
                 <nav class="flex-1">
+
                     <!-- Newsletter Section -->
                     <div class="mb-6">
                         <button onclick="toggleSection('newsletterSection')" 
@@ -318,24 +293,26 @@
                                     IRENA
                                 </a>
                             </li>
-                            <li class="px-4 py-2">
-                                <input type="email" 
-                                       id="subscriberEmail" 
-                                       placeholder="이메일 주소를 입력하세요" 
-                                       class="w-full py-2 text-sm border rounded focus:outline-none focus:border-green-500">
-                            </li>
-                            <li>
-                                <button id="subscribeBtn"
-                                        onclick="handleSubscription()"
-                                        disabled
-                                        class="w-full text-left py-2 text-sm text-gray-400 cursor-not-allowed rounded">
-                                    뉴스레터 구독하기
-                                </button>
-                            </li>
                         </ul>
                     </div>
                 </nav>
-
+                <!-- 주요 사이트 섹션 위에 뉴스레터 구독 섹션 추가 -->
+                <div class="mb-6">
+                    <h2 class="text-sm font-semibold text-green-500 uppercase mb-2">뉴스브리핑 구독</h2>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <div class="mb-3">
+                            <input type="email" 
+                                    id="subscriberEmail" 
+                                    placeholder="이메일 주소를 입력하세요" 
+                                    class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
+                        </div>
+                        <button id="subscribeBtn"
+                                onclick="handleSubscription()"
+                                class="w-full py-2 text-sm text-gray-400 bg-gray-100 rounded transition-colors duration-200">
+                            뉴스브리핑 구독하기
+                        </button>
+                    </div>
+                </div>
                 <!-- 방문자 통계 (하단에 배치) -->
                 <div class="mt-8 ">
                     <h3 class="text-sm font-semibold text-green-500 mb-2">방문자 통계</h3>
