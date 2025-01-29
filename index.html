@@ -37,7 +37,7 @@
 
         <!-- Main Content -->
         <div class="flex-1 p-8" id="mainContent">
-            <iframe id="contentFrame" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
+            <iframe id="contentFrame" style="display: none; width: 100%; height: 100vh; border: none;" sandbox="allow-same-origin allow-scripts" name="newsletter"></iframe>
             <div id="newsContent">
                 <!-- Search Bar -->
                 <div class="mb-6 flex justify-between items-center">
@@ -319,10 +319,22 @@
             });
         });
 
-        // 뉴스레터 로드 함수
+        // 뉴스레터 로드 함수 수정
         window.loadNewsletterContent = function(url) {
             const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
+            
+            // base target 설정을 위한 HTML 인젝션
+            iframe.onload = function() {
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    const baseEl = iframeDoc.createElement('base');
+                    baseEl.target = '_blank';
+                    iframeDoc.head.appendChild(baseEl);
+                } catch (e) {
+                    console.error('iframe 설정 중 오류:', e);
+                }
+            };
             
             iframe.src = url;
             iframe.style.display = 'block';
