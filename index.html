@@ -11,7 +11,7 @@
         <!-- Sidebar -->
         <div class="w-64 bg-gray-100 shadow-lg">
             <div class="p-4">
-                <h1 class="text-xl font-bold text-green-500 mb-8">KETEP NEWS CLOUD</h1>
+                <h1 class="text-xl font-bold text-green-500 mb-16">KETEP NEWS CLOUD</h1>
                 <nav>
                     <!-- Newsletter Section -->
                     <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">뉴스브리핑</h2>
@@ -19,7 +19,7 @@
                         <li>
                             <button onclick="setNewsletter(); return false;" 
                                     class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-white rounded newsletter-btn">
-                                최신 뉴스레터
+                                오늘의 뉴스브리핑
                             </button>
                         </li>
                     </ul>
@@ -48,7 +48,7 @@
                                placeholder="키워드 또는 언론사 검색" 
                                class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                     </div>
-                    <button id="exportBtn" class="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    <button id="exportBtn" class="ml-4 bg-green-500 text-sm text-white px-4 py-2 rounded hover:bg-green-600">
                         선택한 뉴스 내보내기
                     </button>
                 </div>
@@ -57,14 +57,14 @@
                 <div class="mb-6 flex justify-between">
                     <div class="flex items-center space-x-4">
                         <div class="flex items-center">
-                            <label class="mr-2 text-gray-700">기간:</label>
+                            <label class="mr-2 text-sm text-gray-700">기간:</label>
                             <input type="date" id="startDate" class="p-2 border rounded">
                             <span class="mx-2">~</span>
                             <input type="date" id="endDate" class="p-2 border rounded">
                         </div>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <label class="text-gray-700">페이지당 표시:</label>
+                        <label class="text-sm text-gray-700">페이지당 표시:</label>
                         <select id="itemsPerPageSelect" class="p-2 border rounded">
                             <option value="15">15개</option>
                             <option value="30">30개</option>
