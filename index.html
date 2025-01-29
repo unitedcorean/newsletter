@@ -5,14 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>뉴스레터 모음</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- Firebase SDK 추가 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getDatabase, ref, onValue, get, runTransaction } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+
+        // Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpc7drih9uhEftH8p1kczMU3NNcAwjzB4",
+            authDomain: "news-385f0.firebaseapp.com",
+            databaseURL: "https://news-385f0-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "news-385f0",
+            storageBucket: "news-385f0.firebasestorage.app",
+            messagingSenderId: "991807239164",
+            appId: "1:991807239164:web:338c4624b8049ac873f879",
+            measurementId: "G-W18QS9LPW2"
+        };
+
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+
+        // 방문자 카운팅 함수
+        async function countVisitor() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // 전체 방문자 수 업데이트
+            const totalRef = ref(db, 'visitors/total');
+            await runTransaction(totalRef, (currentTotal) => {
+                return (currentTotal || 0) + 1;
+            });
+            
+            // 오늘 방문자 수 업데이트
+            const todayRef = ref(db, `visitors/daily/${today}`);
+            await runTransaction(todayRef, (currentCount) => {
+                return (currentCount || 0) + 1;
+            });
+            
+            // 월별 통계를 위한 업데이트
+            const yearMonth = today.substring(0, 7);
+            const monthlyRef = ref(db, `visitors/monthly/${yearMonth}`);
+            await runTransaction(monthlyRef, (currentCount) => {
+                return (currentCount || 0) + 1;
+            });
+        }
+
+        // 방문자 수 표시 업데이트 함수
+        function updateVisitorDisplay() {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // 전체 방문자 수 가져오기
+            const totalRef = ref(db, 'visitors/total');
+            onValue(totalRef, (snapshot) => {
+                document.getElementById('totalVisitors').textContent = snapshot.val() || 0;
+            });
+            
+            // 오늘 방문자 수 가져오기
+            const todayRef = ref(db, `visitors/daily/${today}`);
+            onValue(todayRef, (snapshot) => {
+                document.getElementById('todayVisitors').textContent = snapshot.val() || 0;
+            });
+        }
+
+        // 통계 데이터 가져오기 함수
+        async function getVisitorStats() {
+            const dailyRef = ref(db, 'visitors/daily');
+            const monthlyRef = ref(db, 'visitors/monthly');
+            
+            const [dailySnapshot, monthlySnapshot] = await Promise.all([
+                get(dailyRef),
+                get(monthlyRef)
+            ]);
+            
+            return {
+                daily: dailySnapshot.val(),
+                monthly: monthlySnapshot.val()
+            };
+        }
+
+        // 전역 스코프에서 함수들을 사용할 수 있도록 설정
+        window.countVisitor = countVisitor;
+        window.updateVisitorDisplay = updateVisitorDisplay;
+        window.getVisitorStats = getVisitorStats;
+    </script>
 </head>
 <body class="bg-white">
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <div class="w-64 bg-gray-100 shadow-lg">
-            <div class="p-4">
-                <h1 class="text-xl font-bold text-green-500 mb-16">KETEP NEWS CLOUD</h1>
-                <nav>
+            <div class="p-4 flex flex-col h-full">
+                <h1 class="text-xl font-bold text-gray-800 mb-8">KETEP NEWS CLOUD</h1>
+                <nav class="flex-1">
                     <!-- Newsletter Section -->
                     <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">뉴스브리핑</h2>
                     <ul class="space-y-2 mb-6">
@@ -30,6 +115,15 @@
                         <!-- Topics will be dynamically populated -->
                     </ul>
                 </nav>
+
+                <!-- 방문자 통계 (하단에 배치) -->
+                <div class="mt-8 ">
+                    <h3 class="text-sm font-semibold text-gray-600 mb-2">방문자 통계</h3>
+                    <div class="text-sm text-gray-700">
+                        <p>오늘 방문자: <span id="todayVisitors">0</span>명</p>
+                        <p>전체 방문자: <span id="totalVisitors">0</span>명</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -166,7 +260,7 @@
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
 
-            return allNews.filter(news => {
+            let filtered = allNews.filter(news => {
                 if (currentTopic && news.topic !== currentTopic) return false;
                 
                 const matchSearch = !searchTerm || 
@@ -179,6 +273,15 @@
 
                 return matchSearch && matchStartDate && matchEndDate;
             });
+
+            // 날짜 기준 내림차순 정렬
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;  // 내림차순 정렬
+            });
+
+            return filtered;
         }
 
         // Display filtered news with pagination
@@ -410,6 +513,10 @@
             currentView = 'news';
             updateMenuHighlight();
             showNewsContent();
+            
+            // 방문자 카운팅 및 표시 업데이트
+            countVisitor();
+            updateVisitorDisplay();
         }
 
         // Initialize 호출
