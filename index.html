@@ -18,10 +18,10 @@
                         <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">최근 뉴스레터</h2>
                         <ul class="space-y-2" id="recentNewsletters">
                             <li>
-                                <a href="#" onclick="loadNewsletterContent('newsletter.html'); return false;" 
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">
+                                <button onclick="setNewsletter(); return false;" 
+                                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded newsletter-btn">
                                     최신 뉴스레터
-                                </a>
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -109,6 +109,7 @@
         let currentPage = 1;
         let itemsPerPage = 15;
         let currentTopic = null;
+        let currentView = 'news'; // 'news' 또는 'newsletter'
 
         // Fetch and load news data
         async function loadNews() {
@@ -128,7 +129,7 @@
             const topicList = document.getElementById('topicList');
             topicList.innerHTML = `
                 <li>
-                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100 ${!currentTopic ? 'bg-green-100' : ''}"
+                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100"
                             onclick="setTopic(null)">
                         전체 뉴스
                     </button>
@@ -139,19 +140,23 @@
                 if (!topic) return;
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100 ${currentTopic === topic ? 'bg-green-100' : ''}"
+                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100"
                             onclick="setTopic('${topic}')">
                         ${topic}
                     </button>
                 `;
                 topicList.appendChild(li);
             });
+            
+            updateMenuHighlight();
         }
 
         // Set topic and update display
         window.setTopic = function(topic) {
+            currentView = 'news';
             currentTopic = topic;
             currentPage = 1;
+            updateMenuHighlight();
             updateTopicList();
             displayNews();
             showNewsContent();
@@ -368,13 +373,48 @@
             newsContent.style.display = 'block';
         }
 
-        // Initialize with history state
-        function initialize() {
-            loadNews();
-            showNewsContent(); // 초기 화면을 뉴스 목록으로 설정
+        // 뉴스레터 선택 함수 추가
+        window.setNewsletter = function() {
+            currentView = 'newsletter';
+            updateMenuHighlight();
+            loadNewsletterContent('newsletter.html');
+        };
+
+        // 메뉴 하이라이트 업데이트 함수
+        function updateMenuHighlight() {
+            // 뉴스레터 버튼 하이라이트
+            const newsletterBtn = document.querySelector('.newsletter-btn');
+            if (currentView === 'newsletter') {
+                newsletterBtn.classList.add('bg-green-100');
+            } else {
+                newsletterBtn.classList.remove('bg-green-100');
+            }
+
+            // 토픽 버튼들 하이라이트
+            const topicButtons = document.querySelectorAll('#topicList button');
+            topicButtons.forEach(button => {
+                if (currentView === 'news') {
+                    if ((currentTopic === null && button.textContent.trim() === '전체 뉴스') ||
+                        (button.textContent.trim() === currentTopic)) {
+                        button.classList.add('bg-green-100');
+                    } else {
+                        button.classList.remove('bg-green-100');
+                    }
+                } else {
+                    button.classList.remove('bg-green-100');
+                }
+            });
         }
 
-        // Initialize 호출 수정
+        // Initialize 함수 수정
+        function initialize() {
+            loadNews();
+            currentView = 'news';
+            updateMenuHighlight();
+            showNewsContent();
+        }
+
+        // Initialize 호출
         initialize();
     </script>
 </body>
