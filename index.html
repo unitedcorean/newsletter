@@ -119,10 +119,12 @@
                     <h2 class="text-sm font-semibold text-gray-600 uppercase mt-6 mb-2">주요사이트</h2>
                     <ul class="space-y-2 mb-6">
                         <li>
-                            <button onclick="loadWebsite('https://www.ketep.re.kr/brdartcl/boardarticleList.do?brd_id=BDIDX_2U0RE3CxayNmVL12M462Hn&srch_menu_nix=24T94cYy')" 
-                                    class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                            <a href="https://www.ketep.re.kr/brdartcl/boardarticleList.do?brd_id=BDIDX_2U0RE3CxayNmVL12M462Hn&srch_menu_nix=24T94cYy" 
+                               target="_blank"
+                               rel="noopener noreferrer" 
+                               class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                 한국에너지기술평가원
-                            </button>
+                            </a>
                         </li>
                         <li>
                             <a href="https://www.motie.go.kr/kor/article/ATCL3f49a5a8c" 
@@ -540,40 +542,6 @@
 
         // Initialize 호출
         initialize();
-
-        // 웹사이트 로드 함수 추가
-        window.loadWebsite = function(url) {
-            try {
-                const iframe = document.getElementById('contentFrame');
-                const newsContent = document.getElementById('newsContent');
-                
-                // iframe 로드 시도
-                iframe.src = url;
-                iframe.style.display = 'block';
-                newsContent.style.display = 'none';
-                
-                // iframe 로드 실패 시 처리
-                iframe.onerror = function() {
-                    window.open(url, '_blank');
-                };
-                
-                // iframe 로드 차단 감지
-                iframe.onload = function() {
-                    try {
-                        // iframe 내용 접근 시도
-                        const test = iframe.contentWindow.location.href;
-                    } catch (e) {
-                        // 접근이 차단된 경우 새 창에서 열기
-                        console.log('iframe 접근이 차단됨:', e);
-                        window.open(url, '_blank');
-                    }
-                };
-            } catch (e) {
-                // 예외 발생 시 새 창에서 열기
-                console.log('웹사이트 로드 중 오류:', e);
-                window.open(url, '_blank');
-            }
-        };
     </script>
 </body>
 </html>
