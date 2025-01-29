@@ -18,7 +18,8 @@
                         <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">최근 뉴스레터</h2>
                         <ul class="space-y-2" id="recentNewsletters">
                             <li>
-                                <a href="#" onclick="loadNewsletterContent('newsletter.html'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">
+                                <a href="#" onclick="loadNewsletterContent('newsletter.html'); return false;" 
+                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">
                                     최신 뉴스레터
                                 </a>
                             </li>
@@ -191,7 +192,7 @@
                     <td class="p-4"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
                     <td class="p-4">${news.topic || '-'}</td>
                     <td class="p-4">
-                        <a href="#" onclick="loadContent('${news.original_url}'); return false;" 
+                        <a href="${news.original_url}" target="_blank" 
                            class="text-blue-600 hover:underline">
                             ${news.title}
                         </a>
@@ -318,22 +319,14 @@
             });
         });
 
-        // 컨텐츠 로드 함수 수정
-        window.loadContent = function(url) {
+        // 뉴스레터 로드 함수
+        window.loadNewsletterContent = function(url) {
             const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
             
             iframe.src = url;
             iframe.style.display = 'block';
             newsContent.style.display = 'none';
-
-            // 히스토리 상태 추가
-            history.pushState({ type: 'content', url: url }, '', '#content');
-        };
-
-        // 뉴스레터 로드 함수 수정
-        window.loadNewsletterContent = function(url) {
-            loadContent(url);
         };
 
         // 뉴스 컨텐츠 표시 함수
@@ -343,31 +336,12 @@
             
             iframe.style.display = 'none';
             newsContent.style.display = 'block';
-
-            // 히스토리 상태 추가
-            history.pushState({ type: 'list' }, '', '#list');
         }
-
-        // 뒤로가기 이벤트 처리
-        window.addEventListener('popstate', function(event) {
-            const iframe = document.getElementById('contentFrame');
-            const newsContent = document.getElementById('newsContent');
-
-            if (event.state && event.state.type === 'content') {
-                iframe.src = event.state.url;
-                iframe.style.display = 'block';
-                newsContent.style.display = 'none';
-            } else {
-                iframe.style.display = 'none';
-                newsContent.style.display = 'block';
-            }
-        });
 
         // Initialize with history state
         function initialize() {
             loadNews();
-            // 초기 상태를 뉴스 목록으로 설정
-            history.replaceState({ type: 'list' }, '', '#list');
+            showNewsContent(); // 초기 화면을 뉴스 목록으로 설정
         }
 
         // Initialize 호출 수정
