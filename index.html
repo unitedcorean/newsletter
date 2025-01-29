@@ -36,7 +36,7 @@
 
         <!-- Main Content -->
         <div class="flex-1 p-8" id="mainContent">
-            <iframe id="newsletterFrame" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
+            <iframe id="contentFrame" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
             <div id="newsContent">
                 <!-- Search Bar -->
                 <div class="mb-6 flex justify-between items-center">
@@ -190,7 +190,12 @@
                 row.innerHTML = `
                     <td class="p-4"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
                     <td class="p-4">${news.topic || '-'}</td>
-                    <td class="p-4"><a href="${news.original_url}" target="_blank" class="text-blue-600 hover:underline">${news.title}</a></td>
+                    <td class="p-4">
+                        <a href="#" onclick="loadContent('${news.original_url}'); return false;" 
+                           class="text-blue-600 hover:underline">
+                            ${news.title}
+                        </a>
+                    </td>
                     <td class="p-4">${news.press}</td>
                     <td class="p-4">${new Date(news.date).toLocaleDateString()}</td>
                 `;
@@ -313,9 +318,9 @@
             });
         });
 
-        // Newsletter 컨텐츠 로드 함수 추가
-        window.loadNewsletterContent = function(url) {
-            const iframe = document.getElementById('newsletterFrame');
+        // 컨텐츠 로드 함수 통합 (뉴스레터와 뉴스 기사 모두 처리)
+        window.loadContent = function(url) {
+            const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
             
             iframe.src = url;
@@ -323,9 +328,14 @@
             newsContent.style.display = 'none';
         };
 
-        // 초기화 함수에 뉴스 컨텐츠 표시 로직 추가
+        // 뉴스레터 로드 함수 수정
+        window.loadNewsletterContent = function(url) {
+            loadContent(url);
+        };
+
+        // 뉴스 컨텐츠 표시 함수
         function showNewsContent() {
-            const iframe = document.getElementById('newsletterFrame');
+            const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
             
             iframe.style.display = 'none';
