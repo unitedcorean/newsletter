@@ -46,7 +46,7 @@
                         <input type="text" 
                                id="searchInput" 
                                placeholder="키워드 또는 언론사 검색" 
-                               class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                               class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">
                     </div>
                     <button id="exportBtn" class="ml-4 bg-green-500 text-sm text-white px-4 py-2 rounded hover:bg-green-600">
                         선택한 뉴스 내보내기
@@ -58,15 +58,15 @@
                     <div class="flex items-center space-x-4">
                         <div class="flex items-center">
                             <label class="mr-2 text-sm text-gray-700">기간:</label>
-                            <input type="date" id="startDate" class="p-2 border rounded">
+                            <input type="date" id="startDate" class="p-2 border rounded text-sm">
                             <span class="mx-2">~</span>
-                            <input type="date" id="endDate" class="p-2 border rounded">
+                            <input type="date" id="endDate" class="p-2 border rounded text-sm">
                         </div>
                     </div>
                     <div class="flex items-center space-x-2">
                         <label class="text-sm text-gray-700">페이지당 표시:</label>
-                        <select id="itemsPerPageSelect" class="p-2 border rounded">
-                            <option value="15">15개</option>
+                        <select id="itemsPerPageSelect" class="p-2 border rounded text-sm">
+                            <option value="10">10개</option>
                             <option value="30">30개</option>
                             <option value="50">50개</option>
                             <option value="100">100개</option>
