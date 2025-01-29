@@ -11,23 +11,21 @@
         <!-- Sidebar -->
         <div class="w-64 bg-white shadow-lg">
             <div class="p-4">
-                <h1 class="text-xl font-bold text-gray-800 mb-4">뉴스레터 모음</h1>
+                <h1 class="text-xl font-bold text-gray-800 mb-4">KETEP NEWS CLOUD</h1>
                 <nav>
-                    <!-- Recent Newsletter Section -->
-                    <div class="mb-6">
-                        <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">최근 뉴스레터</h2>
-                        <ul class="space-y-2" id="recentNewsletters">
-                            <li>
-                                <button onclick="setNewsletter(); return false;" 
-                                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded newsletter-btn">
-                                    최신 뉴스레터
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                    <!-- Newsletter Section -->
+                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">뉴스브리핑</h2>
+                    <ul class="space-y-2 mb-6">
+                        <li>
+                            <button onclick="setNewsletter(); return false;" 
+                                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded newsletter-btn">
+                                오늘의 뉴스브리핑
+                            </button>
+                        </li>
+                    </ul>
                     
                     <!-- Topics Section -->
-                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">Topics</h2>
+                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">분야별 검색</h2>
                     <ul class="space-y-2" id="topicList">
                         <!-- Topics will be dynamically populated -->
                     </ul>
@@ -81,12 +79,12 @@
                     <div class="overflow-x-auto">
                         <table class="min-w-full">
                             <thead>
-                                <tr class="bg-gray-50">
-                                    <th class="p-4 w-12"><input type="checkbox" id="selectAll"></th>
-                                    <th class="p-4 text-left">토픽</th>
-                                    <th class="p-4 text-left">제목</th>
-                                    <th class="p-4 text-left">언론사</th>
-                                    <th class="p-4 text-left">날짜</th>
+                                <tr class="bg-gray-50 text-sm">
+                                    <th class="p-3 w-12"><input type="checkbox" id="selectAll"></th>
+                                    <th class="p-3 text-left">분야</th>
+                                    <th class="p-3 text-left">제목</th>
+                                    <th class="p-3 text-left">언론사</th>
+                                    <th class="p-3 text-left">날짜</th>
                                 </tr>
                             </thead>
                             <tbody id="newsList">
@@ -129,7 +127,7 @@
             const topicList = document.getElementById('topicList');
             topicList.innerHTML = `
                 <li>
-                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100"
+                    <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
                             onclick="setTopic(null)">
                         전체 뉴스
                     </button>
@@ -140,7 +138,7 @@
                 if (!topic) return;
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <button class="w-full text-left px-4 py-2 rounded hover:bg-gray-100"
+                    <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
                             onclick="setTopic('${topic}')">
                         ${topic}
                     </button>
@@ -195,18 +193,18 @@
 
             newsToDisplay.forEach(news => {
                 const row = document.createElement('tr');
-                row.className = 'border-t hover:bg-gray-50';
+                row.className = 'border-t hover:bg-gray-50 text-sm';
                 row.innerHTML = `
-                    <td class="p-4"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
-                    <td class="p-4">${news.topic || '-'}</td>
-                    <td class="p-4">
+                    <td class="p-3"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
+                    <td class="p-3">${news.topic || '-'}</td>
+                    <td class="p-3">
                         <a href="${news.original_url}" target="_blank" 
-                           class="text-blue-600 hover:underline">
+                           class="text-gray-900 hover:underline">
                             ${news.title}
                         </a>
                     </td>
-                    <td class="p-4">${news.press}</td>
-                    <td class="p-4">${new Date(news.date).toLocaleDateString()}</td>
+                    <td class="p-3">${news.press}</td>
+                    <td class="p-3">${new Date(news.date).toLocaleDateString()}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -248,7 +246,7 @@
                     if (!newsItem) return null;
                     
                     return {
-                        '토픽': newsItem.topic || '',
+                        '분야': newsItem.topic || '',
                         '제목': newsItem.title || '',
                         '언론사': newsItem.press || '',
                         '날짜': new Date(newsItem.date).toLocaleDateString('ko-KR'),
