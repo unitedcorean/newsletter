@@ -15,12 +15,16 @@
                 <nav>
                     <!-- Recent Newsletter Section -->
                     <div class="mb-6">
+                        <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">최근 뉴스레터</h2>
                         <ul class="space-y-2" id="recentNewsletters">
                             <li>
-                                <a href="newsletter.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">
-                                    오늘의 뉴스브리핑
+                                <a href="#" onclick="loadNewsletterContent('newsletter.html'); return false;" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded">
+                                    최신 뉴스레터
                                 </a>
                             </li>
+                        </ul>
+                    </div>
+                    
                     <!-- Topics Section -->
                     <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">Topics</h2>
                     <ul class="space-y-2" id="topicList">
@@ -31,65 +35,65 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <!-- Search Bar -->
-            <div class="mb-6 flex justify-between items-center">
-                <div class="flex-1 max-w-2xl">
-                    <input type="text" 
-                           id="searchInput" 
-                           placeholder="키워드 또는 언론사 검색" 
-                           class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+        <div class="flex-1 p-8" id="mainContent">
+            <iframe id="newsletterFrame" style="display: none; width: 100%; height: 100vh; border: none;"></iframe>
+            <div id="newsContent">
+                <!-- Search Bar -->
+                <div class="mb-6 flex justify-between items-center">
+                    <div class="flex-1 max-w-2xl">
+                        <input type="text" 
+                               id="searchInput" 
+                               placeholder="키워드 또는 언론사 검색" 
+                               class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <button id="exportBtn" class="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                        선택한 뉴스 내보내기
+                    </button>
                 </div>
-                <button id="exportBtn" class="ml-4 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                    선택한 뉴스 내보내기
-                </button>
-            </div>
 
-            <!-- Date Range and Page Size Filter -->
-            <div class="mb-6 flex justify-between">
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
-                        <label class="mr-2 text-gray-700">기간:</label>
-                        <input type="date" id="startDate" class="p-2 border rounded">
-                        <span class="mx-2">~</span>
-                        <input type="date" id="endDate" class="p-2 border rounded">
+                <!-- Date Range and Page Size Filter -->
+                <div class="mb-6 flex justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <label class="mr-2 text-gray-700">기간:</label>
+                            <input type="date" id="startDate" class="p-2 border rounded">
+                            <span class="mx-2">~</span>
+                            <input type="date" id="endDate" class="p-2 border rounded">
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label class="text-gray-700">페이지당 표시:</label>
+                        <select id="itemsPerPageSelect" class="p-2 border rounded">
+                            <option value="15">15개</option>
+                            <option value="30">30개</option>
+                            <option value="50">50개</option>
+                            <option value="100">100개</option>
+                        </select>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2">
-                    <label class="text-gray-700">페이지당 표시:</label>
-                    <select id="itemsPerPageSelect" class="p-2 border rounded">
-                        <option value="15">15개</option>
-                        <option value="30">30개</option>
-                        <option value="50">50개</option>
-                        <option value="100">100개</option>
-                    </select>
+
+                <!-- News Table -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="p-4 w-12"><input type="checkbox" id="selectAll"></th>
+                                    <th class="p-4 text-left">토픽</th>
+                                    <th class="p-4 text-left">제목</th>
+                                    <th class="p-4 text-left">언론사</th>
+                                    <th class="p-4 text-left">날짜</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newsList">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
 
-            <!-- News Table -->
-            <div class="bg-white rounded-lg shadow">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead>
-                            <tr class="bg-gray-50">
-                                <th class="p-4 w-12"><input type="checkbox" id="selectAll"></th>
-                                <th class="p-4 text-left">분야</th>
-                                <th class="p-4 text-left">제목</th>
-                                <th class="p-4 text-left">언론사</th>
-                                <th class="p-4 text-left">날짜</th>
-                            </tr>
-                        </thead>
-                        <tbody id="newsList">
-                        </tbody>
-                    </table>
+                <!-- Pagination -->
+                <div class="mt-4 flex justify-center" id="pagination">
                 </div>
-            </div>
-
-            <div id="mainContent" class="flex-1 p-8">
-            </div>
-
-            <!-- Pagination -->
-            <div class="mt-4 flex justify-center" id="pagination">
             </div>
         </div>
     </div>
@@ -146,6 +150,7 @@
             currentPage = 1;
             updateTopicList();
             displayNews();
+            showNewsContent();
         };
 
         // Filter news based on current filters
@@ -229,7 +234,7 @@
                     if (!newsItem) return null;
                     
                     return {
-                        '분야': newsItem.topic || '',
+                        '토픽': newsItem.topic || '',
                         '제목': newsItem.title || '',
                         '언론사': newsItem.press || '',
                         '날짜': new Date(newsItem.date).toLocaleDateString('ko-KR'),
@@ -277,30 +282,6 @@
                 alert(`CSV 파일 생성 중 오류가 발생했습니다: ${error.message}`);
             }
         }
-            
-        // 동적 콘텐츠 로드를 위한 이벤트 핸들러 추가
-        document.querySelectorAll('#recentNewsletters a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // 페이지 이동 방지
-                const url = e.target.getAttribute('href');
-
-                // 콘텐츠 로드
-                fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        document.getElementById('mainContent').innerHTML = data;
-                    })
-                    .catch(error => {
-                        console.error('Error loading content:', error);
-                        document.getElementById('mainContent').innerHTML = '<p>콘텐츠를 불러오는 중 오류가 발생했습니다.</p>';
-                    });
-            });
-        });
 
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', () => {
@@ -331,6 +312,25 @@
                 checkbox.checked = e.target.checked;
             });
         });
+
+        // Newsletter 컨텐츠 로드 함수 추가
+        window.loadNewsletterContent = function(url) {
+            const iframe = document.getElementById('newsletterFrame');
+            const newsContent = document.getElementById('newsContent');
+            
+            iframe.src = url;
+            iframe.style.display = 'block';
+            newsContent.style.display = 'none';
+        };
+
+        // 초기화 함수에 뉴스 컨텐츠 표시 로직 추가
+        function showNewsContent() {
+            const iframe = document.getElementById('newsletterFrame');
+            const newsContent = document.getElementById('newsContent');
+            
+            iframe.style.display = 'none';
+            newsContent.style.display = 'block';
+        }
 
         // Initialize
         loadNews();
