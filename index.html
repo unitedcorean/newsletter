@@ -92,18 +92,49 @@
 
         // 구독 상태 확인 함수
         async function checkSubscriptionStatus(email) {
-            if (!email) return false;
-            const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
-            const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
-            const snapshot = await get(subscriptionRef);
-            return snapshot.exists();
+            try {
+                if (!email) return false;
+                const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
+                const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
+                const snapshot = await get(subscriptionRef);
+                return snapshot.exists();
+            } catch (error) {
+                console.error('구독 상태 확인 중 오류:', error);
+                return false;
+            }
         }
 
-        // 구독 처리 함수
-        async function handleSubscription() {
+        // 버튼 상태 업데이트 함수
+        function updateButtonsState(isValid) {
+            const subscribeBtn = document.getElementById('subscribeBtn');
+            const unsubscribeBtn = document.getElementById('unsubscribeBtn');
+
+            if (!isValid) {
+                // 유효하지 않은 이메일
+                subscribeBtn.disabled = true;
+                unsubscribeBtn.disabled = true;
+                subscribeBtn.className = 'flex-1 py-2 text-sm text-gray-400 bg-gray-100 rounded transition-colors duration-200';
+                unsubscribeBtn.className = 'flex-1 py-2 text-sm text-gray-400 bg-gray-100 rounded transition-colors duration-200';
+            } else {
+                // 유효한 이메일
+                subscribeBtn.disabled = false;
+                unsubscribeBtn.disabled = false;
+                subscribeBtn.className = 'flex-1 py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200';
+                unsubscribeBtn.className = 'flex-1 py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200';
+            }
+        }
+
+        // 이메일 입력 필드 이벤트 리스너
+        document.getElementById('subscriberEmail').addEventListener('input', function(e) {
+            const email = e.target.value.trim();
+            const isValid = isValidEmail(email);
+            updateButtonsState(isValid);
+        });
+
+        // 구독하기 함수
+        async function handleSubscribe() {
             const emailInput = document.getElementById('subscriberEmail');
             const email = emailInput.value.trim();
-            const subscribeBtn = document.getElementById('subscribeBtn');
 
             if (!isValidEmail(email)) {
                 alert('유효한 이메일 주소를 입력해주세요.');
@@ -111,34 +142,65 @@
             }
 
             try {
-                const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
                 const isSubscribed = await checkSubscriptionStatus(email);
+                
+                if (isSubscribed) {
+                    alert('이미 구독 중입니다.');
+                    return;
+                }
+
+                const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
                 const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
 
-                if (isSubscribed) {
-                    await remove(subscriptionRef);
-                    alert('뉴스레터 구독이 취소되었습니다.');
-                    subscribeBtn.textContent = '뉴스레터 구독하기';
-                    subscribeBtn.className = 'w-full py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200';
-                } else {
-                    await set(subscriptionRef, {
-                        email: email,
-                        timestamp: Date.now()
-                    });
-                    alert('뉴스레터 구독이 완료되었습니다.');
-                    subscribeBtn.textContent = '뉴스레터 구독 취소';
-                    subscribeBtn.className = 'w-full py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200';
-                }
+                await set(subscriptionRef, {
+                    email: email,
+                    timestamp: Date.now()
+                });
                 
+                alert('구독이 완료되었습니다.');
                 emailInput.value = '';
+                updateButtonsState(false);
             } catch (error) {
                 console.error('구독 처리 중 오류:', error);
                 alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
             }
         }
 
+        // 구독취소 함수
+        async function handleUnsubscribe() {
+            const emailInput = document.getElementById('subscriberEmail');
+            const email = emailInput.value.trim();
+
+            if (!isValidEmail(email)) {
+                alert('유효한 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            try {
+                const isSubscribed = await checkSubscriptionStatus(email);
+                
+                if (!isSubscribed) {
+                    alert('이미 구독이 취소되었습니다.');
+                    return;
+                }
+
+                const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
+                const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
+
+                await remove(subscriptionRef);
+                
+                alert('구독이 취소되었습니다.');
+                emailInput.value = '';
+                updateButtonsState(false);
+            } catch (error) {
+                console.error('구독 취소 중 오류:', error);
+                alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+            }
+        }
+
         // 전역 스코프에 함수 추가
-        window.handleSubscription = handleSubscription;
+        window.handleSubscribe = handleSubscribe;
+        window.handleUnsubscribe = handleUnsubscribe;
 
         // 전역 스코프에서 함수들을 사용할 수 있도록 설정
         window.countVisitor = countVisitor;
@@ -296,21 +358,28 @@
                         </ul>
                     </div>
                 </nav>
-                <!-- 주요 사이트 섹션 위에 뉴스레터 구독 섹션 추가 -->
-                <div class="mt-8">
-                    <h2 class="text-sm font-semibold text-green-500 uppercase mb-2">뉴스브리핑 구독/취소</h2>
+                <!-- 뉴스레터 구독 섹션 수정 -->
+                <div class="mb-6">
+                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">뉴스레터 구독</h2>
                     <div class="bg-white p-4 rounded-lg shadow">
                         <div class="mb-3">
                             <input type="email" 
-                                    id="subscriberEmail" 
-                                    placeholder="이메일 주소를 입력하세요" 
-                                    class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
+                                   id="subscriberEmail" 
+                                   placeholder="이메일 주소를 입력하세요" 
+                                   class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
                         </div>
-                        <button id="subscribeBtn"
-                                onclick="handleSubscription()"
-                                class="w-full py-2 text-sm text-gray-400 bg-gray-100 rounded transition-colors duration-200">
-                            뉴스브리핑 구독하기
-                        </button>
+                        <div class="flex space-x-2">
+                            <button id="subscribeBtn"
+                                    onclick="handleSubscribe()"
+                                    class="flex-1 py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200">
+                                구독하기
+                            </button>
+                            <button id="unsubscribeBtn"
+                                    onclick="handleUnsubscribe()"
+                                    class="flex-1 py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200">
+                                구독취소
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <!-- 방문자 통계 (하단에 배치) -->
