@@ -318,7 +318,7 @@
             });
         });
 
-        // 컨텐츠 로드 함수 통합 (뉴스레터와 뉴스 기사 모두 처리)
+        // 컨텐츠 로드 함수 수정
         window.loadContent = function(url) {
             const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
@@ -326,6 +326,9 @@
             iframe.src = url;
             iframe.style.display = 'block';
             newsContent.style.display = 'none';
+
+            // 히스토리 상태 추가
+            history.pushState({ type: 'content', url: url }, '', '#content');
         };
 
         // 뉴스레터 로드 함수 수정
@@ -340,10 +343,35 @@
             
             iframe.style.display = 'none';
             newsContent.style.display = 'block';
+
+            // 히스토리 상태 추가
+            history.pushState({ type: 'list' }, '', '#list');
         }
 
-        // Initialize
-        loadNews();
+        // 뒤로가기 이벤트 처리
+        window.addEventListener('popstate', function(event) {
+            const iframe = document.getElementById('contentFrame');
+            const newsContent = document.getElementById('newsContent');
+
+            if (event.state && event.state.type === 'content') {
+                iframe.src = event.state.url;
+                iframe.style.display = 'block';
+                newsContent.style.display = 'none';
+            } else {
+                iframe.style.display = 'none';
+                newsContent.style.display = 'block';
+            }
+        });
+
+        // Initialize with history state
+        function initialize() {
+            loadNews();
+            // 초기 상태를 뉴스 목록으로 설정
+            history.replaceState({ type: 'list' }, '', '#list');
+        }
+
+        // Initialize 호출 수정
+        initialize();
     </script>
 </body>
 </html>
