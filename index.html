@@ -99,42 +99,90 @@
                 <h1 class="text-xl font-bold text-green-500 mb-16">KETEP NEWS CLOUD</h1>
                 <nav class="flex-1">
                     <!-- Newsletter Section -->
-                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">뉴스브리핑</h2>
-                    <ul class="space-y-2 mb-6">
-                        <li>
-                            <button onclick="setNewsletter(); return false;" 
-                                    class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded newsletter-btn">
-                                오늘의 뉴스브리핑
-                            </button>
-                        </li>
-                    </ul>
+                    <div class="mb-6">
+                        <button onclick="toggleSection('newsletterSection')" 
+                                class="flex items-center justify-between w-full text-sm font-semibold text-gray-600 uppercase mb-2">
+                            <span>뉴스브리핑</span>
+                            <svg class="w-4 h-4 transform transition-transform" id="newsletterArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <ul id="newsletterSection" class="space-y-2">
+                            <li>
+                                <button onclick="setNewsletter(); return false;" 
+                                        class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded newsletter-btn">
+                                    오늘의 뉴스브리핑
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                     
                     <!-- Topics Section -->
-                    <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">분야별 검색</h2>
-                    <ul class="space-y-2" id="topicList">
-                        <!-- Topics will be dynamically populated -->
-                    </ul>
+                    <div class="mb-6">
+                        <button onclick="toggleSection('topicSection')" 
+                                class="flex items-center justify-between w-full text-sm font-semibold text-gray-600 uppercase mb-2">
+                            <span>분야별 검색</span>
+                            <svg class="w-4 h-4 transform transition-transform" id="topicArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <ul id="topicSection" class="space-y-2">
+                            <!-- Topics will be dynamically populated -->
+                        </ul>
+                    </div>
 
                     <!-- 주요사이트 섹션 -->
-                    <h2 class="text-sm font-semibold text-gray-600 uppercase mt-6 mb-2">주요사이트</h2>
-                    <ul class="space-y-2 mb-6">
-                        <li>
-                            <a href="https://www.ketep.re.kr/brdartcl/boardarticleList.do?brd_id=BDIDX_2U0RE3CxayNmVL12M462Hn&srch_menu_nix=24T94cYy" 
-                               target="_blank"
-                               rel="noopener noreferrer" 
-                               class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
-                                한국에너지기술평가원
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.motie.go.kr/kor/article/ATCL3f49a5a8c" 
-                               target="_blank"
-                               rel="noopener noreferrer" 
-                               class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
-                                산업통상자원부
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="mb-6">
+                        <button onclick="toggleSection('websiteSection')" 
+                                class="flex items-center justify-between w-full text-sm font-semibold text-gray-600 uppercase mb-2">
+                            <span>주요사이트</span>
+                            <svg class="w-4 h-4 transform transition-transform" id="websiteArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <ul id="websiteSection" class="space-y-2">
+                            <li>
+                                <a href="https://www.ketep.re.kr/brdartcl/boardarticleList.do?brd_id=BDIDX_2U0RE3CxayNmVL12M462Hn&srch_menu_nix=24T94cYy" 
+                                   target="_blank"
+                                   rel="noopener noreferrer" 
+                                   class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                    에기평 공지사항
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://energy.ketep.re.kr/globalenergy/site/main/board/energy_news/list" 
+                                   target="_blank"
+                                   rel="noopener noreferrer" 
+                                   class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                    에기평 세계에너지시장정보
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.motie.go.kr/kor/article/ATCL3f49a5a8c" 
+                                   target="_blank"
+                                   rel="noopener noreferrer" 
+                                   class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                    산업부 보도자료
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.msit.go.kr/bbs/list.do?sCode=user&mPid=208&mId=307" 
+                                   target="_blank"
+                                   rel="noopener noreferrer" 
+                                   class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                    과기정통부 보도자료
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.korea.kr/" 
+                                   target="_blank"
+                                   rel="noopener noreferrer" 
+                                   class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                    대한민국 정책브리핑
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </nav>
 
                 <!-- 방문자 통계 (하단에 배치) -->
@@ -239,7 +287,7 @@
         // Update topic list in sidebar
         function updateTopicList() {
             const topics = [...new Set(allNews.map(item => item.topic))];
-            const topicList = document.getElementById('topicList');
+            const topicList = document.getElementById('topicSection');
             topicList.innerHTML = `
                 <li>
                     <button class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded"
@@ -513,7 +561,7 @@
             }
 
             // 토픽 버튼들 하이라이트
-            const topicButtons = document.querySelectorAll('#topicList button');
+            const topicButtons = document.querySelectorAll('#topicSection button');
             topicButtons.forEach(button => {
                 if (currentView === 'news') {
                     if ((currentTopic === null && button.textContent.trim() === '전체 뉴스') ||
@@ -528,12 +576,52 @@
             });
         }
 
+        // 섹션 토글 상태 저장
+        const sectionStates = {
+            newsletterSection: true,
+            topicSection: true,
+            websiteSection: true
+        };
+
+        // 섹션 토글 함수
+        window.toggleSection = function(sectionId) {
+            const section = document.getElementById(sectionId);
+            const arrow = document.getElementById(sectionId.replace('Section', 'Arrow'));
+            
+            sectionStates[sectionId] = !sectionStates[sectionId];
+            
+            if (sectionStates[sectionId]) {
+                section.style.display = 'block';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                section.style.display = 'none';
+                arrow.style.transform = 'rotate(-90deg)';
+            }
+        };
+
+        // 초기 상태 설정
+        function initializeSections() {
+            Object.keys(sectionStates).forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                const arrow = document.getElementById(sectionId.replace('Section', 'Arrow'));
+                
+                if (sectionStates[sectionId]) {
+                    section.style.display = 'block';
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    section.style.display = 'none';
+                    arrow.style.transform = 'rotate(-90deg)';
+                }
+            });
+        }
+
         // Initialize 함수 수정
         function initialize() {
             loadNews();
             currentView = 'news';
             updateMenuHighlight();
             showNewsContent();
+            initializeSections();  // 섹션 초기화 추가
             
             // 방문자 카운팅 및 표시 업데이트
             countVisitor();
