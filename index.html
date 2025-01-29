@@ -103,7 +103,7 @@
                     <ul class="space-y-2 mb-6">
                         <li>
                             <button onclick="setNewsletter(); return false;" 
-                                    class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-white rounded newsletter-btn">
+                                    class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded newsletter-btn">
                                 오늘의 뉴스브리핑
                             </button>
                         </li>
@@ -113,6 +113,23 @@
                     <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">분야별 검색</h2>
                     <ul class="space-y-2" id="topicList">
                         <!-- Topics will be dynamically populated -->
+                    </ul>
+
+                    <!-- 주요사이트 섹션 추가 -->
+                    <h2 class="text-sm font-semibold text-gray-600 uppercase mt-6 mb-2">주요사이트</h2>
+                    <ul class="space-y-2 mb-6">
+                        <li>
+                            <button onclick="loadWebsite('https://ketep.re.kr')" 
+                                    class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                한국에너지기술평가원
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="loadWebsite('https://www.motie.go.kr')" 
+                                    class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
+                                산업통상자원부
+                            </button>
+                        </li>
                     </ul>
                 </nav>
 
@@ -521,6 +538,18 @@
 
         // Initialize 호출
         initialize();
+
+        // 웹사이트 로드 함수 추가
+        window.loadWebsite = function(url) {
+            currentView = 'website';
+            updateMenuHighlight();
+            const iframe = document.getElementById('contentFrame');
+            const newsContent = document.getElementById('newsContent');
+            
+            iframe.src = url;
+            iframe.style.display = 'block';
+            newsContent.style.display = 'none';
+        };
     </script>
 </body>
 </html>
