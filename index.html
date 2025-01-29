@@ -357,39 +357,39 @@
                             </li>
                         </ul>
                     </div>
+                    <!-- 뉴스레터 구독 섹션 수정 -->
+                    <div class="mt-8">
+                        <h2 class="text-sm font-semibold text-green-500 uppercase mb-2">뉴스브리핑 구독</h2>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <div class="mb-3">
+                                <input type="email" 
+                                       id="subscriberEmail" 
+                                       placeholder="이메일 주소를 입력하세요" 
+                                       class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
+                            </div>
+                            <div class="flex space-x-2">
+                                <button id="subscribeBtn"
+                                        onclick="handleSubscribe()"
+                                        class="flex-1 py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200">
+                                    구독하기
+                                </button>
+                                <button id="unsubscribeBtn"
+                                        onclick="handleUnsubscribe()"
+                                        class="flex-1 py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200">
+                                    구독취소
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 방문자 통계 (하단에 배치) -->
+                    <div class="mt-8 ">
+                        <h3 class="text-sm font-semibold text-green-500 mb-2">방문자 통계</h3>
+                        <div class="text-sm text-gray-700">
+                            <p>오늘 방문자: <span id="todayVisitors">0</span>명</p>
+                            <p>전체 방문자: <span id="totalVisitors">0</span>명</p>
+                        </div>
+                    </div>
                 </nav>
-                <!-- 뉴스레터 구독 섹션 수정 -->
-                <div class="mt-8">
-                    <h2 class="text-sm font-semibold text-green-500 uppercase mb-2">뉴스브리핑 구독</h2>
-                    <div class="bg-white p-4 rounded-lg shadow">
-                        <div class="mb-3">
-                            <input type="email" 
-                                   id="subscriberEmail" 
-                                   placeholder="이메일 주소를 입력하세요" 
-                                   class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
-                        </div>
-                        <div class="flex space-x-2">
-                            <button id="subscribeBtn"
-                                    onclick="handleSubscribe()"
-                                    class="flex-1 py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200">
-                                구독하기
-                            </button>
-                            <button id="unsubscribeBtn"
-                                    onclick="handleUnsubscribe()"
-                                    class="flex-1 py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200">
-                                구독취소
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- 방문자 통계 (하단에 배치) -->
-                <div class="mt-8 ">
-                    <h3 class="text-sm font-semibold text-green-500 mb-2">방문자 통계</h3>
-                    <div class="text-sm text-gray-700">
-                        <p>오늘 방문자: <span id="todayVisitors">0</span>명</p>
-                        <p>전체 방문자: <span id="totalVisitors">0</span>명</p>
-                    </div>
-                </div>
             </div>
         </div>
 
