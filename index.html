@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>뉴스레터 모음</title>
+    <title>KETEP NEWS CLOUD</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <!-- Firebase SDK 추가 -->
     <script type="module">
@@ -221,7 +221,7 @@
             const topicList = document.getElementById('topicList');
             topicList.innerHTML = `
                 <li>
-                    <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-white rounded"
+                    <button class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded"
                             onclick="setTopic(null)">
                         전체 뉴스
                     </button>
@@ -232,7 +232,7 @@
                 if (!topic) return;
                 const li = document.createElement('li');
                 li.innerHTML = `
-                    <button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-white rounded"
+                    <button class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded"
                             onclick="setTopic('${topic}')">
                         ${topic}
                     </button>
