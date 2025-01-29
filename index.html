@@ -8,7 +8,7 @@
     <!-- Firebase SDK 추가 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        import { getDatabase, ref, onValue, get, runTransaction } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+        import { getDatabase, ref, onValue, get, runTransaction, set, remove } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
 
         // Firebase 설정
@@ -84,6 +84,87 @@
                 monthly: monthlySnapshot.val()
             };
         }
+
+        // 이메일 유효성 검사 함수
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // 구독 상태 확인 함수
+        async function checkSubscriptionStatus(email) {
+            if (!email) return false;
+            const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
+            const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
+            const snapshot = await get(subscriptionRef);
+            return snapshot.exists();
+        }
+
+        // 구독 처리 함수
+        async function handleSubscription() {
+            const emailInput = document.getElementById('subscriberEmail');
+            const email = emailInput.value.trim();
+
+            if (!isValidEmail(email)) {
+                alert('유효한 이메일 주소를 입력해주세요.');
+                return;
+            }
+
+            try {
+                const sanitizedEmail = email.replace(/[.#$\[\]]/g, '_');
+                const isSubscribed = await checkSubscriptionStatus(email);
+                const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
+
+                if (isSubscribed) {
+                    // 구독 취소
+                    await remove(subscriptionRef);
+                    alert('뉴스레터 구독이 취소되었습니다.');
+                } else {
+                    // 구독 추가
+                    await set(subscriptionRef, {
+                        email: email,
+                        timestamp: Date.now()
+                    });
+                    alert('뉴스레터 구독이 완료되었습니다.');
+                }
+
+                // UI 업데이트
+                await updateSubscriptionUI(email);
+                
+                // 입력 필드 초기화
+                emailInput.value = '';
+                
+            } catch (error) {
+                console.error('구독 처리 중 오류:', error);
+                alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+            }
+        }
+
+        // UI 업데이트 함수
+        async function updateSubscriptionUI(email) {
+            const subscribeBtn = document.getElementById('subscribeBtn');
+            const isSubscribed = await checkSubscriptionStatus(email);
+            
+            if (email && isValidEmail(email)) {
+                subscribeBtn.textContent = isSubscribed ? '뉴스레터 구독 취소' : '뉴스레터 구독하기';
+                subscribeBtn.className = isSubscribed 
+                    ? 'w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded' 
+                    : 'w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 rounded';
+                subscribeBtn.disabled = false;
+            } else {
+                subscribeBtn.textContent = '뉴스레터 구독하기';
+                subscribeBtn.className = 'w-full text-left px-4 py-2 text-sm text-gray-400 cursor-not-allowed rounded';
+                subscribeBtn.disabled = true;
+            }
+        }
+
+        // 이메일 입력 변경 감지
+        document.getElementById('subscriberEmail').addEventListener('input', function(e) {
+            updateSubscriptionUI(e.target.value.trim());
+        });
+
+        // 전역 스코프에 함수 추가
+        window.handleSubscription = handleSubscription;
 
         // 전역 스코프에서 함수들을 사용할 수 있도록 설정
         window.countVisitor = countVisitor;
@@ -210,7 +291,7 @@
                                    target="_blank"
                                    rel="noopener noreferrer" 
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
-                                    BLOOBERG_ENERGY
+                                    BLOOMBERG_ENERGY
                                 </a>
                             </li>
                             <li>
@@ -236,6 +317,20 @@
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     IRENA
                                 </a>
+                            </li>
+                            <li class="px-4 py-2">
+                                <input type="email" 
+                                       id="subscriberEmail" 
+                                       placeholder="이메일 주소를 입력하세요" 
+                                       class="w-full py-2 text-sm border rounded focus:outline-none focus:border-green-500">
+                            </li>
+                            <li>
+                                <button id="subscribeBtn"
+                                        onclick="handleSubscription()"
+                                        disabled
+                                        class="w-full text-left py-2 text-sm text-gray-400 cursor-not-allowed rounded">
+                                    뉴스레터 구독하기
+                                </button>
                             </li>
                         </ul>
                     </div>
