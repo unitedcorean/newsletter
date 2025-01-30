@@ -207,6 +207,11 @@
         window.updateVisitorDisplay = updateVisitorDisplay;
         window.getVisitorStats = getVisitorStats;
     </script>
+    <style>
+        th, td {
+            text-overflow: ellipsis; /* 말줄임표 표시 */
+        }
+    </style>
 </head>
 <body class="bg-white">
     <div class="flex min-h-screen">
@@ -437,14 +442,14 @@
                 <!-- News Table -->
                 <div class="bg-white rounded-lg shadow">
                     <div class="overflow-hidden">
-                        <table class="max-w-full table-fixed">
+                        <table class="w-full table-fixed">
                             <thead>
-                                <tr class="bg-gray-50 text-sm whitespace-nowrap">
-                                    <th class="p-3 w-[50px]"><input type="checkbox" id="selectAll"></th>
-                                    <th class="p-3 text-left w-[100px]">분야</th>
-                                    <th class="p-3 text-left w-[500px]">제목</th>
-                                    <th class="p-3 text-left w-[100px]">언론사</th>
-                                    <th class="p-3 text-left w-[100px]">날짜</th>
+                                <tr class="bg-gray-50 text-sm">
+                                    <th class="p-3 w-1/12"><input type="checkbox" id="selectAll"></th>
+                                    <th class="p-3 w-2/12">분야</th>
+                                    <th class="p-3 w-6/12">제목</th>
+                                    <th class="p-3 w-2/12">언론사</th>
+                                    <th class="p-3 w-2/12">날짜</th>
                                 </tr>
                             </thead>
                             <tbody id="newsList">
@@ -582,18 +587,18 @@
 
             newsToDisplay.forEach(news => {
                 const row = document.createElement('tr');
-                row.className = 'border-t hover:bg-gray-50 text-sm whitespace-nowrap';
+                row.className = 'border-t hover:bg-gray-50 text-sm';
                 row.innerHTML = `
-                    <td class="p-3 w-[50px]"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
-                    <td class="p-3 w-[100px] truncate" title="${news.topic || '-'}">${news.topic || '-'}</td>
-                    <td class="p-3 w-[500px] truncate" title="${news.title}">
+                    <td class="p-3 w-1/12"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
+                    <td class="p-3 w-2/12 truncate" title="${news.topic || '-'}">${news.topic || '-'}</td>
+                    <td class="p-3 w-6/12 truncate" title="${news.title}">
                         <a href="${news.original_url}" target="_blank" 
                            class="text-gray-900 hover:underline">
                             ${news.title}
                         </a>
                     </td>
-                    <td class="p-3 w-[100px] truncate" title="${news.press}">${news.press}</td>
-                    <td class="p-3 w-[100px]">${new Date(news.date).toLocaleDateString()}</td>
+                    <td class="p-3 w-2/12 truncate" title="${news.press}">${news.press}</td>
+                    <td class="p-3 w-2/12">${new Date(news.date).toLocaleDateString()}</td>
                 `;
                 tbody.appendChild(row);
             });
