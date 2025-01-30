@@ -4,7 +4,7 @@
 name: send_emails
 
 on:
-  schedule:
+  # schedule:
     # - cron: '0 1 * * *'
   workflow_dispatch:
 
