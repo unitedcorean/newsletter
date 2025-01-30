@@ -22,66 +22,66 @@ class NewsletterGenerator:
         load_dotenv()
         locale.setlocale(locale.LC_TIME, 'ko_KR.UTF-8')
         self.keyword_groups = [
-            # {
-            #     "topic": "에기평",
-            #     "keywords": ["에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "산업부",
-            #     "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
-            #     "count": 10
-            # }
+            {
+                "topic": "에기평",
+                "keywords": ["에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"],
+                "count": 10
+            },
+            {
+                "topic": "산업부",
+                "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
+                "count": 10
+            },
             {
                 "topic": "원자력",
                 "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
                 "count": 10
+            },
+            { 
+                "topic": "수소, 연료전지",
+                "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
+                "count": 10
+            },
+            {
+                "topic": "태양광",
+                "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
+                "count": 10
+            },
+            {
+                "topic": "풍력",
+                "keywords": ["풍력 OR 해상변전소"],
+                "count": 10
+            },
+            {
+                "topic": "전력",
+                "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
+                "count": 10
+            },
+            {
+                "topic": "에너지수요관리",
+                "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
+                "count": 10
+            },     
+            {
+                "topic": "자원, CCUS",
+                "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
+                "count": 10
+            },      
+            {
+                "topic": "ESS",
+                "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
+                "count": 10
+            },
+            {
+                "topic": "에너지안전",
+                "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
+                "count": 10
+            },
+            {
+                "topic": "기술사업화",
+                "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
+                "count": 10
             }
-            # { 
-            #     "topic": "수소, 연료전지",
-            #     "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "태양광",
-            #     "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "풍력",
-            #     "keywords": ["풍력 OR 해상변전소"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "전력",
-            #     "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "에너지수요관리",
-            #     "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
-            #     "count": 10
-            # },     
-            # {
-            #     "topic": "자원, CCUS",
-            #     "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
-            #     "count": 10
-            # },      
-            # {
-            #     "topic": "ESS",
-            #     "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "에너지안전",
-            #     "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "기술사업화",
-            #     "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
-            #     "count": 10
-            # }
         ]
         
         # 검색 기간 설정
@@ -95,7 +95,7 @@ class NewsletterGenerator:
             conn = sqlite3.connect('news.db')
             cursor = conn.cursor()
             
-            # 테이블 생성 (존재하지 않는 경우)
+            # 테이블 생성 (original_url을 UNIQUE로 설정)
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS news (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -104,19 +104,49 @@ class NewsletterGenerator:
                     title TEXT,
                     press TEXT,
                     date TEXT,
-                    original_url TEXT
+                    original_url TEXT UNIQUE,
+                    content TEXT
                 )
             ''')
             
+            # 저장된 기사 수와 중복 기사 수를 추적
+            saved_count = 0
+            duplicate_count = 0
+            
             # 뉴스 리스트를 데이터베이스에 저장
             for news in news_list:
-                cursor.execute('''
-                    INSERT INTO news (topic, keywords, title, press, date, original_url)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                ''', (news['topic'], news['search_keyword'], news['title'], news['press'], news['date'], news['original_url']))
+                try:
+                    cursor.execute('''
+                        INSERT OR IGNORE INTO news 
+                        (topic, keywords, title, press, date, original_url, content)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ''', (
+                        news['topic'], 
+                        news['search_keyword'], 
+                        news['title'], 
+                        news['press'], 
+                        news['date'], 
+                        news['original_url'],
+                        news['content']
+                    ))
+                    
+                    # rowcount가 1이면 새로운 기사가 저장된 것이고, 0이면 중복된 기사
+                    if cursor.rowcount == 1:
+                        saved_count += 1
+                    else:
+                        duplicate_count += 1
+                        
+                except sqlite3.IntegrityError:
+                    duplicate_count += 1
+                    continue
             
             # 변경사항 저장
             conn.commit()
+            
+            # 저장 결과 출력
+            print(f"새로 저장된 기사: {saved_count}개")
+            print(f"중복된 기사: {duplicate_count}개")
+            
             conn.close()
             return 'news.db'
         except Exception as e:
@@ -125,15 +155,27 @@ class NewsletterGenerator:
 
     def export_to_json(self):
         try:
-            conn = sqlite3.connect('news.db')  # 데이터베이스 파일 연결
+            conn = sqlite3.connect('news.db')
             cursor = conn.cursor()
             
-            # 뉴스 데이터 가져오기
-            cursor.execute("SELECT topic, keywords, title, press, date, original_url FROM news")  # 필요한 모든 필드 선택
+            # 최신 기사부터 가져오도록 정렬
+            cursor.execute("""
+                SELECT topic, keywords, title, press, date, original_url, content 
+                FROM news 
+                ORDER BY date DESC, id DESC
+            """)
             rows = cursor.fetchall()
             
             # 데이터 리스트 생성
-            data = [{"topic": row[0], "keywords": row[1], "title": row[2], "press": row[3], "date": row[4], "original_url": row[5]} for row in rows]
+            data = [{
+                "topic": row[0], 
+                "keywords": row[1], 
+                "title": row[2], 
+                "press": row[3], 
+                "date": row[4], 
+                "original_url": row[5],
+                "content": row[6]
+            } for row in rows]
             
             # JSON 파일로 저장
             with open("news.json", "w", encoding='utf-8') as f:
@@ -462,6 +504,7 @@ class NewsletterGenerator:
 
     def save_html(self, html_content):
         try:
+            # 파일명 고정
             file_path = "newsletter.html"
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
