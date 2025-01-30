@@ -55,7 +55,7 @@ def send_bulk_email(subscribers, subject, html_content):
         print(f"이메일 발송 실패: {str(e)}")
         return False
 
-def send_emails_in_batches(subscribers, subject, html_content, batch_size=80):
+def send_emails_in_batches(subscribers, subject, html_content, batch_size=1):
     """구독자를 그룹으로 나누어 발송합니다."""
     total_batches = (len(subscribers) + batch_size - 1) // batch_size  # 총 배치 수 계산
     success_count = 0
