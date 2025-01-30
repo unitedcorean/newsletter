@@ -359,13 +359,13 @@
                     </div>
                     <!-- 뉴스레터 구독 섹션 수정 -->
                     <div class="mb-6">
-                        <h2 class="text-sm font-semibold text-green-500 uppercase mb-2">뉴스브리핑 구독</h2>
+                        <h2 class="text-sm font-semibold text-gray-600 uppercase mb-2">뉴스레터 구독</h2>
                         <div class="bg-white p-4 rounded-lg shadow">
                             <div class="mb-3">
                                 <input type="email" 
-                                       id="subscriberEmail" 
-                                       placeholder="이메일 주소를 입력하세요" 
-                                       class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
+                                    id="subscriberEmail" 
+                                    placeholder="이메일 주소를 입력하세요" 
+                                    class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
                             </div>
                             <div class="flex space-x-2">
                                 <button id="subscribeBtn"
@@ -382,7 +382,7 @@
                         </div>
                     </div>
                     <!-- 방문자 통계 (하단에 배치) -->
-                    <div class="mb-6">
+                    <div class="mt-8 ">
                         <h3 class="text-sm font-semibold text-green-500 mb-2">방문자 통계</h3>
                         <div class="text-sm text-gray-700">
                             <p>오늘 방문자: <span id="todayVisitors">0</span>명</p>
@@ -441,10 +441,10 @@
                             <thead>
                                 <tr class="bg-gray-50 text-sm">
                                     <th class="p-3 w-12"><input type="checkbox" id="selectAll"></th>
-                                    <th class="p-3 text-left">분야</th>
-                                    <th class="p-3 text-left">제목</th>
-                                    <th class="p-3 text-left">언론사</th>
-                                    <th class="p-3 text-left">날짜</th>
+                                    <th class="p-3 text-left w-32">분야</th>
+                                    <th class="p-3 text-left w-1/2">제목</th>
+                                    <th class="p-3 text-left w-32">언론사</th>
+                                    <th class="p-3 text-left w-32">날짜</th>
                                 </tr>
                             </thead>
                             <tbody id="newsList">
@@ -481,10 +481,19 @@
             }
         }
 
-        // Update topic list in sidebar
+        // 토픽 정렬 순서 정의
+        const topicOrder = [
+            '에기평', '산업부', '원자력', '수소,연료전지', '태양광', 
+            '풍력', '전력', '에너지수요관리', '자원,CCUS', 'ESS', 
+            '에너지안전', '기술사업화'
+        ];
+
+        // Update topic list in sidebar 함수 수정
         function updateTopicList() {
             const topics = [...new Set(allNews.map(item => item.topic))];
             const topicList = document.getElementById('topicSection');
+            
+            // 전체 뉴스 버튼
             topicList.innerHTML = `
                 <li>
                     <button class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded"
@@ -494,8 +503,19 @@
                 </li>
             `;
             
-            topics.forEach(topic => {
-                if (!topic) return;
+            // 정렬된 토픽 목록 생성
+            const sortedTopics = topics
+                .filter(topic => topic) // null/undefined 제거
+                .sort((a, b) => {
+                    const indexA = topicOrder.indexOf(a);
+                    const indexB = topicOrder.indexOf(b);
+                    // 정의되지 않은 토픽은 맨 뒤로
+                    if (indexA === -1) return 1;
+                    if (indexB === -1) return -1;
+                    return indexA - indexB;
+                });
+            
+            sortedTopics.forEach(topic => {
                 const li = document.createElement('li');
                 li.innerHTML = `
                     <button class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded"
@@ -564,16 +584,16 @@
                 const row = document.createElement('tr');
                 row.className = 'border-t hover:bg-gray-50 text-sm';
                 row.innerHTML = `
-                    <td class="p-3"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
-                    <td class="p-3">${news.topic || '-'}</td>
-                    <td class="p-3">
+                    <td class="p-3 w-12"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
+                    <td class="p-3 w-32 truncate">${news.topic || '-'}</td>
+                    <td class="p-3 w-1/2 truncate">
                         <a href="${news.original_url}" target="_blank" 
                            class="text-gray-900 hover:underline">
                             ${news.title}
                         </a>
                     </td>
-                    <td class="p-3">${news.press}</td>
-                    <td class="p-3">${new Date(news.date).toLocaleDateString()}</td>
+                    <td class="p-3 w-32 truncate">${news.press}</td>
+                    <td class="p-3 w-32">${new Date(news.date).toLocaleDateString()}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -581,21 +601,59 @@
             updatePagination(filteredNews.length);
         }
 
-        // Update pagination controls
+        // 페이지네이션 함수 수정
         function updatePagination(totalItems) {
             const totalPages = Math.ceil(totalItems / itemsPerPage);
             const pagination = document.getElementById('pagination');
             pagination.innerHTML = '';
 
-            for (let i = 1; i <= totalPages; i++) {
+            // 이전 페이지 버튼
+            if (totalPages > 1) {
+                const prevButton = document.createElement('button');
+                prevButton.innerHTML = '&lt;';
+                prevButton.className = `mx-1 px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300'}`;
+                prevButton.disabled = currentPage === 1;
+                prevButton.onclick = () => {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        displayNews();
+                    }
+                };
+                pagination.appendChild(prevButton);
+            }
+
+            // 페이지 번호 버튼
+            let startPage = Math.max(1, currentPage - 4);
+            let endPage = Math.min(startPage + 9, totalPages);
+            
+            if (endPage - startPage < 9) {
+                startPage = Math.max(1, endPage - 9);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
                 const button = document.createElement('button');
                 button.textContent = i;
-                button.className = `mx-1 px-3 py-1 rounded ${currentPage === i ? 'bg-green-500 text-white' : 'bg-gray-200'}`;
+                button.className = `mx-1 px-3 py-1 rounded ${currentPage === i ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}`;
                 button.onclick = () => {
                     currentPage = i;
                     displayNews();
                 };
                 pagination.appendChild(button);
+            }
+
+            // 다음 페이지 버튼
+            if (totalPages > 1) {
+                const nextButton = document.createElement('button');
+                nextButton.innerHTML = '&gt;';
+                nextButton.className = `mx-1 px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300'}`;
+                nextButton.disabled = currentPage === totalPages;
+                nextButton.onclick = () => {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        displayNews();
+                    }
+                };
+                pagination.appendChild(nextButton);
             }
         }
 
