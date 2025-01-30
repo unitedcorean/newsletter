@@ -612,10 +612,23 @@
             const pagination = document.getElementById('pagination');
             pagination.innerHTML = '';
 
+            // 맨 첫 페이지 버튼
+            if (totalPages > 1) {
+                const firstButton = document.createElement('button');
+                firstButton.innerHTML = '&lt;&lt;'; // 맨 첫 페이지 화살표
+                firstButton.className = `mx-1 px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300'}`;
+                firstButton.disabled = currentPage === 1;
+                firstButton.onclick = () => {
+                    currentPage = 1;
+                    displayNews();
+                };
+                pagination.appendChild(firstButton);
+            }
+
             // 이전 페이지 버튼
             if (totalPages > 1) {
                 const prevButton = document.createElement('button');
-                prevButton.innerHTML = '&lt;';
+                prevButton.innerHTML = '&lt;'; // 이전 페이지 화살표
                 prevButton.className = `mx-1 px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300'}`;
                 prevButton.disabled = currentPage === 1;
                 prevButton.onclick = () => {
@@ -649,7 +662,7 @@
             // 다음 페이지 버튼
             if (totalPages > 1) {
                 const nextButton = document.createElement('button');
-                nextButton.innerHTML = '&gt;';
+                nextButton.innerHTML = '&gt;'; // 다음 페이지 화살표
                 nextButton.className = `mx-1 px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300'}`;
                 nextButton.disabled = currentPage === totalPages;
                 nextButton.onclick = () => {
@@ -659,6 +672,19 @@
                     }
                 };
                 pagination.appendChild(nextButton);
+            }
+
+            // 맨 끝 페이지 버튼
+            if (totalPages > 1) {
+                const lastButton = document.createElement('button');
+                lastButton.innerHTML = '&gt;&gt;'; // 맨 끝 페이지 화살표
+                lastButton.className = `mx-1 px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-100 text-gray-400' : 'bg-gray-200 hover:bg-gray-300'}`;
+                lastButton.disabled = currentPage === totalPages;
+                lastButton.onclick = () => {
+                    currentPage = totalPages;
+                    displayNews();
+                };
+                pagination.appendChild(lastButton);
             }
         }
 
