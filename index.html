@@ -708,7 +708,8 @@
                         '제목': newsItem.title || '',
                         '언론사': newsItem.press || '',
                         '날짜': new Date(newsItem.date).toLocaleDateString('ko-KR'),
-                        'URL': newsItem.original_url || ''
+                        'URL': newsItem.original_url || '',
+                        '본문': newsItem.content || ''
                     };
                 }).filter(item => item !== null);
 
