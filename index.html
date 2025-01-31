@@ -119,7 +119,7 @@
                 // 유효한 이메일
                 subscribeBtn.disabled = false;
                 unsubscribeBtn.disabled = false;
-                subscribeBtn.className = 'flex-1 py-2 text-sm text-white bg-green-500 hover:bg-green-600 rounded transition-colors duration-200';
+                subscribeBtn.className = 'flex-1 py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200';
                 unsubscribeBtn.className = 'flex-1 py-2 text-sm text-white bg-red-500 hover:bg-red-600 rounded transition-colors duration-200';
             }
         }
@@ -131,7 +131,7 @@
             updateButtonsState(isValid);
         });
 
-        // 구독하기 함수
+        // red 함수
         async function handleSubscribe() {
             const emailInput = document.getElementById('subscriberEmail');
             const email = emailInput.value.trim();
@@ -218,13 +218,13 @@
         <!-- Sidebar -->
         <div class="w-64 bg-gray-100 shadow-lg">
             <div class="p-4 flex flex-col h-full">
-                <h1 class="text-xl font-bold text-green-500 mb-16">KETEP NEWS CLOUD</h1>
+                <h1 class="text-xl font-bold text-red-500 mb-16">KETEP NEWS CLOUD</h1>
                 <nav class="flex-1">
 
                     <!-- Newsletter Section -->
                     <div class="mb-6">
                         <button onclick="toggleSection('newsletterSection')" 
-                                class="flex items-center justify-between w-full text-sm font-semibold text-green-500 uppercase mb-2">
+                                class="flex items-center justify-between w-full text-sm font-semibold text-red-500 uppercase mb-2">
                             <span>뉴스브리핑</span>
                             <svg class="w-4 h-4 transform transition-transform" id="newsletterArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -243,7 +243,7 @@
                     <!-- Topics Section -->
                     <div class="mb-6">
                         <button onclick="toggleSection('topicSection')" 
-                                class="flex items-center justify-between w-full text-sm font-semibold text-green-500 uppercase mb-2">
+                                class="flex items-center justify-between w-full text-sm font-semibold text-red-500 uppercase mb-2">
                             <span>아카이빙</span>
                             <svg class="w-4 h-4 transform transition-transform" id="topicArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -257,7 +257,7 @@
                     <!-- 주요사이트 섹션 -->
                     <div class="mb-6">
                         <button onclick="toggleSection('websiteSection')" 
-                                class="flex items-center justify-between w-full text-sm font-semibold text-green-500 uppercase mb-2">
+                                class="flex items-center justify-between w-full text-sm font-semibold text-red-500 uppercase mb-2">
                             <span>주요 사이트</span>
                             <svg class="w-4 h-4 transform transition-transform" id="websiteArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -364,13 +364,13 @@
                     </div>
                     <!-- 뉴스레터 구독 섹션 수정 -->
                     <div class="mb-6">
-                        <h2 class="text-sm font-semibold text-green-500 uppercase mb-2">뉴스브리핑 구독</h2>
+                        <h2 class="text-sm font-semibold text-red-500 uppercase mb-2">뉴스브리핑 구독</h2>
                         <div class="bg-white p-4 rounded-lg shadow">
                             <div class="mb-3">
                                 <input type="email" 
                                     id="subscriberEmail" 
                                     placeholder="이메일 주소를 입력하세요" 
-                                    class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-green-500">
+                                    class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-red-500">
                             </div>
                             <div class="flex space-x-2">
                                 <button id="subscribeBtn"
@@ -388,7 +388,7 @@
                     </div>
                     <!-- 방문자 통계 (하단에 배치) -->
                     <div class="mb-6 ">
-                        <h3 class="text-sm font-semibold text-green-500 mb-2">방문자 통계</h3>
+                        <h3 class="text-sm font-semibold text-red-500 mb-2">방문자 통계</h3>
                         <div class="text-sm text-gray-700">
                             <p>오늘 방문자: <span id="todayVisitors">0</span>명</p>
                             <p>전체 방문자: <span id="totalVisitors">0</span>명</p>
@@ -411,9 +411,9 @@
                         <input type="text" 
                                id="searchInput" 
                                placeholder="키워드 또는 언론사 검색" 
-                               class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">
+                               class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
                     </div>
-                    <button id="exportBtn" class="ml-4 bg-green-500 text-sm text-white px-4 py-2 rounded hover:bg-green-600">
+                    <button id="exportBtn" class="ml-4 bg-red-500 text-sm text-white px-4 py-2 rounded hover:bg-red-600">
                         선택한 뉴스 내보내기
                     </button>
                 </div>
@@ -423,14 +423,14 @@
                     <div class="flex items-center space-x-4">
                         <div class="flex items-center">
                             <label class="mr-2 text-sm text-gray-700">기간:</label>
-                            <input type="date" id="startDate" class="p-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <input type="date" id="startDate" class="p-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
                             <span class="mx-2">~</span>
-                            <input type="date" id="endDate" class="p-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            <input type="date" id="endDate" class="p-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
                         </div>
                     </div>
                     <div class="flex items-center space-x-2">
                         <label class="text-sm text-gray-700">페이지당 표시:</label>
-                        <select id="itemsPerPageSelect" class="p-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <select id="itemsPerPageSelect" class="p-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500">
                             <option value="10">15개</option>
                             <option value="30">30개</option>
                             <option value="50">50개</option>
@@ -651,7 +651,7 @@
             for (let i = startPage; i <= endPage; i++) {
                 const button = document.createElement('button');
                 button.textContent = i;
-                button.className = `mx-1 px-3 py-1 rounded ${currentPage === i ? 'bg-green-500 text-sm text-white' : 'bg-gray-200 hover:bg-gray-300'}`;
+                button.className = `mx-1 px-3 py-1 rounded ${currentPage === i ? 'bg-red-500 text-sm text-white' : 'bg-gray-200 hover:bg-gray-300'}`;
                 button.onclick = () => {
                     currentPage = i;
                     displayNews();
@@ -842,9 +842,9 @@
             // 뉴스레터 버튼 하이라이트
             const newsletterBtn = document.querySelector('.newsletter-btn');
             if (currentView === 'newsletter') {
-                newsletterBtn.classList.add('bg-green-100');
+                newsletterBtn.classList.add('bg-red-100');
             } else {
-                newsletterBtn.classList.remove('bg-green-100');
+                newsletterBtn.classList.remove('bg-red-100');
             }
 
             // 토픽 버튼들 하이라이트
@@ -853,12 +853,12 @@
                 if (currentView === 'news') {
                     if ((currentTopic === null && button.textContent.trim() === '전체 뉴스') ||
                         (button.textContent.trim() === currentTopic)) {
-                        button.classList.add('bg-green-100');
+                        button.classList.add('bg-red-100');
                     } else {
-                        button.classList.remove('bg-green-100');
+                        button.classList.remove('bg-red-100');
                     }
                 } else {
-                    button.classList.remove('bg-green-100');
+                    button.classList.remove('bg-red-100');
                 }
             });
         }
