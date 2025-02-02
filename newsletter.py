@@ -391,8 +391,15 @@ class NewsletterGenerator:
         <body>
             <div style="width: 850px; margin: 0 auto;"><span id="labell_up"></span>
             <div style="background: #ffffff; border-radius: 4px 4px 0px 0px; border: 1px solid #e6e6e6; padding: 30px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; position: relative; flex-shrink: 0;">
+                <div style="position: absolute; top: 20px; left: 33px; background-color: #292929; border-radius: 5px; padding: 10px; box-shadow: 0 2px 5px #292929;">
+                    <a href="https://unitedcorean.github.io/newsletter/" style="text-decoration: none; color: #ffffff; font-weight: bold;">NEWS HUB</a>
+                </div>
+                <div style="position: absolute; top: 21px; left: 140px; color: #292929; font-weight: bold; font-size: 10px;line-height: 1.5;">
+                    <div>KETEP NEWS HUB</div>
+                    <div><a href="https://bit.ly/ketepnews" style="text-decoration: none; color: #292929;">URL : https://bit.ly/ketepnews</a></div>
+                </div>
                 <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; align-self: stretch; position: relative; flex-shrink: 0;">
-                    <div style="align-self: stretch; flex-shrink: 0; height: 86px; position: relative;">
+                    <div style="align-self: stretch; flex-shrink: 0; height: 140px; position: relative; top:60px;">
                         <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 57px; letter-spacing: -0.05em; font-weight: 700; position: absolute; right: 4.84%; left: 0%; width: 95.16%; bottom: 0%; top: 0%; height: 100%;">KETEP NEWSBRIEFING</div>
                     </div>
                     <div style="border: 0px; padding: 0px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; align-self: stretch; position: relative; flex-shrink: 0;">
