@@ -26,68 +26,68 @@ class NewsletterGenerator:
                 "topic": "에기평",
                 "keywords": ["에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"],
                 "count": 10
+            },
+            {
+                "topic": "산업부",
+                "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
+                "count": 10
+            },
+            {
+                "topic": "원자력",
+                "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
+                "count": 10
+            },
+            { 
+                "topic": "수소, 연료전지",
+                "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
+                "count": 10
+            },
+            {
+                "topic": "태양광",
+                "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
+                "count": 10
+            },
+            {
+                "topic": "풍력",
+                "keywords": ["풍력 OR 해상변전소"],
+                "count": 10
+            },
+            {
+                "topic": "전력",
+                "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
+                "count": 10
+            },
+            {
+                "topic": "에너지수요관리",
+                "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
+                "count": 10
+            },     
+            {
+                "topic": "자원, CCUS",
+                "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
+                "count": 10
+            },      
+            {
+                "topic": "ESS",
+                "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
+                "count": 10
+            },
+            {
+                "topic": "에너지안전",
+                "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
+                "count": 10
+            },
+            {
+                "topic": "기술사업화",
+                "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
+                "count": 10
             }
-            # {
-            #     "topic": "산업부",
-            #     "keywords": ["(산업부 OR 산업통상자원부 OR 산자부) (에너지)"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "원자력",
-            #     "keywords": ["원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"],
-            #     "count": 10
-            # },
-            # { 
-            #     "topic": "수소, 연료전지",
-            #     "keywords": ["수소 OR 연료전지 OR 수전해 OR 개질"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "태양광",
-            #     "keywords": ["태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "풍력",
-            #     "keywords": ["풍력 OR 해상변전소"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "전력",
-            #     "keywords": ["전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "에너지수요관리",
-            #     "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
-            #     "count": 10
-            # },     
-            # {
-            #     "topic": "자원, CCUS",
-            #     "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
-            #     "count": 10
-            # },      
-            # {
-            #     "topic": "ESS",
-            #     "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "에너지안전",
-            #     "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
-            #     "count": 10
-            # },
-            # {
-            #     "topic": "기술사업화",
-            #     "keywords": ["기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"],
-            #     "count": 10
-            # }
         ]
         
         # 검색 기간 설정
-        self.period = None  # "일단위", "주단위", "월단위" 중 선택
-        self.start_date = datetime(2024, 9, 1)
-        self.end_date = datetime(2024, 12, 31)
+        self.period = "일단위"  # "일단위", "주단위", "월단위" 중 선택
+        self.start_date = None
+        self.end_date = None
         
     def save_to_db(self, news_list):
         try:
@@ -204,7 +204,7 @@ class NewsletterGenerator:
             if self.period:  # 기간 단위로 설정한 경우
                 gnews = GNews(language='ko', country='KR', period=when, max_results=10)
             else:  # 날짜로 직접 설정한 경우
-                gnews = GNews(language='ko', country='KR', start_date=start_date, end_date=end_date, max_results=100)
+                gnews = GNews(language='ko', country='KR', start_date=start_date, end_date=end_date, max_results=10)
             # GNews 모듈을 사용하여 뉴스 검색
             news_items = gnews.get_news(keyword)
             news_list = []
