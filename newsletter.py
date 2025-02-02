@@ -402,12 +402,12 @@ class NewsletterGenerator:
                         </div>
                     </div>
                 </div>
-                <div style="position: absolute; top: 20px; left: 33px; background-color: #292929; border-radius: 5px; padding: 10px; box-shadow: 0 2px 5px #292929;">
-                    <a href="https://unitedcorean.github.io/newsletter/" style="text-decoration: none; color: #ffffff; font-weight: bold;">NEWS CLOUD</a>
+                <div style="position: absolute; top: 20px; left: 33px; background-color: #292929; border-radius: 3px; width: 32px; height: 32px;">
+                    <a href="https://bit.ly/ketepnews" style="display: block; width: 100%; height: 100%; text-decoration: none; color: transparent; font-weight: bold;">NEWS CLOUD</a>
                 </div>
-                <div style="position: absolute; top: 21px; left: 155px; color: #292929; font-weight: bold; font-size: 10px;line-height: 1.8;">
+                <div style="position: absolute; top: 21px; left: 75px; color: #292929; font-weight: bold; font-size: 10px;line-height: 1.5;">
                     <div>KETEP NEWS CLOUD</div>
-                    <div><a href="https://bit.ly/ketepnews" style="text-decoration: none; color: #292929;">URL : https://bit.ly/ketepnews</a></div>
+                    <div><a href="https://bit.ly/ketepnews" style="text-decoration: none; color: #292929;">https://bit.ly/ketepnews</a></div>
                 </div>
             </div>
         """
