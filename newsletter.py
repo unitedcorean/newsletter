@@ -87,7 +87,7 @@ class NewsletterGenerator:
         # 검색 기간 설정
         self.period = None  # "일단위", "주단위", "월단위" 중 선택
         self.start_date = datetime(2024, 9, 1)
-        self.end_date = datetime(2023, 12, 31)
+        self.end_date = datetime(2024, 12, 31)
         
     def save_to_db(self, news_list):
         try:
