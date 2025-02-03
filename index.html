@@ -556,7 +556,8 @@
                 
                 const matchSearch = !searchTerm || 
                     news.title.toLowerCase().includes(searchTerm) || 
-                    news.press.toLowerCase().includes(searchTerm);
+                    news.press.toLowerCase().includes(searchTerm) ||
+                    (news.content && news.content.toLowerCase().includes(searchTerm));
 
                 const newsDate = new Date(news.date).toISOString().split('T')[0];
                 const matchStartDate = !startDate || newsDate >= startDate;
