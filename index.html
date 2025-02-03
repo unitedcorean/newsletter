@@ -466,33 +466,49 @@
     </div>
 
     <script type="module">
-        import Papa from 'https://cdn.skypack.dev/papaparse';
-        import XLSX from 'https://cdn.skypack.dev/xlsx';
-        
-        let allNews = [];
-        let currentPage = 1;
-        let itemsPerPage = 15;
-        let currentTopic = null;
-        let currentView = 'news'; // 'news' 또는 'newsletter'
-
-        // Fetch and load news data
-        async function loadNews() {
+    import Papa from 'https://cdn.skypack.dev/papaparse';
+    import XLSX from 'https://cdn.skypack.dev/xlsx';
+    
+    let allNews = [];
+    let currentPage = 1;
+    let itemsPerPage = 15;
+    let currentTopic = null;
+    let currentView = 'news'; // 'news' 또는 'newsletter'
+    
+    // Fetch and load news data
+    async function loadNews() {
+        try {
+            const response = await fetch('news.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            allNews = await response.json();
+            updateTopicList();
+            displayNews();
+        } catch (error) {
+            console.error('Error loading news:', error);
+            
+            // Fallback to alternative loading method
             try {
-                const response = await fetch('news.json');
-                allNews = await response.json();
+                const textResponse = await fetch('news.json');
+                const jsonText = await textResponse.text();
+                allNews = JSON.parse(jsonText);
                 updateTopicList();
                 displayNews();
-            } catch (error) {
-                console.error('Error loading news:', error);
+            } catch (fallbackError) {
+                console.error('Fallback loading failed:', fallbackError);
+                alert('뉴스 데이터를 로드할 수 없습니다. 잠시 후 다시 시도해주세요.');
             }
         }
+    }
+    
+    // 토픽 정렬 순서 정의
+    const topicOrder = [
+        '에기평', '산업부', '원자력', '수소, 연료전지', '태양광', 
+        '풍력', '전력', '에너지수요관리', '자원, CCUS', 'ESS', 
+        '에너지안전', '기술사업화'
+    ];
 
-        // 토픽 정렬 순서 정의
-        const topicOrder = [
-            '에기평', '산업부', '원자력', '수소, 연료전지', '태양광', 
-            '풍력', '전력', '에너지수요관리', '자원, CCUS', 'ESS', 
-            '에너지안전', '기술사업화'
-        ];
 
         // Update topic list in sidebar 함수 수정
         function updateTopicList() {
@@ -693,14 +709,13 @@
         // Export selected news to CSV
         async function exportToCSV() {
             try {
-                import('xlsx');
                 const selectedCheckboxes = document.querySelectorAll('.newsCheckbox:checked');
                 
                 if (selectedCheckboxes.length === 0) {
                     alert('내보낼 뉴스를 선택해주세요.');
                     return;
                 }
-
+        
                 const selectedNews = Array.from(selectedCheckboxes).map(checkbox => {
                     const url = checkbox.dataset.url;
                     const newsItem = allNews.find(news => news.original_url === url);
@@ -715,11 +730,11 @@
                         '본문': newsItem.content || ''
                     };
                 }).filter(item => item !== null);
-
+        
                 if (selectedNews.length === 0) {
                     throw new Error('선택된 뉴스 데이터를 처리할 수 없습니다.');
                 }
-
+        
                 // XLSX 파일 생성
                 const workbook = XLSX.utils.book_new();
                 const worksheet = XLSX.utils.json_to_sheet(selectedNews);
@@ -731,12 +746,13 @@
                 
                 // 파일 다운로드
                 XLSX.writeFile(workbook, fileName);
-
+        
             } catch (error) {
                 console.error('XLSX 내보내기 오류:', error);
                 alert(`엑셀 파일 생성 중 오류가 발생했습니다: ${error.message}`);
             }
         }
+
 
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', () => {
