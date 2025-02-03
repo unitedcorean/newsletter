@@ -93,7 +93,8 @@ def main():
     subject = f"{date_str} KETEP 뉴스브리핑"
 
     # 구독자 목록 가져오기
-    subscribers = get_subscribers()
+    subscribers = ["kimyh@ketep.re.kr"]
+    # subscribers = get_subscribers()
     
     if not subscribers:
         print("구독자가 없습니다.")
