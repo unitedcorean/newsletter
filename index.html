@@ -466,7 +466,7 @@
     </div>
 
     <script type="module">
-        import Papa from 'https://cdn.skypack.dev/papaparse';
+        import XLSX from 'https://cdn.sheetjs.com/xlsx-0.18.5/xlsx.full.min.js';
         
         let allNews = [];
         let currentPage = 1;
@@ -718,25 +718,15 @@
                     throw new Error('선택된 뉴스 데이터를 처리할 수 없습니다.');
                 }
 
-                // CSV 파일 생성 설정
-                const csv = Papa.unparse(selectedNews, {
-                    delimiter: ",",
-                    header: true,
-                    skipEmptyLines: true
-                });
+                // XLSX 파일 생성
+                const workbook = XLSX.utils.book_new();
+                const worksheet = XLSX.utils.json_to_sheet(selectedNews);
+                XLSX.utils.book_append_sheet(workbook, worksheet, '뉴스목록');
                 
-                // BOM 추가 및 CSV 컨텐츠 생성
-                const bomPrefix = new Uint8Array([0xEF, 0xBB, 0xBF]);
-                const csvBlob = new Blob([bomPrefix, csv], { 
-                    type: 'text/csv;charset=utf-8;' 
-                });
-                
-                // 안전한 파일명 생성
-                const safeDate = new Date().toISOString().split('T')[0];
-                const fileName = `뉴스목록_${safeDate}.csv`;
-                
-                // 다운로드 처리
-                const downloadUrl = URL.createObjectURL(csvBlob);
+                // XLSX 파일 다운로드 처리
+                const xlsxBlob = new Blob([XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })], { type: 'application/octet-stream' });
+                const fileName = `뉴스목록_${safeDate}.xlsx`;
+                const downloadUrl = URL.createObjectURL(xlsxBlob);
                 const link = document.createElement('a');
                 link.href = downloadUrl;
                 link.download = fileName;
@@ -750,8 +740,8 @@
                 }, 100);
 
             } catch (error) {
-                console.error('CSV 내보내기 오류:', error);
-                alert(`CSV 파일 생성 중 오류가 발생했습니다: ${error.message}`);
+                console.error('XLSX 내보내기 오류:', error);
+                alert(`XLSX 파일 생성 중 오류가 발생했습니다: ${error.message}`);
             }
         }
 
