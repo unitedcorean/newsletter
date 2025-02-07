@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: newsletter_AI
+name: newsletter2
 
 on:
   schedule:
@@ -31,7 +31,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Run
       run: |
-        python newsletter_AI.py
+        python newsletter2.py
     - name: List files in the workspace
       run: |
         echo "Current directory:"
@@ -42,6 +42,6 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add news_AI.db news_AI.json newsletter_AI.html
+        git add news2.db news2.json newsletter2.html
         git commit -m "Update news database, JSON and HTML"
         git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
