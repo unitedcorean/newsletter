@@ -57,7 +57,7 @@ class NewsletterGenerator:
     def save_to_db(self, news_list):
         try:
             # SQLite 데이터베이스 연결
-            conn = sqlite3.connect('news_AI.db')
+            conn = sqlite3.connect('news2.db')
             cursor = conn.cursor()
             
             # 테이블 생성 (original_url을 UNIQUE로 설정)
@@ -113,14 +113,14 @@ class NewsletterGenerator:
             print(f"중복된 기사: {duplicate_count}개")
             
             conn.close()
-            return 'news_AI.db'
+            return 'news2.db'
         except Exception as e:
             print(f"DB 저장 중 오류 발생: {str(e)}")
             return None
 
     def export_to_json(self):
         try:
-            conn = sqlite3.connect('news_AI.db')
+            conn = sqlite3.connect('news2.db')
             cursor = conn.cursor()
             
             # 최신 기사부터 가져오도록 정렬
@@ -143,11 +143,11 @@ class NewsletterGenerator:
             } for row in rows]
             
             # JSON 파일로 저장
-            with open("news_AI.json", "w", encoding='utf-8') as f:
+            with open("news2.json", "w", encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
             
             conn.close()
-            return "news_AI.json"
+            return "news2.json"
         except Exception as e:
             print(f"JSON 파일 저장 중 오류 발생: {str(e)}")
             return None
@@ -482,7 +482,7 @@ class NewsletterGenerator:
     def save_html(self, html_content):
         try:
             # 파일명 고정
-            file_path = "newsletter_AI.html"
+            file_path = "newsletter2.html"
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(html_content)
             return file_path
