@@ -188,6 +188,9 @@ class NewsletterGenerator:
             return None
 
     def get_news(self, keyword):
+        # 이미 수집된 기사 URL을 저장할 집합
+        collected_urls = set()
+        
         if self.period:  # 기간 단위로 설정한 경우
             if self.period == "일단위":
                 when = "1d"
@@ -214,6 +217,11 @@ class NewsletterGenerator:
                 try:
                     title = item['title']  # 제목 추출
                     source_url = item['url']  # 원본 URL 추출
+                    
+                    # 이미 수집된 기사인지 확인
+                    if source_url in collected_urls:
+                        continue  # 중복된 기사는 건너뜀
+                    
                     decoded_url = new_decoderv1(source_url, interval=interval_time)
                     original_url = decoded_url['decoded_url']
                     press = item['publisher']['title']  # 출처 추출
@@ -225,6 +233,7 @@ class NewsletterGenerator:
                     
                     if not content:
                         continue
+                    
                     # SSL 검증을 비활성화하여 이미지 URL 추출
                     try:
                         # 기존 SSL 컨텍스트 저장
@@ -244,6 +253,9 @@ class NewsletterGenerator:
                     finally:
                         # SSL 컨텍스트 복원
                         ssl._create_default_https_context = original_context
+                    
+                    # 수집된 URL을 집합에 추가
+                    collected_urls.add(source_url)
                     
                     news_list.append({
                         'title': title,
