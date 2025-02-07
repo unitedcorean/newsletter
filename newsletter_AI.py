@@ -1,0 +1,503 @@
+import os
+from dotenv import load_dotenv
+import trafilatura
+from gnews import GNews
+from langchain_openai import ChatOpenAI
+from googlenewsdecoder import new_decoderv1
+from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import PromptTemplate
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from kiwipiepy import Kiwi
+from newspaper import Article
+from datetime import datetime, timedelta
+import requests
+import locale
+import ssl
+import sqlite3
+import json
+
+class NewsletterGenerator:
+    def __init__(self):
+        load_dotenv()
+        locale.setlocale(locale.LC_TIME, 'ko_KR.UTF-8')
+        self.keyword_groups = [
+            {
+                "topic": "AI + 정부",
+                "keywords": ["(AI OR 인공지능) (정부 OR 행정 OR 국가)"],
+                "count": 10
+            },
+            {
+                "topic": "AI + 교육, 행사",
+                "keywords": ["(AI OR 인공지능) (교육 OR 컨퍼런스 OR 행사 OR 포럼)"],
+                "count": 10
+            },
+            {
+                "topic": "AI + 에너지, 데이터센터",
+                "keywords": ["(AI OR 인공지능) (에너지 OR 데이터센터)"],
+                "count": 10
+            },
+            { 
+                "topic": "정보보안",
+                "keywords": ["정보 AND 보안"],
+                "count": 10
+            },
+            {
+                "topic": "공공데이터",
+                "keywords": ["(공공 AND 데이터) (활용 OR 개방)"],
+                "count": 10
+            }
+        ]
+        
+        # 검색 기간 설정
+        self.period = "일단위"  # "일단위", "주단위", "월단위" 중 선택
+        self.start_date = None
+        self.end_date = None
+        
+    def save_to_db(self, news_list):
+        try:
+            # SQLite 데이터베이스 연결
+            conn = sqlite3.connect('news_AI.db')
+            cursor = conn.cursor()
+            
+            # 테이블 생성 (original_url을 UNIQUE로 설정)
+            cursor.execute('''
+                CREATE TABLE IF NOT EXISTS news (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    topic TEXT,
+                    keywords TEXT,
+                    title TEXT,
+                    press TEXT,
+                    date TEXT,
+                    original_url TEXT UNIQUE,
+                    content TEXT
+                )
+            ''')
+            
+            # 저장된 기사 수와 중복 기사 수를 추적
+            saved_count = 0
+            duplicate_count = 0
+            
+            # 뉴스 리스트를 데이터베이스에 저장
+            for news in news_list:
+                try:
+                    cursor.execute('''
+                        INSERT OR IGNORE INTO news 
+                        (topic, keywords, title, press, date, original_url, content)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ''', (
+                        news['topic'], 
+                        news['search_keyword'], 
+                        news['title'], 
+                        news['press'], 
+                        news['date'], 
+                        news['original_url'],
+                        news['content']
+                    ))
+                    
+                    # rowcount가 1이면 새로운 기사가 저장된 것이고, 0이면 중복된 기사
+                    if cursor.rowcount == 1:
+                        saved_count += 1
+                    else:
+                        duplicate_count += 1
+                        
+                except sqlite3.IntegrityError:
+                    duplicate_count += 1
+                    continue
+            
+            # 변경사항 저장
+            conn.commit()
+            
+            # 저장 결과 출력
+            print(f"새로 저장된 기사: {saved_count}개")
+            print(f"중복된 기사: {duplicate_count}개")
+            
+            conn.close()
+            return 'news_AI.db'
+        except Exception as e:
+            print(f"DB 저장 중 오류 발생: {str(e)}")
+            return None
+
+    def export_to_json(self):
+        try:
+            conn = sqlite3.connect('news_AI.db')
+            cursor = conn.cursor()
+            
+            # 최신 기사부터 가져오도록 정렬
+            cursor.execute("""
+                SELECT topic, keywords, title, press, date, original_url, content 
+                FROM news 
+                ORDER BY date DESC, id DESC
+            """)
+            rows = cursor.fetchall()
+            
+            # 데이터 리스트 생성
+            data = [{
+                "topic": row[0], 
+                "keywords": row[1], 
+                "title": row[2], 
+                "press": row[3], 
+                "date": row[4], 
+                "original_url": row[5],
+                "content": row[6]
+            } for row in rows]
+            
+            # JSON 파일로 저장
+            with open("news_AI.json", "w", encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4)
+            
+            conn.close()
+            return "news_AI.json"
+        except Exception as e:
+            print(f"JSON 파일 저장 중 오류 발생: {str(e)}")
+            return None
+
+    def get_news(self, keyword):
+        # 이미 수집된 기사 URL을 저장할 집합
+        collected_urls = set()
+        
+        if self.period:  # 기간 단위로 설정한 경우
+            if self.period == "일단위":
+                when = "1d"
+            elif self.period == "주단위":
+                when = "7d"
+            elif self.period == "월단위":
+                when = "30d"
+        else:  # 날짜로 직접 설정한 경우
+            # start_date와 end_date를 문자열로 변환 (YYYY-MM-DD 형식)
+            start_date = (self.start_date.year, self.start_date.month, self.start_date.day)
+            end_date = (self.end_date.year, self.end_date.month, self.end_date.day)
+        
+        try:
+            if self.period:  # 기간 단위로 설정한 경우
+                gnews = GNews(language='ko', country='KR', period=when, max_results=10)
+            else:  # 날짜로 직접 설정한 경우
+                gnews = GNews(language='ko', country='KR', start_date=start_date, end_date=end_date, max_results=10)
+            # GNews 모듈을 사용하여 뉴스 검색
+            news_items = gnews.get_news(keyword)
+            news_list = []
+            interval_time = 5
+            
+            for item in news_items:
+                try:
+                    title = item['title']  # 제목 추출
+                    source_url = item['url']  # 원본 URL 추출
+                    
+                    # 이미 수집된 기사인지 확인
+                    if source_url in collected_urls:
+                        continue  # 중복된 기사는 건너뜀
+                    
+                    decoded_url = new_decoderv1(source_url, interval=interval_time)
+                    original_url = decoded_url['decoded_url']
+                    press = item['publisher']['title']  # 출처 추출
+                    date = item['published date']  # 날짜 추출
+                    
+                    # trafilatura를 사용하여 뉴스 본문 수집
+                    downloaded = trafilatura.fetch_url(original_url)
+                    content = trafilatura.extract(downloaded)
+                    
+                    if not content:
+                        continue
+                    
+                    # SSL 검증을 비활성화하여 이미지 URL 추출
+                    try:
+                        # 기존 SSL 컨텍스트 저장
+                        original_context = ssl._create_default_https_context
+                        # SSL 검증 비활성화
+                        ssl._create_default_https_context = ssl._create_unverified_context
+                        
+                        # newspaper3k로 이미지 URL 추출
+                        article = Article(original_url)
+                        article.download()
+                        article.parse()
+                        main_image = article.top_image
+                        
+                        # http를 https로 변환
+                        if main_image and main_image.startswith('http:'):
+                            main_image = main_image.replace('http:', 'https:', 1)
+                    finally:
+                        # SSL 컨텍스트 복원
+                        ssl._create_default_https_context = original_context
+                    
+                    # 수집된 URL을 집합에 추가
+                    collected_urls.add(source_url)
+                    
+                    news_list.append({
+                        'title': title,
+                        'original_url': original_url,
+                        'press': press,
+                        'date': date,
+                        'content': content,
+                        'summary': '',
+                        'image_url': main_image if 'main_image' in locals() else ''
+                    })
+
+                except Exception as e:
+                    print(f"개별 뉴스 처리 실패: {str(e)}")
+                    continue  # 실패한 뉴스는 건너뛰고 계속 진행
+
+            return news_list
+        except Exception as e:
+            print(f"뉴스 검색 실패: {str(e)}")
+            return []
+    
+    def analyze_morphology(self, text):
+        kiwi = Kiwi()    
+        tokens = kiwi.analyze(text)
+    # 첫 번째 분석 결과만 사용하며, 명사(NNG, NNP), 동사(VV)만 추출
+        words = [token[0] for token in tokens[0][0] if token[1] in ('NNG', 'NNP', 'VV')]
+        return ' '.join(words)
+
+    def group_articles_with_similarity(self, articles):
+        # 유효한 텍스트가 있는 기사만 필터링
+        valid_articles = [article for article in articles if article.get('content')]
+        if not valid_articles:
+            return [[article] for article in articles]  # 각 기사를 개별 그룹으로 반환
+
+        # 유효한 텍스트에 대해서만 형태소 분석 수행
+        texts = [self.analyze_morphology(article['content']) for article in valid_articles]
+        
+        # texts가 비어 있는 경우 처리
+        if not texts:
+            return [[article] for article in articles]
+
+        vectorizer = TfidfVectorizer(stop_words='english')
+        X = vectorizer.fit_transform(texts)
+
+        # 코사인 유사도 계산
+        similarity_matrix = cosine_similarity(X)
+
+        # 그룹화 로직
+        groups = []
+        visited = set()
+
+        # valid_articles의 인덱스 범위 내에서만 반복
+        for i in range(len(valid_articles)):
+            if i in visited:
+                continue
+            
+            group = [valid_articles[i]]
+            visited.add(i)
+
+            for j in range(i + 1, len(valid_articles)):
+                if j not in visited and similarity_matrix[i, j] >= 0.6:
+                    group.append(valid_articles[j])
+                    visited.add(j)
+
+            groups.append(group)
+
+        # 유효하지 않은 기사들을 개별 그룹으로 추가
+        invalid_articles = [article for article in articles if article not in valid_articles]
+        for article in invalid_articles:
+            groups.append([article])
+
+        return groups
+
+    def summarize_content(self, content):
+        if not content:  # content가 비어있을 경우
+            return "내용이 없습니다."
+
+        try:
+            api_key = os.getenv("OPENAI_API_KEY")
+            prompt = PromptTemplate.from_template("{topic}을 간결하게 3줄로 요약해주세요. 각 문장은 줄바꿈해주세요.")
+            model = ChatOpenAI(model="gpt-4o-mini", api_key=api_key)  # API 키 추가
+            chain = prompt | model | StrOutputParser()
+            input = {"topic" : content}
+            answer = chain.invoke(input)
+            return answer
+        except Exception:
+            return "요약 생성 실패"
+    
+    def get_weather_info(self):
+        try:
+            today = datetime.now()
+            today_kst = today + timedelta(hours=0)
+            date_str = today_kst.strftime('%Y%m%d')
+            # WeatherAPI.com API 호출
+            url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
+            response1 = requests.get(url1)
+            data1 = response1.json()
+
+            # 기상청 API 호출
+            url2 = f"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=FD9ka0vGVDdt0SsGDRnaLrR3HgNK5TWkLXgxL5IQ1dmSmLhhDaBCRKgKXQLr%2Bd3iZNkcXAm56M82H3sxldhx5g%3D%3D&numOfRows=1000&pageNo=1&dataType=JSON&base_date={date_str}&base_time=0200&nx=61&ny=125"
+            response2 = requests.get(url2)
+            data2 = response2.json()
+
+            # WeatherAPI.com에서 날씨 아이콘 가져오기
+            icon_url = None
+            if response1.status_code == 200:
+                condition = data1['forecast']['forecastday'][0]['day']['condition']
+                icon_url = f"https:{condition['icon']}"  # WeatherAPI.com은 이미 완전한 URL을 제공
+
+            # 기상청 API에서 온도 정보 추출
+            temp_min = None
+            temp_max = None
+            if response2.status_code == 200 and data2['response']['header']['resultCode'] == '00':
+                items = data2['response']['body']['items']['item']
+
+                for item in items:
+                    if item['fcstDate'] == date_str:  # fcstDate가 오늘 날짜인지 확인
+                        if item['category'] == 'TMX':  # 최고 기온
+                            temp_max = round(float(item['fcstValue']))
+                        elif item['category'] == 'TMN':  # 최저 기온
+                            temp_min = round(float(item['fcstValue']))
+
+            return {
+                'temp_min': temp_min,
+                'temp_max': temp_max,
+                'icon_url': icon_url  # WeatherAPI.com에서 가져온 아이콘 URL
+            }
+        except Exception as e:
+            print(f"날씨 정보 가져오기 실패: {str(e)}")
+            return None
+        
+    def generate_html(self):
+        today = datetime.now()  # 현재 UTC 시간
+        today_kst = today + timedelta(hours=0)  # 한국 시간으로 변환
+        date_str = today_kst.strftime("%Y년 %m월 %d일(%a)")
+        all_news = []
+        
+        weather_info = self.get_weather_info()
+        
+        newsletter_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+        </head>
+        <body>
+            <div style="width: 850px; margin: 0 auto;"><span id="labell_up"></span>
+            <div style="background: #ffffff; border-radius: 4px 4px 0px 0px; border: 1px solid #e6e6e6; padding: 30px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; position: relative; flex-shrink: 0;">
+                <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; align-self: stretch; position: relative; flex-shrink: 0;">
+                    <div style="align-self: stretch; flex-shrink: 0; height: 86px; position: relative;">
+                        <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 57px; letter-spacing: -0.05em; font-weight: 700; position: absolute; right: 4.84%; left: 0%; width: 95.16%; bottom: 0%; top: 0%; height: 100%;">KETEP NEWSLETTER</div>
+                    </div>
+                    <div style="border: 0px; padding: 0px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; align-self: stretch; position: relative; flex-shrink: 0;">
+                        <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 13px; font-weight: 700; text-transform: uppercase;">{date_str}
+                            <img src="{weather_info['icon_url']}" style="height: 4em; vertical-align: middle;">
+                            <span>{weather_info['temp_min']}℃ ~ {weather_info['temp_max']}℃</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        """
+        
+        for group_idx, group in enumerate(self.keyword_groups):
+            if not group["keywords"] or not group["keywords"][0].strip():
+                continue
+            
+            newsletter_html += f"""
+            <div style="background: #ffffff; border-radius: 4px 4px 0px 0px; border: 1px solid #e6e6e6; padding: 30px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; position: relative; flex-shrink: 0;">
+                <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; align-self: stretch; position: relative; flex-shrink: 0;">
+                    <div style="border-bottom: 1px solid #8c8c8c; padding: 10px 0px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; align-self: stretch;">
+                        <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 18px; font-weight: 700; text-transform: uppercase; position: relative;">{group['topic']}</div>
+                    </div>
+                </div>
+            """
+            
+            # 키워드를 or로 묶어서 검색
+            keywords_combined = 'intext:' + ' OR '.join(group["keywords"])
+            news_list = self.get_news(keywords_combined)
+            
+            # 수집된 뉴스와 검색 키워드를 함께 저장
+            for news in news_list:
+                news['search_keyword'] = keywords_combined
+                news['topic'] = group['topic']
+                all_news.append(news)
+                
+            grouped_articles = self.group_articles_with_similarity(news_list)
+            
+            if not news_list:
+                newsletter_html += f"<p>오늘은 '{group['topic']}' 관련 뉴스가 없습니다.</p></div>"
+                continue
+            
+            for idx, group in enumerate(grouped_articles):
+                for article_idx, article in enumerate(group):
+                    if article_idx == 0:
+                        article['summary'] = self.summarize_content(article['content'])
+                        newsletter_html += f"""
+                            <div style="display: flex; flex-direction: row; gap: 0px; padding: 20px 0px 10px 0px; align-items: flex-start; justify-content: flex-start; align-self: stretch; position: relative;">
+                                <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; flex: 1; position: relative;">
+                                    <div style="display: flex; flex-direction: column; gap: 15px; align-items: flex-start; justify-content: flex-start; flex: 1; padding-right: 10px;">
+                                        <a href="{article['original_url']}" style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 18px; line-height: 130%; font-weight: 700; text-decoration: none;">
+                                            {article['title']}
+                                        </a>
+                                        <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 13px; line-height: 140%; font-weight: 400;">
+                                            {article['summary']}
+                                        </div>
+                                    </div>
+                                    <div style="padding-right: 10px;">
+                                        <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 13px; font-weight: 700;">
+                                            {article['date']}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="background: url({article['image_url']}) center; background-size: cover; background-repeat: no-repeat; width: 140px; height: 105px; position: relative; overflow: hidden;">
+                                </div>
+                            </div>
+                        """
+                    else:
+                        newsletter_html += f"""
+                            <a href="{article['original_url']}" style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 13px; font-weight: 700; text-decoration: none;"> ↪ {article['title']}</a>
+                        """
+            newsletter_html += "</div>"
+
+        # 푸터 추가
+        newsletter_html += """
+            <div style="background: #000000; border: 1px solid #e6e6e6; padding: 16px 30px 30px 30px; display: flex; flex-direction: column; gap: 25px; align-items: flex-start; justify-content: flex-start; position: relative;">
+                <div style="border-bottom: 1px solid #fafafa; padding: 10px 0px; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; align-self: stretch;">
+                    <div style="color: #fafafa; text-align: left; font-family: 'Arial'; font-size: 18px; font-weight: 700; text-transform: uppercase;">KETEP INFO</div>
+                </div>
+                <div style="display: flex; flex-direction: row; align-items: flex-start; justify-content: flex-start; align-self: stretch;">
+                    <div style="display: flex; flex-direction: column; gap: 5px; align-items: flex-start; justify-content: flex-start; flex: 1;">
+                        <div style="color: #fafafa; text-align: left; font-family: 'Arial'; font-size: 18px; line-height: 130%; font-weight: 700;">
+                            Korea Institute of Energy Technology Evaluation and Planning
+                        </div>
+                        <div style="color: #fafafa; text-align: left; font-family: 'Arial'; font-size: 13px; line-height: 140%; font-weight: 400;">
+                            06175 14, Teheran-ro 114-gil, Gangnam-gu, Seoul, Republic of Korea<br />
+                            Tel : +82 2-3469-8400 Fax : +82 2-555-2430<br />
+                            Copyrightⓒ KETEP. All rights reserved.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        # 모든 뉴스 수집이 완료된 후 db 저장
+        if all_news:
+            self.save_to_db(all_news)
+            self.export_to_json()
+            
+        return newsletter_html
+
+    def generate_newsletter(self):
+        newsletter_html = self.generate_html()
+        # HTML 파일 저장
+        self.save_html(newsletter_html)
+        return newsletter_html
+
+    def save_html(self, html_content):
+        try:
+            # 파일명 고정
+            file_path = "newsletter_AI.html"
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(html_content)
+            return file_path
+        except Exception as e:
+            print(f"HTML 파일 저장 중 오류 발생: {str(e)}")
+            return None
+
+def main():
+    newsletter_gen = NewsletterGenerator()
+    
+    print("뉴스레터 생성 중...")
+    newsletter_html = newsletter_gen.generate_newsletter()
+    
+    if newsletter_html:
+        print("뉴스레터가 성공적으로 생성되었습니다!")
+
+if __name__ == "__main__":
+    main()
