@@ -311,7 +311,7 @@ class NewsletterGenerator:
     def get_weather_info(self):
         try:
             today = datetime.now()
-            today_kst = today + timedelta(hours=0)
+            today_kst = today + timedelta(hours=9)
             date_str = today_kst.strftime('%Y%m%d')
             # WeatherAPI.com API 호출
             url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
@@ -353,7 +353,7 @@ class NewsletterGenerator:
         
     def generate_html(self):
         today = datetime.now()  # 현재 UTC 시간
-        today_kst = today + timedelta(hours=0)  # 한국 시간으로 변환
+        today_kst = today + timedelta(hours=9)  # 한국 시간으로 변환
         date_str = today_kst.strftime("%Y년 %m월 %d일(%a)")
         all_news = []
         
@@ -369,7 +369,7 @@ class NewsletterGenerator:
             <div style="width: 850px; margin: 0 auto;"><span id="labell_up"></span>
             <div style="background: #ffffff; border-radius: 4px 4px 0px 0px; border: 1px solid #e6e6e6; padding: 30px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; position: relative; flex-shrink: 0;">
                 <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; justify-content: flex-start; align-self: stretch; position: relative; flex-shrink: 0;">
-                    <div style="align-self: stretch; flex-shrink: 0; height: 86px; position: relative;">
+                    <div style="align-self: stretch; flex-shrink: 0; height: 140px; position: relative; top:60px;">
                         <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 57px; letter-spacing: -0.05em; font-weight: 700; position: absolute; right: 4.84%; left: 0%; width: 95.16%; bottom: 0%; top: 0%; height: 100%;">KETEP NEWSBRIEFING</div>
                     </div>
                     <div style="border: 0px; padding: 0px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; align-self: stretch; position: relative; flex-shrink: 0;">
@@ -378,6 +378,13 @@ class NewsletterGenerator:
                             <span>{weather_info['temp_min']}℃ ~ {weather_info['temp_max']}℃</span>
                         </div>
                     </div>
+                </div>
+                <div style="position: absolute; top: 20px; left: 33px; background-color: #292929; border-radius: 3px; width: 32px; height: 32px;">
+                    <a href="https://bit.ly/ketepnews" style="display: block; width: 100%; height: 100%; text-decoration: none; color: transparent; font-weight: bold;">NEWS CLOUD</a>
+                </div>
+                <div style="position: absolute; top: 21px; left: 75px; color: #292929; font-weight: bold; font-size: 10px;line-height: 1.5;">
+                    <div>KETEP NEWS CLOUD</div>
+                    <div><a href="https://bit.ly/ketepnews" style="text-decoration: none; color: #292929;">https://bit.ly/ketepnews</a></div>
                 </div>
             </div>
         """
