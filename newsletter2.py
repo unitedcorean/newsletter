@@ -153,8 +153,9 @@ class NewsletterGenerator:
             return None
 
     def get_news(self, keyword):
-        # 이미 수집된 기사 URL을 저장할 집합
-        collected_urls = set()
+        
+        if not hasattr(self, 'all_collected_urls'):
+            self.all_collected_urls = set()
         
         if self.period:  # 기간 단위로 설정한 경우
             if self.period == "일단위":
@@ -182,13 +183,10 @@ class NewsletterGenerator:
                 try:
                     title = item['title']  # 제목 추출
                     source_url = item['url']  # 원본 URL 추출
-                    
-                    # 이미 수집된 기사인지 확인
-                    if source_url in collected_urls:
-                        continue  # 중복된 기사는 건너뜀
-                    
                     decoded_url = new_decoderv1(source_url, interval=interval_time)
                     original_url = decoded_url['decoded_url']
+                    if original_url in self.all_collected_urls:
+                        continue
                     press = item['publisher']['title']  # 출처 추출
                     date = item['published date']  # 날짜 추출
                     
@@ -218,9 +216,8 @@ class NewsletterGenerator:
                     finally:
                         # SSL 컨텍스트 복원
                         ssl._create_default_https_context = original_context
-                    
-                    # 수집된 URL을 집합에 추가
-                    collected_urls.add(source_url)
+
+                    self.all_collected_urls.add(original_url)
                     
                     news_list.append({
                         'title': title,
