@@ -44,4 +44,4 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add news2.db news2.json newsletter2.html
         git commit -m "Update news database, JSON and HTML"
-        git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+        git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" --rebase
