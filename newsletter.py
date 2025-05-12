@@ -347,9 +347,9 @@ class NewsletterGenerator:
             today_kst = today + timedelta(hours=9)
             date_str = today_kst.strftime('%Y%m%d')
             # WeatherAPI.com API 호출
-            url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
-            response1 = requests.get(url1)
-            data1 = response1.json()
+            # url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
+            # response1 = requests.get(url1)
+            # data1 = response1.json()
 
             # 기상청 API 호출
             url2 = f"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=FD9ka0vGVDdt0SsGDRnaLrR3HgNK5TWkLXgxL5IQ1dmSmLhhDaBCRKgKXQLr%2Bd3iZNkcXAm56M82H3sxldhx5g%3D%3D&numOfRows=1000&pageNo=1&dataType=JSON&base_date={date_str}&base_time=0200&nx=61&ny=125"
@@ -357,10 +357,10 @@ class NewsletterGenerator:
             data2 = response2.json()
 
             # WeatherAPI.com에서 날씨 아이콘 가져오기
-            icon_url = None
-            if response1.status_code == 200:
-                condition = data1['forecast']['forecastday'][0]['day']['condition']
-                icon_url = f"https:{condition['icon']}"  # WeatherAPI.com은 이미 완전한 URL을 제공
+            # icon_url = None
+            # if response1.status_code == 200:
+            #     condition = data1['forecast']['forecastday'][0]['day']['condition']
+            #     icon_url = f"https:{condition['icon']}"  # WeatherAPI.com은 이미 완전한 URL을 제공
 
             # 기상청 API에서 온도 정보 추출
             temp_min = None
@@ -407,7 +407,6 @@ class NewsletterGenerator:
                     </div>
                     <div style="border: 0px; padding: 0px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; align-self: stretch; position: relative; flex-shrink: 0;">
                         <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 13px; font-weight: 700; text-transform: uppercase;">{date_str}
-                            <img src="{weather_info['icon_url']}" style="height: 4em; vertical-align: middle;">
                             <span>{weather_info['temp_min']}℃ ~ {weather_info['temp_max']}℃</span>
                         </div>
                     </div>
