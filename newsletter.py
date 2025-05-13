@@ -378,7 +378,7 @@ class NewsletterGenerator:
             return {
                 'temp_min': temp_min,
                 'temp_max': temp_max,
-                'icon_url': icon_url  # WeatherAPI.com에서 가져온 아이콘 URL
+                # 'icon_url': icon_url  # WeatherAPI.com에서 가져온 아이콘 URL
             }
         except Exception as e:
             print(f"날씨 정보 가져오기 실패: {str(e)}")
