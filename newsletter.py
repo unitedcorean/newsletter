@@ -390,7 +390,7 @@ class NewsletterGenerator:
         date_str = today_kst.strftime("%Y년 %m월 %d일(%a)")
         all_news = []
         
-        weather_info = self.get_weather_info()
+        # weather_info = self.get_weather_info()
         
         newsletter_html = f"""
         <!DOCTYPE html>
