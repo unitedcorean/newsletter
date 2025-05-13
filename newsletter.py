@@ -341,48 +341,48 @@ class NewsletterGenerator:
         except Exception:
             return "요약 생성 실패"
     
-    def get_weather_info(self):
-        try:
-            today = datetime.now()
-            today_kst = today + timedelta(hours=9)
-            date_str = today_kst.strftime('%Y%m%d')
-            # WeatherAPI.com API 호출
-            # url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
-            # response1 = requests.get(url1)
-            # data1 = response1.json()
+    # def get_weather_info(self):
+    #     try:
+    #         today = datetime.now()
+    #         today_kst = today + timedelta(hours=9)
+    #         date_str = today_kst.strftime('%Y%m%d')
+    #         # WeatherAPI.com API 호출
+    #         # url1 = f"http://api.weatherapi.com/v1/forecast.json?key=0e50741b3c7142e9b2773529250101&q=Seoul&days=1&aqi=no"
+    #         # response1 = requests.get(url1)
+    #         # data1 = response1.json()
 
-            # 기상청 API 호출
-            url2 = f"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=FD9ka0vGVDdt0SsGDRnaLrR3HgNK5TWkLXgxL5IQ1dmSmLhhDaBCRKgKXQLr%2Bd3iZNkcXAm56M82H3sxldhx5g%3D%3D&numOfRows=1000&pageNo=1&dataType=JSON&base_date={date_str}&base_time=0200&nx=61&ny=125"
-            response2 = requests.get(url2)
-            data2 = response2.json()
+    #         # 기상청 API 호출
+    #         url2 = f"http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=FD9ka0vGVDdt0SsGDRnaLrR3HgNK5TWkLXgxL5IQ1dmSmLhhDaBCRKgKXQLr%2Bd3iZNkcXAm56M82H3sxldhx5g%3D%3D&numOfRows=1000&pageNo=1&dataType=JSON&base_date={date_str}&base_time=0200&nx=61&ny=125"
+    #         response2 = requests.get(url2)
+    #         data2 = response2.json()
 
-            # WeatherAPI.com에서 날씨 아이콘 가져오기
-            # icon_url = None
-            # if response1.status_code == 200:
-            #     condition = data1['forecast']['forecastday'][0]['day']['condition']
-            #     icon_url = f"https:{condition['icon']}"  # WeatherAPI.com은 이미 완전한 URL을 제공
+    #         # WeatherAPI.com에서 날씨 아이콘 가져오기
+    #         # icon_url = None
+    #         # if response1.status_code == 200:
+    #         #     condition = data1['forecast']['forecastday'][0]['day']['condition']
+    #         #     icon_url = f"https:{condition['icon']}"  # WeatherAPI.com은 이미 완전한 URL을 제공
 
-            # 기상청 API에서 온도 정보 추출
-            temp_min = None
-            temp_max = None
-            if response2.status_code == 200 and data2['response']['header']['resultCode'] == '00':
-                items = data2['response']['body']['items']['item']
+    #         # 기상청 API에서 온도 정보 추출
+    #         temp_min = None
+    #         temp_max = None
+    #         if response2.status_code == 200 and data2['response']['header']['resultCode'] == '00':
+    #             items = data2['response']['body']['items']['item']
 
-                for item in items:
-                    if item['fcstDate'] == date_str:  # fcstDate가 오늘 날짜인지 확인
-                        if item['category'] == 'TMX':  # 최고 기온
-                            temp_max = round(float(item['fcstValue']))
-                        elif item['category'] == 'TMN':  # 최저 기온
-                            temp_min = round(float(item['fcstValue']))
+    #             for item in items:
+    #                 if item['fcstDate'] == date_str:  # fcstDate가 오늘 날짜인지 확인
+    #                     if item['category'] == 'TMX':  # 최고 기온
+    #                         temp_max = round(float(item['fcstValue']))
+    #                     elif item['category'] == 'TMN':  # 최저 기온
+    #                         temp_min = round(float(item['fcstValue']))
 
-            return {
-                'temp_min': temp_min,
-                'temp_max': temp_max,
-                # 'icon_url': icon_url  # WeatherAPI.com에서 가져온 아이콘 URL
-            }
-        except Exception as e:
-            print(f"날씨 정보 가져오기 실패: {str(e)}")
-            return None
+    #         return {
+    #             'temp_min': temp_min,
+    #             'temp_max': temp_max,
+    #             # 'icon_url': icon_url  # WeatherAPI.com에서 가져온 아이콘 URL
+    #         }
+    #     except Exception as e:
+    #         print(f"날씨 정보 가져오기 실패: {str(e)}")
+    #         return None
         
     def generate_html(self):
         today = datetime.now()  # 현재 UTC 시간
@@ -407,7 +407,6 @@ class NewsletterGenerator:
                     </div>
                     <div style="border: 0px; padding: 0px; display: flex; flex-direction: row; align-items: center; justify-content: space-between; align-self: stretch; position: relative; flex-shrink: 0;">
                         <div style="color: #292929; text-align: left; font-family: 'Arial'; font-size: 13px; font-weight: 700; text-transform: uppercase;">{date_str}
-                            <span>{weather_info['temp_min']}℃ ~ {weather_info['temp_max']}℃</span>
                         </div>
                     </div>
                 </div>
