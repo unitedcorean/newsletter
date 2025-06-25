@@ -58,6 +58,11 @@ class NewsletterGenerator:
                 "count": 10
             },
             {
+                "topic": "ESS",
+                "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
+                "count": 10
+            },
+            {
                 "topic": "에너지수요관리",
                 "keywords": ["히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"],
                 "count": 10
@@ -67,11 +72,6 @@ class NewsletterGenerator:
                 "keywords": ["탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"],
                 "count": 10
             },      
-            {
-                "topic": "ESS",
-                "keywords": ["에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"],
-                "count": 10
-            },
             {
                 "topic": "에너지안전",
                 "keywords": ["(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"],
