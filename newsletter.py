@@ -418,6 +418,51 @@ class NewsletterGenerator:
                     <div><a href="https://bit.ly/ketepnews" style="text-decoration: none; color: #292929;">https://bit.ly/ketepnews</a></div>
                 </div>
             </div>
+            <div style="background: #f8f8f8; border: 1px solid #e6e6e6; border-radius: 4px; width: 850px; margin: 0 auto 0 auto; padding: 18px 20px; display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 16px; box-sizing: border-box;">
+                <!-- 좌측: databus 안내 -->
+                <div style="flex: 0 0 230px; min-width: 180px;">
+                  <div style="font-size: 15px; font-weight: 700; color: #222; margin-bottom: 15px;">🎓 정부권장교육(AI, 데이터)</div>
+                  <a href="https://databus.kr" style="color: #0066cc; font-size: 13px; text-decoration: none;">AI 데이터 역량강화 교육</a>
+                </div>
+                <!-- 중앙: 무료교육사이트 -->
+                <div style="flex: 0 0 230px; min-width: 180px; gap: 6px;">
+                    <div style="font-size: 15px; font-weight: 700; color: #222; margin-bottom: 15px;">📚 무료교육(AI, 데이터)</div>
+                    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; margin-bottom: 2px;">
+                    <a href="https://www.boostcourse.org/opencourse" style="color:#0066cc; text-decoration:none;">네이버 부스트코스</a>
+                    <a href="https://alpha-campus.kr/kirdSpecial/list?kirdSpecialClassification1=0a737204-2ae8-45ef-8625-98400b8ac9f5" style="color:#0066cc; text-decoration:none;">과학기술인 알파캠퍼스</a>
+                    <a href="https://academy.openai.com/" style="color:#0066cc; text-decoration:none;">OpenAI Academy</a>
+                    <a href="https://huggingface.co/learn" style="color:#0066cc; text-decoration:none;">Hugging Face Learn</a>
+                    </div>
+                </div>
+                <!-- 우측: 유튜브 추천 -->
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+                  <div style="font-size: 15px; font-weight: 700; color: #222; margin-bottom: 8px;">▶️ Youtube(AI)</div>
+                  <div style="display: flex; align-items: center; font-size: 13px; margin-bottom: 2px;">
+                    <span style="font-weight:600; min-width: 50px; color:#444;">AI 이론</span>
+                    <a href="https://www.youtube.com/@3blue1brown" style="color:#0066cc; text-decoration:none; margin-right:6px;">3Blue1Brown</a>
+                    <a href="https://www.youtube.com/@code4AI" style="color:#0066cc; text-decoration:none; margin-right:6px;">Discover AI</a>
+                    <a href="https://www.youtube.com/@statquest" style="color:#0066cc; text-decoration:none;">StatQuest</a>
+                  </div>
+                  <div style="display: flex; align-items: center; font-size: 13px; margin-bottom: 2px;">
+                    <span style="font-weight:600; min-width: 50px; color:#444;">AI 동향</span>
+                    <a href="https://www.youtube.com/@jocoding" style="color:#0066cc; text-decoration:none; margin-right:6px;">조코딩</a>
+                    <a href="https://www.youtube.com/@unrealtech" style="color:#0066cc; text-decoration:none; margin-right:6px;">안될공학</a>
+                    <a href="https://www.youtube.com/@chester_roh" style="color:#0066cc; text-decoration:none;">노정석</a>
+                  </div>
+                  <div style="display: flex; align-items: center; font-size: 13px; margin-bottom: 2px;">
+                    <span style="font-weight:600; min-width: 50px; color:#444;">AI 활용</span>
+                    <a href="https://www.youtube.com/@평범한사업가" style="color:#0066cc; text-decoration:none; margin-right:6px;">평범한사업가</a>
+                    <a href="https://www.youtube.com/@oppadu" style="color:#0066cc; text-decoration:none; margin-right:6px;">오빠두엑셀</a>
+                    <a href="https://www.youtube.com/@easyworkingai" style="color:#0066cc; text-decoration:none;">일하는 ai</a>
+                  </div>
+                  <div style="display: flex; align-items: center; font-size: 13px;">
+                    <span style="font-weight:600; min-width: 50px; color:#444;">AI 개발</span>
+                    <a href="https://www.youtube.com/@aischool_ai" style="color:#0066cc; text-decoration:none; margin-right:6px;">AISchool</a>
+                    <a href="https://www.youtube.com/@teddynote" style="color:#0066cc; text-decoration:none; margin-right:6px;">테디노트</a>
+                    <a href="https://www.youtube.com/@pyhwpx" style="color:#0066cc; text-decoration:none;">일상의 코딩</a>
+                  </div>
+                </div>
+            </div>
         """
         
         for group_idx, group in enumerate(self.keyword_groups):
