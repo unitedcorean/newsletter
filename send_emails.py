@@ -20,6 +20,28 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://news-385f0-default-rtdb.asia-southeast1.firebasedatabase.app'  # Firebase 데이터베이스 URL로 변경
 })
 
+def clean_html_content(html_content):
+    """HTML 콘텐츠에서 ASCII 문제를 일으킬 수 있는 특수 문자들을 정리합니다."""
+    # 각종 특수 공백 및 문자 정리
+    replacements = {
+        '\xa0': ' ',      # non-breaking space
+        '\u00a0': ' ',    # non-breaking space (다른 표현)
+        '\u2013': '-',    # en dash
+        '\u2014': '-',    # em dash
+        '\u2018': "'",    # left single quotation mark
+        '\u2019': "'",    # right single quotation mark
+        '\u201c': '"',    # left double quotation mark
+        '\u201d': '"',    # right double quotation mark
+        '\u2026': '...',  # horizontal ellipsis
+        '\u00b7': '·',    # middle dot
+        '\u2022': '•',    # bullet
+    }
+    
+    for old_char, new_char in replacements.items():
+        html_content = html_content.replace(old_char, new_char)
+    
+    return html_content
+
 def get_subscribers():
     """Firebase에서 구독자 목록을 가져옵니다."""
     ref = db.reference('subscribers')
@@ -36,6 +58,12 @@ def send_bulk_email(subscribers, subject, html_content):
 
     sender_email = os.environ.get('SENDER_EMAIL')
     sender_password = os.environ.get('SENDER_PASSWORD')
+
+    # HTML 콘텐츠 정리
+    html_content = clean_html_content(html_content)
+    
+    # 제목도 정리
+    subject = clean_html_content(subject)
 
     # 메일 기본 설정
     message = MIMEMultipart('alternative')
@@ -84,7 +112,6 @@ def main():
     try:
         with open('newsletter.html', 'r', encoding='utf-8') as f:
             html_content = f.read()
-            html_content = html_content.replace('\xa0', ' ')  # non-breaking space를 일반 공백으로 변경
     except FileNotFoundError:
         print("newsletter.html 파일을 찾을 수 없습니다.")
         return
