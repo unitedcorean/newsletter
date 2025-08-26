@@ -3,6 +3,8 @@ import json
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.header import Header
+from email.utils import formataddr
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
@@ -37,7 +39,7 @@ def send_bulk_email(subscribers, subject, html_content):
 
     # 메일 기본 설정
     message = MIMEMultipart('alternative')
-    message['Subject'] = subject
+    message['Subject'] = Header(subject, 'utf-8').encode()
     message['From'] = sender_email
     message['To'] = 'kimyh@ketep.re.kr'#sender_email  # 발신자 주소를 수신자로 설정
     #message['Bcc'] = ', '.join(subscribers)  # 모든 구독자를 BCC로 설정
