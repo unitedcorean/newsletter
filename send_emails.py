@@ -39,10 +39,10 @@ def send_bulk_email(subscribers, subject, html_content):
 
     # 메일 기본 설정
     message = MIMEMultipart('alternative')
-    message['Subject'] = Header(subject, 'utf-8').encode()
-    message['From'] = sender_email
+    message['Subject'] = Header(subject.encode('utf-8'), 'utf-8').encode()
+    message['From'] = formataddr((sender_email, sender_email))
     message['To'] = sender_email  # 발신자 주소를 수신자로 설정
-    message['Bcc'] = ','.join(subscribers)  # 모든 구독자를 BCC로 설정
+    message['Bcc'] = ','.join(email.replace('\xa0', ' ').strip() for email in subscribers) # 모든 구독자를 BCC로 설정
 
     html_part = MIMEText(html_content, 'html', 'utf-8')
     message.attach(html_part)
