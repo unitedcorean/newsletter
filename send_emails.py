@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 import time
 from dotenv import load_dotenv
 
+os.environ['PYTHONIOENCODING'] = 'utf8'
 load_dotenv()
 # Firebase 초기화
 cred_dict = json.loads(os.environ.get('FIREBASE_CREDENTIALS'))
