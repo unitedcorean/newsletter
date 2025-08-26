@@ -42,7 +42,7 @@ def send_bulk_email(subscribers, subject, html_content):
     message['To'] = 'kimyh@ketep.re.kr'#sender_email  # 발신자 주소를 수신자로 설정
     #message['Bcc'] = ', '.join(subscribers)  # 모든 구독자를 BCC로 설정
 
-    html_part = MIMEText(html_content, 'html')
+    html_part = MIMEText(html_content, 'html', 'utf-8')
     message.attach(html_part)
 
     try:
