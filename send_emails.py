@@ -82,6 +82,7 @@ def main():
     try:
         with open('newsletter.html', 'r', encoding='utf-8') as f:
             html_content = f.read()
+            html_content = html_content.replace('\xa0', ' ')  # non-breaking space를 일반 공백으로 변경
     except FileNotFoundError:
         print("newsletter.html 파일을 찾을 수 없습니다.")
         return
