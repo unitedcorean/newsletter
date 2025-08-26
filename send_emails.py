@@ -46,7 +46,7 @@ def send_bulk_email(subscribers, subject, html_content):
     message.attach(html_part)
 
     try:
-        with smtplib.SMTP_SSL('smtp.gmail.com', 587) as server:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(sender_email, sender_password)
             server.send_message(message)
         print(f"이메일 발송 성공: 총 {len(subscribers)}명의 구독자에게 발송됨")
