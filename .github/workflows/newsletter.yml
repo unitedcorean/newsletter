@@ -38,6 +38,7 @@ jobs:
         pwd
         echo "Files in current directory:"
         ls -l $GITHUB_WORKSPACE
+
     - name: Commit newsletter.html to main
       run: |
         git config --global user.name "github-actions[bot]"
@@ -45,7 +46,6 @@ jobs:
         git checkout main
         git add newsletter.html
         git commit -m "Update newsletter.html" || echo "No changes to commit"
-        git pull origin main --rebase
         git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
 
     # news.db, news.json → GitHub Pages(gh-pages 브랜치) 배포
