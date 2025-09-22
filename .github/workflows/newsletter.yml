@@ -38,11 +38,37 @@ jobs:
         pwd
         echo "Files in current directory:"
         ls -l $GITHUB_WORKSPACE
-    - name: Commit and push generated files to repository
+    - name: Commit newsletter.html to main
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add news.db news.json newsletter.html
-        git commit -m "Update news database, JSON and HTML"
+        git checkout main
+        git add newsletter.html
+        git commit -m "Update newsletter.html" || echo "No changes to commit"
         git pull origin main --rebase
         git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+
+    # news.db, news.json → GitHub Pages(gh-pages 브랜치) 배포
+    - name: Prepare public dir
+      run: |
+        mkdir -p public
+        mv news.db news.json public/
+
+    - name: Upload artifact for Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./public
+
+  deploy:
+    runs-on: macos-latest
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
