@@ -477,7 +477,7 @@
         // Fetch and load news data
         async function loadNews() {
             try {
-                const response = await fetch('news.json');
+                const response = await fetch('https://unitedcorean.github.io/newsletter/news.json');
                 allNews = await response.json();
                 updateTopicList();
                 displayNews();
@@ -921,3 +921,4 @@
     </script>
 </body>
 </html>
+
