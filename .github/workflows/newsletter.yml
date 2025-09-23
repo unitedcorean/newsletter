@@ -74,7 +74,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-# 기존 steps 뒤에 추가/수정
+      - name: Checkout main
+        uses: actions/checkout@v4
       - name: Deploy news.json to gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
