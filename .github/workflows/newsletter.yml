@@ -45,7 +45,7 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git fetch origin main
         git checkout main
-        git add newsletter.html data/current.json
+        git add newsletter.html data/2025-09.json
         git commit -m "Update newsletter.html and current.json" || echo "No changes to commit"
         git pull origin main --rebase || echo "No changes to rebase"
         git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" main
