@@ -148,7 +148,7 @@ class NewsletterGenerator:
 
     
     def append_to_current(self, new_articles):
-        current_path = "data/current.json"
+        current_path = "data/2025-09.json"
         os.makedirs(os.path.dirname(current_path), exist_ok=True)
     
         # 기존 current.json 불러오기
