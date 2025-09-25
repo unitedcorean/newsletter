@@ -91,11 +91,9 @@ class NewsletterGenerator:
         
     def save_to_db(self, news_list):
         try:
-            # SQLite 데이터베이스 연결
             conn = sqlite3.connect('news.db')
             cursor = conn.cursor()
             
-            # 테이블 생성 (original_url을 UNIQUE로 설정)
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS news (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -109,49 +107,79 @@ class NewsletterGenerator:
                 )
             ''')
             
-            # 저장된 기사 수와 중복 기사 수를 추적
             saved_count = 0
             duplicate_count = 0
+            new_articles = []   # ⭐ 신규 기사 저장
             
-            # 뉴스 리스트를 데이터베이스에 저장
             for news in news_list:
-                try:
-                    cursor.execute('''
-                        INSERT OR IGNORE INTO news 
-                        (topic, keywords, title, press, date, original_url, content)
-                        VALUES (?, ?, ?, ?, ?, ?, ?)
-                    ''', (
-                        news['topic'], 
-                        news['search_keyword'], 
-                        news['title'], 
-                        news['press'], 
-                        news['date'], 
-                        news['original_url'],
-                        news['content']
-                    ))
-                    
-                    # rowcount가 1이면 새로운 기사가 저장된 것이고, 0이면 중복된 기사
-                    if cursor.rowcount == 1:
-                        saved_count += 1
-                    else:
-                        duplicate_count += 1
-                        
-                except sqlite3.IntegrityError:
+                cursor.execute('''
+                    INSERT OR IGNORE INTO news 
+                    (topic, keywords, title, press, date, original_url, content)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                ''', (
+                    news['topic'], 
+                    news['search_keyword'], 
+                    news['title'], 
+                    news['press'], 
+                    news['date'], 
+                    news['original_url'],
+                    news['content']
+                ))
+                
+                if cursor.rowcount == 1:   # 새로 저장된 경우만
+                    saved_count += 1
+                    new_articles.append(news)
+                else:
                     duplicate_count += 1
-                    continue
             
-            # 변경사항 저장
             conn.commit()
+            conn.close()
             
-            # 저장 결과 출력
             print(f"새로 저장된 기사: {saved_count}개")
             print(f"중복된 기사: {duplicate_count}개")
             
-            conn.close()
+            if new_articles:
+                self.append_to_current(new_articles)
+    
             return 'news.db'
         except Exception as e:
             print(f"DB 저장 중 오류 발생: {str(e)}")
             return None
+
+    
+    def append_to_current(self, new_articles):
+        current_path = "newsletter/data/current.json"
+        os.makedirs(os.path.dirname(current_path), exist_ok=True)
+    
+        # 기존 current.json 불러오기
+        if os.path.exists(current_path):
+            with open(current_path, "r", encoding="utf-8") as f:
+                try:
+                    existing_data = json.load(f)
+                except json.JSONDecodeError:
+                    existing_data = []
+        else:
+            existing_data = []
+    
+        # ⭐ new_articles(DB 스키마) → JSON 스키마 변환
+        normalized_articles = [{
+            "topic": n["topic"],
+            "keywords": n["search_keyword"],   # ✅ JSON 스키마에 맞춤
+            "title": n["title"],
+            "press": n["press"],
+            "date": n["date"],
+            "original_url": n["original_url"],
+            "content": n["content"]
+        } for n in new_articles]
+    
+        # 기존 데이터 + 신규 기사 합치기
+        updated_data = existing_data + normalized_articles
+    
+        # 다시 저장
+        with open(current_path, "w", encoding="utf-8") as f:
+            json.dump(updated_data, f, ensure_ascii=False, indent=4)
+    
+        print(f"✅ current.json에 {len(normalized_articles)}개 기사 append 완료")
 
     def export_to_json(self):
         try:
