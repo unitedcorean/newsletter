@@ -477,12 +477,38 @@
         // Fetch and load news data
         async function loadNews() {
             try {
-                const response = await fetch('https://unitedcorean.github.io/newsletter/news.json?');
-                allNews = await response.json();
+                // index.json을 먼저 로드하여 파일 목록 가져오기
+                const indexResponse = await fetch('data/index.json');
+                const indexData = await indexResponse.json();
+                
+                // 모든 뉴스 데이터를 저장할 배열
+                allNews = [];
+                
+                // 각 월별 파일을 병렬로 로드
+                const loadPromises = indexData.months.map(async (monthFile) => {
+                    try {
+                        const response = await fetch(`data/${monthFile}.json`);
+                        const newsData = await response.json();
+                        return newsData;
+                    } catch (error) {
+                        console.error(`Error loading ${monthFile}.json:`, error);
+                        return [];
+                    }
+                });
+                
+                // 모든 파일 로드 완료 대기
+                const allNewsArrays = await Promise.all(loadPromises);
+                
+                // 모든 뉴스 데이터를 하나의 배열로 합치기
+                allNews = allNewsArrays.flat();
+                
+                console.log(`총 ${allNews.length}개의 뉴스 기사를 로드했습니다.`);
+                
                 updateTopicList();
                 displayNews();
             } catch (error) {
-                console.error('Error loading news:', error);
+                console.error('뉴스 데이터 로드 중 오류 발생:', error);
+                alert('뉴스 데이터를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침해주세요.');
             }
         }
 
@@ -921,7 +947,6 @@
     </script>
 </body>
 </html>
-
 
 
 
