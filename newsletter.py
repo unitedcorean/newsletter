@@ -161,25 +161,41 @@ class NewsletterGenerator:
         else:
             existing_data = []
     
-        # ⭐ new_articles(DB 스키마) → JSON 스키마 변환
-        normalized_articles = [{
-            "topic": n["topic"],
-            "keywords": n["search_keyword"],   # ✅ JSON 스키마에 맞춤
-            "title": n["title"],
-            "press": n["press"],
-            "date": n["date"],
-            "original_url": n["original_url"],
-            "content": n["content"]
-        } for n in new_articles]
+        # 기존 기사들의 URL 집합 생성 (중복 체크용)
+        existing_urls = {article["original_url"] for article in existing_data}
+        
+        # ⭐ new_articles(DB 스키마) → JSON 스키마 변환 + 중복 제거
+        normalized_articles = []
+        duplicate_count = 0
+        
+        for n in new_articles:
+            # URL이 이미 존재하는지 확인
+            if n["original_url"] not in existing_urls:
+                normalized_articles.append({
+                    "topic": n["topic"],
+                    "keywords": n["search_keyword"],   # ✅ JSON 스키마에 맞춤
+                    "title": n["title"],
+                    "press": n["press"],
+                    "date": n["date"],
+                    "original_url": n["original_url"],
+                    "content": n["content"]
+                })
+                # 새로 추가된 URL을 집합에 추가 (같은 배치 내 중복도 방지)
+                existing_urls.add(n["original_url"])
+            else:
+                duplicate_count += 1
     
-        # 기존 데이터 + 신규 기사 합치기
+        # 기존 데이터 + 신규 기사(중복 제거된) 합치기
         updated_data = existing_data + normalized_articles
     
         # 다시 저장
         with open(current_path, "w", encoding="utf-8") as f:
             json.dump(updated_data, f, ensure_ascii=False, indent=4)
     
-        print(f"✅ current.json에 {len(normalized_articles)}개 기사 append 완료")
+        print(f"✅ 2025-09.json에 {len(normalized_articles)}개 신규 기사 추가 완료")
+        if duplicate_count > 0:
+            print(f"⚠️  {duplicate_count}개 중복 기사 제외됨")
+        print(f"📊 전체 기사 수: {len(updated_data)}개")
 
     def export_to_json(self):
         try:
