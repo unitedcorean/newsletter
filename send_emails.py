@@ -63,7 +63,7 @@ def send_bulk_email(subscribers, subject, html_content):
         return False
 
 def send_emails_in_batches(subscribers, subject, html_content,
-                           batch_size=40, base_wait=90, max_retries=3):
+                           batch_size=20, base_wait=120, max_retries=3):
     """
     구독자를 여러 배치로 나누어 안전하게 발송.
     - batch_size: 각 BCC 그룹당 인원 수 (기본 40)
