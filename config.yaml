@@ -1,0 +1,110 @@
+# Newsletter Configuration
+newsletters:
+  energy:
+    output_html: "newsletter.html"
+    db_name: "news.db"
+    monthly_json_enabled: true  # 월별 JSON 저장 활성화
+    monthly_json_dir: "data"    # 월별 JSON 폴더
+
+    topics:
+      - name: "에기평"
+        keywords:
+          - "에기평 OR 에너지기술평가원 OR 원장이승재 OR KETEP"
+        count: 10
+
+      - name: "기후에너지환경부"
+        keywords:
+          - "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)"
+        count: 10
+
+      - name: "원자력"
+        keywords:
+          - "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료"
+        count: 10
+
+      - name: "수소, 연료전지"
+        keywords:
+          - "수소 OR 연료전지 OR 수전해 OR 개질"
+        count: 10
+
+      - name: "태양광"
+        keywords:
+          - "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트"
+        count: 10
+
+      - name: "풍력"
+        keywords:
+          - "풍력 OR 해상변전소"
+        count: 10
+
+      - name: "전력"
+        keywords:
+          - "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드"
+        count: 10
+
+      - name: "ESS"
+        keywords:
+          - "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기"
+        count: 10
+
+      - name: "에너지수요관리"
+        keywords:
+          - "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응"
+        count: 10
+
+      - name: "자원, CCUS"
+        keywords:
+          - "탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)"
+        count: 10
+
+      - name: "에너지안전"
+        keywords:
+          - "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가"
+        count: 10
+
+      - name: "기술사업화"
+        keywords:
+          - "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)"
+        count: 10
+
+  ai:
+    output_html: "newsletter2.html"
+    db_name: "news2.db"
+    monthly_json_enabled: false  # AI 뉴스는 월별 JSON 저장 안함
+
+    topics:
+      - name: "AI + 정부"
+        keywords:
+          - "(AI OR 인공지능) (정부 OR 행정 OR 국가)"
+        count: 10
+
+      - name: "AI + 교육, 행사"
+        keywords:
+          - "(AI OR 인공지능) (교육 OR 컨퍼런스 OR 행사 OR 포럼)"
+        count: 10
+
+      - name: "AI + 에너지, 데이터센터"
+        keywords:
+          - "(AI OR 인공지능) (에너지 OR 데이터센터)"
+        count: 10
+
+      - name: "정보보안"
+        keywords:
+          - "정보 AND 보안"
+        count: 10
+
+      - name: "공공데이터"
+        keywords:
+          - "(공공 AND 데이터) (활용 OR 개방)"
+        count: 10
+
+# 공통 설정
+common:
+  period: "일단위"  # "일단위", "주단위", "월단위" 중 선택
+  interval_time: 5
+  openai_model: "gpt-4o-mini"
+  locale: "ko_KR.UTF-8"
+
+  # 품질 필터 (향후 확장용)
+  min_content_length: 0  # 최소 콘텐츠 길이 (0 = 비활성화)
+  spam_keywords: []  # 스팸 키워드 리스트
