@@ -14,12 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 전체 히스토리를 가져옵니다
 
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
         python-version: "3.11"
-        cache: 'pip'  # pip caching for faster builds
+        cache: 'pip'
 
     - name: Install dependencies
       run: |
@@ -41,6 +43,9 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+        # Pull latest changes first
+        git pull origin main --rebase
+
         # Energy newsletter files
         git add newsletter.html data/*.json data/index.json || true
 
@@ -52,7 +57,6 @@ jobs:
           echo "No changes to commit"
         else
           git commit -m "Update newsletters $(date +'%Y-%m-%d')"
-          git pull origin main --rebase
           git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" main
         fi
       env:
