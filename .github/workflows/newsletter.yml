@@ -1,17 +1,53 @@
-- name: Run newsletter generator
-  run: python newsletter_generator.py
+# Unified Newsletter Generation Workflow
+# Uses config.yaml + newsletter_generator.py for both energy and AI newsletters
+name: newsletter
 
-- name: Commit newsletter files if changed
-  uses: stefanzweifel/git-auto-commit-action@v5
-  with:
-    commit_message: "Update newsletters ${{ github.run_id }} — $(date +'%Y-%m-%d %H:%M:%S KST')"
-    file_pattern: |
-      newsletter.html
-      newsletter2.html
-      data/*.json
-      data/index.json
-      news2.json
-    commit_user_name: github-actions[bot]
-    commit_user_email: github-actions[bot]@users.noreply.github.com
-    commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-    push_options: '--force-with-lease'   # 필요 시 (거의 안 씀)
+on:
+  schedule:
+    - cron: '5 21 * * *'  # UTC 21:05 = KST 06:05 (매일 한국 시간 새벽 6시 5분경 실행)
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main          # schedule에서 detached HEAD 방지 (main 브랜치 명시)
+          fetch-depth: 0     # 전체 히스토리 필요 시 유지
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Create .env file
+        run: |
+          echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Run newsletter generator
+        run: python newsletter_generator.py
+
+      - name: Commit newsletter files if changed
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "Update newsletters ${{ github.run_id }} — $(date +'%Y-%m-%d %H:%M:%S KST')"
+          file_pattern: |
+            newsletter.html
+            newsletter2.html
+            data/*.json
+            data/index.json
+            news2.json
+          commit_user_name: github-actions[bot]
+          commit_user_email: github-actions[bot]@users.noreply.github.com
+          commit_author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          push_options: '--force-with-lease'  # 안전한 force push (필요 없으면 제거 가능)
