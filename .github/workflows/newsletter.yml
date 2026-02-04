@@ -1,53 +1,59 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+# Unified Newsletter Generation Workflow
+# Uses config.yaml + newsletter_generator.py for both energy and AI newsletters
 
 name: newsletter
 
 on:
   schedule:
-    - cron: '0 21 * * *' # 24마다 시간 실행
+    - cron: '0 21 * * *'  # Daily at 21:00 UTC (KST 06:00 next day)
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Python 3.11
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: "3.11"
+        cache: 'pip'  # pip caching for faster builds
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: access to secrets
+
+    - name: Create .env file
       run: |
         echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
       env:
-        OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Run
-      run: |
-        python newsletter.py
-    - name: List files in the workspace
-      run: |
-        echo "Current directory:"
-        pwd
-        echo "Files in current directory:"
-        ls -l $GITHUB_WORKSPACE
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-    - name: Commit newsletter.html and current.json to main
+    - name: Run newsletter generator
+      run: |
+        python newsletter_generator.py
+
+    - name: Commit and push generated files
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git fetch origin main
-        git checkout main
-        git add newsletter.html data/2025-09.json
-        git commit -m "Update newsletter.html and current.json" || echo "No changes to commit"
-        git pull origin main --rebase || echo "No changes to rebase"
-        git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" main
 
+        # Energy newsletter files
+        git add newsletter.html data/*.json data/index.json || true
 
+        # AI newsletter files (exclude DB)
+        git add newsletter2.html news2.json || true
+
+        # Commit only if there are changes
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update newsletters $(date +'%Y-%m-%d')"
+          git pull origin main --rebase
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git" main
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
