@@ -88,7 +88,7 @@ class NewsletterGenerator:
 
     def collect_news(self, topic: Dict) -> List[Dict]:
         """토픽의 키워드로 뉴스 수집"""
-        keywords_combined = 'intext:' + ' OR '.join(topic['keywords'])
+        keywords_combined = topic['keywords'][0] if len(topic['keywords']) == 1 else ' OR '.join(topic['keywords'])
         return self.get_news(keywords_combined)
 
     def _fetch_article_content(self, item: Dict, interval_time: int) -> Dict:
