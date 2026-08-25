@@ -89,7 +89,8 @@ class NewsletterGenerator:
     def collect_news(self, topic: Dict) -> List[Dict]:
         """토픽의 키워드로 뉴스 수집"""
         keywords_combined = topic['keywords'][0] if len(topic['keywords']) == 1 else ' OR '.join(topic['keywords'])
-        return self.get_news(keywords_combined)
+        target_count = topic.get('count', 10)  # 분야별 목표 출력 개수
++       return self.get_news(keywords_combined, target_count)
 
     def _fetch_article_content(self, item: Dict, interval_time: int) -> Dict:
         """개별 뉴스 본문 수집 (병렬 처리용 헬퍼 함수)"""
@@ -151,7 +152,7 @@ class NewsletterGenerator:
         except Exception:
             return None
 
-    def get_news(self, keyword: str) -> List[Dict]:
+    def get_news(self, keyword: str, target_count: int = 10) -> List[Dict]:
         """GNews API로 뉴스 검색 및 수집"""
         period = self.common.get('period', '일단위')
 
@@ -165,7 +166,7 @@ class NewsletterGenerator:
             when = "1d"
 
         try:
-            gnews = GNews(language='ko', country='KR', period=when, max_results=10)
+            gnews = GNews(language='ko', country='KR', period=when, max_results=20, exclude_websites=['vietnam.vn'])
             news_items = gnews.get_news(keyword)
             interval_time = self.common.get('interval_time', 5)
 
@@ -182,7 +183,7 @@ class NewsletterGenerator:
                     if result:
                         news_list.append(result)
 
-            return news_list
+            return news_list[:target_count]
         except Exception as e:
             print(f"뉴스 검색 실패: {str(e)}")
             return []
