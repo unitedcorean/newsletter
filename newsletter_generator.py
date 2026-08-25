@@ -90,7 +90,7 @@ class NewsletterGenerator:
         """토픽의 키워드로 뉴스 수집"""
         keywords_combined = topic['keywords'][0] if len(topic['keywords']) == 1 else ' OR '.join(topic['keywords'])
         target_count = topic.get('count', 10)  # 분야별 목표 출력 개수
-+       return self.get_news(keywords_combined, target_count)
+        return self.get_news(keywords_combined, target_count)
 
     def _fetch_article_content(self, item: Dict, interval_time: int) -> Dict:
         """개별 뉴스 본문 수집 (병렬 처리용 헬퍼 함수)"""
