@@ -166,7 +166,7 @@ class NewsletterGenerator:
             when = "1d"
 
         try:
-            gnews = GNews(language='ko', country='KR', period=when, max_results=20, exclude_websites=['vietnam.vn'])
+            gnews = GNews(language='ko', country='KR', period=when, max_results=20, exclude_websites=['vietnam.vn','www.plateamagazine.com'])
             news_items = gnews.get_news(keyword)
             interval_time = self.common.get('interval_time', 5)
 
