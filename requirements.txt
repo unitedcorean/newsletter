@@ -4,7 +4,7 @@ python-dotenv==0.19.1
 # News scraping and processing
 trafilatura==2.0.0
 gnews
-googlenewsdecoder>=0.1.7
+googlenewsdecoder=0.1.7
 newspaper3k==0.2.8
 
 # Language processing
