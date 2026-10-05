@@ -28,6 +28,18 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      - name: Verify critical imports
+        run: |
+          # selectolax 1.0 회귀(Modest 백엔드 제거)를 실행 전에 조기 감지한다.
+          python - <<'PY'
+          import selectolax
+          from googlenewsdecoder import new_decoderv1
+          print("selectolax", selectolax.version)
+          assert int(selectolax.version.split(".")[0]) < 1, \
+              "selectolax 1.0+ 는 googlenewsdecoder와 호환되지 않습니다 (Modest 백엔드 제거)"
+          print("imports OK")
+          PY
+
       - name: Create .env file
         run: |
           echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> .env
