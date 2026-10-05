@@ -31,14 +31,10 @@ jobs:
       - name: Verify critical imports
         run: |
           # selectolax 1.0 회귀(Modest 백엔드 제거)를 실행 전에 조기 감지한다.
-          python - <<'PY'
-          import selectolax
-          from googlenewsdecoder import new_decoderv1
-          print("selectolax", selectolax.version)
-          assert int(selectolax.version.split(".")[0]) < 1, \
-              "selectolax 1.0+ 는 googlenewsdecoder와 호환되지 않습니다 (Modest 백엔드 제거)"
-          print("imports OK")
-          PY
+          # YAML run 블록은 밑줄/백슬래시 줄바꿈이 깨지므로 importlib.metadata로
+          # 버전을 읽고 한 줄로 평평하게 유지한다.
+          python -c "import importlib.metadata as m, googlenewsdecoder; v=m.version('selectolax'); print('selectolax', v); assert int(v.split('.')[0]) < 1, 'selectolax 1.0+ is incompatible with googlenewsdecoder'; print('imports OK')"
+
 
       - name: Create .env file
         run: |
