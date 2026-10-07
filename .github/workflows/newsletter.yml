@@ -49,7 +49,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Update newsletters ${{ github.run_id }} — $(date +'%Y-%m-%d %H:%M:%S KST')"
-          file_pattern: 'newsletter.html newsletter2.html data/*.json data/index.json news2.json'
+          file_pattern: 'newsletter.html newsletter2.html data/*.json data/index.json'
           disable_globbing: true
           commit_user_name: github-actions[bot]
           commit_user_email: github-actions[bot]@users.noreply.github.com
