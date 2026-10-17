@@ -31,19 +31,19 @@
         // 방문자 카운팅 함수
         async function countVisitor() {
             const today = new Date().toISOString().split('T')[0];
-            
+
             // 전체 방문자 수 업데이트
             const totalRef = ref(db, 'visitors/total');
             await runTransaction(totalRef, (currentTotal) => {
                 return (currentTotal || 0) + 1;
             });
-            
+
             // 오늘 방문자 수 업데이트
             const todayRef = ref(db, `visitors/daily/${today}`);
             await runTransaction(todayRef, (currentCount) => {
                 return (currentCount || 0) + 1;
             });
-            
+
             // 월별 통계를 위한 업데이트
             const yearMonth = today.substring(0, 7);
             const monthlyRef = ref(db, `visitors/monthly/${yearMonth}`);
@@ -55,13 +55,13 @@
         // 방문자 수 표시 업데이트 함수
         function updateVisitorDisplay() {
             const today = new Date().toISOString().split('T')[0];
-            
+
             // 전체 방문자 수 가져오기
             const totalRef = ref(db, 'visitors/total');
             onValue(totalRef, (snapshot) => {
                 document.getElementById('totalVisitors').textContent = snapshot.val() || 0;
             });
-            
+
             // 오늘 방문자 수 가져오기
             const todayRef = ref(db, `visitors/daily/${today}`);
             onValue(todayRef, (snapshot) => {
@@ -73,12 +73,12 @@
         async function getVisitorStats() {
             const dailyRef = ref(db, 'visitors/daily');
             const monthlyRef = ref(db, 'visitors/monthly');
-            
+
             const [dailySnapshot, monthlySnapshot] = await Promise.all([
                 get(dailyRef),
                 get(monthlyRef)
             ]);
-            
+
             return {
                 daily: dailySnapshot.val(),
                 monthly: monthlySnapshot.val()
@@ -143,7 +143,7 @@
 
             try {
                 const isSubscribed = await checkSubscriptionStatus(email);
-                
+
                 if (isSubscribed) {
                     alert('이미 구독 중입니다.');
                     return;
@@ -156,7 +156,7 @@
                     email: email,
                     timestamp: Date.now()
                 });
-                
+
                 alert('구독이 완료되었습니다.');
                 emailInput.value = '';
                 updateButtonsState(false);
@@ -178,7 +178,7 @@
 
             try {
                 const isSubscribed = await checkSubscriptionStatus(email);
-                
+
                 if (!isSubscribed) {
                     alert('이미 구독이 취소되었습니다.');
                     return;
@@ -188,7 +188,7 @@
                 const subscriptionRef = ref(db, `subscribers/${sanitizedEmail}`);
 
                 await remove(subscriptionRef);
-                
+
                 alert('구독이 취소되었습니다.');
                 emailInput.value = '';
                 updateButtonsState(false);
@@ -223,7 +223,7 @@
 
                     <!-- Newsletter Section -->
                     <div class="mb-6">
-                        <button onclick="toggleSection('newsletterSection')" 
+                        <button onclick="toggleSection('newsletterSection')"
                                 class="flex items-center justify-between w-full text-sm font-semibold text-red-500 uppercase mb-2">
                             <span>뉴스브리핑</span>
                             <svg class="w-4 h-4 transform transition-transform" id="newsletterArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,17 +232,17 @@
                         </button>
                         <ul id="newsletterSection" class="space-y-2">
                             <li>
-                                <button onclick="setNewsletter(); return false;" 
+                                <button onclick="setNewsletter(); return false;"
                                         class="w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded newsletter-btn">
                                     오늘의 뉴스브리핑
                                 </button>
                             </li>
                         </ul>
                     </div>
-                    
+
                     <!-- Topics Section -->
                     <div class="mb-6">
-                        <button onclick="toggleSection('topicSection')" 
+                        <button onclick="toggleSection('topicSection')"
                                 class="flex items-center justify-between w-full text-sm font-semibold text-red-500 uppercase mb-2">
                             <span>아카이빙</span>
                             <svg class="w-4 h-4 transform transition-transform" id="topicArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -256,7 +256,7 @@
 
                     <!-- 주요사이트 섹션 -->
                     <div class="mb-6">
-                        <button onclick="toggleSection('websiteSection')" 
+                        <button onclick="toggleSection('websiteSection')"
                                 class="flex items-center justify-between w-full text-sm font-semibold text-red-500 uppercase mb-2">
                             <span>주요 사이트</span>
                             <svg class="w-4 h-4 transform transition-transform" id="websiteArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -265,97 +265,97 @@
                         </button>
                         <ul id="websiteSection" class="space-y-2">
                             <li>
-                                <a href="https://www.ketep.re.kr/brdartcl/boardarticleList.do?brd_id=BDIDX_2U0RE3CxayNmVL12M462Hn&srch_menu_nix=24T94cYy" 
+                                <a href="https://www.ketep.re.kr/brdartcl/boardarticleList.do?brd_id=BDIDX_2U0RE3CxayNmVL12M462Hn&srch_menu_nix=24T94cYy"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     에기평 공지사항
                                 </a>
                             </li>
                             <li>
-                                <a href="https://energy.ketep.re.kr/globalenergy/site/main/board/energy_news/list" 
+                                <a href="https://energy.ketep.re.kr/globalenergy/site/main/board/energy_news/list"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     에기평 세계에너지시장정보
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.motie.go.kr/kor/article/ATCL3f49a5a8c" 
+                                <a href="https://www.motie.go.kr/kor/article/ATCL3f49a5a8c"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     산업부 보도자료
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.msit.go.kr/bbs/list.do?sCode=user&mPid=208&mId=307" 
+                                <a href="https://www.msit.go.kr/bbs/list.do?sCode=user&mPid=208&mId=307"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     과기정통부 보도자료
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.korea.kr/" 
+                                <a href="https://www.korea.kr/"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     대한민국 정책브리핑
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.iea.org/news" 
+                                <a href="https://www.iea.org/news"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     IEA
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.eia.gov/" 
+                                <a href="https://www.eia.gov/"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     U.S. EIA
                                 </a>
                             </li>
                             <li>
-                                <a href="https://energy.ec.europa.eu/news_en" 
+                                <a href="https://energy.ec.europa.eu/news_en"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     EU ENERGY
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.bloomberg.com/industries/energy" 
+                                <a href="https://www.bloomberg.com/industries/energy"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     BLOOMBERG_ENERGY
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.reuters.com/business/energy/" 
+                                <a href="https://www.reuters.com/business/energy/"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     REUTERS_ENERGY
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.iaea.org/news" 
+                                <a href="https://www.iaea.org/news"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     IAEA
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.irena.org/News" 
+                                <a href="https://www.irena.org/News"
                                    target="_blank"
-                                   rel="noopener noreferrer" 
+                                   rel="noopener noreferrer"
                                    class="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-white rounded website-btn">
                                     IRENA
                                 </a>
@@ -367,9 +367,9 @@
                         <h2 class="text-sm font-semibold text-red-500 uppercase mb-2">뉴스브리핑 구독</h2>
                         <div class="bg-white p-4 rounded-lg shadow">
                             <div class="mb-3">
-                                <input type="email" 
-                                    id="subscriberEmail" 
-                                    placeholder="이메일 주소를 입력하세요" 
+                                <input type="email"
+                                    id="subscriberEmail"
+                                    placeholder="이메일 주소를 입력하세요"
                                     class="w-full px-3 py-2 text-sm border rounded focus:outline-none focus:border-red-500">
                             </div>
                             <div class="flex space-x-2">
@@ -400,22 +400,19 @@
 
         <!-- Main Content -->
         <div class="flex-1 p-8 bg-white" id="mainContent">
-            <iframe id="contentFrame" 
-                    style="display: none; width: 100%; height: 100vh; border: none;" 
+            <iframe id="contentFrame"
+                    style="display: none; width: 100%; height: 100vh; border: none;"
                     sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox"
                     name="newsletter"></iframe>
             <div id="newsContent">
                 <!-- Search Bar -->
                 <div class="mb-6 flex justify-between items-center">
                     <div class="flex-1 max-w-2xl">
-                        <input type="text" 
-                               id="searchInput" 
-                               placeholder="키워드 또는 언론사 검색" 
+                        <input type="text"
+                               id="searchInput"
+                               placeholder="키워드 또는 언론사 검색"
                                class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
                     </div>
-                    <button id="exportBtn" class="ml-4 bg-red-500 text-sm text-white px-4 py-2 rounded hover:bg-red-600">
-                        선택한 뉴스 내보내기
-                    </button>
                 </div>
 
                 <!-- Date Range and Page Size Filter -->
@@ -445,11 +442,10 @@
                         <table class="w-full table-fixed">
                             <thead>
                                 <tr class="bg-gray-50 text-sm">
-                                    <th class="p-3 w-1/12 text-left"><input type="checkbox" id="selectAll"></th>
-                                    <th class="p-3 w-2/12 text-left">분야</th>
+                                    <th class="p-3 w-1/12 text-left">분야</th>
                                     <th class="p-3 w-8/12 text-left">제목</th>
                                     <th class="p-3 w-2/12 text-left">언론사</th>
-                                    <th class="p-3 w-2/12 text-left">날짜</th>
+                                    <th class="p-3 w-1/12 text-left">날짜</th>
                                 </tr>
                             </thead>
                             <tbody id="newsList">
@@ -466,8 +462,7 @@
     </div>
 
     <script type="module">
-        import Papa from 'https://cdn.skypack.dev/papaparse';
-        
+
         let allNews = [];
         let currentPage = 1;
         let itemsPerPage = 15;
@@ -480,10 +475,10 @@
                 // index.json을 먼저 로드하여 파일 목록 가져오기
                 const indexResponse = await fetch('data/index.json');
                 const indexData = await indexResponse.json();
-                
+
                 // 모든 뉴스 데이터를 저장할 배열
                 allNews = [];
-                
+
                 // 각 월별 파일을 병렬로 로드
                 const loadPromises = indexData.months.map(async (monthFile) => {
                     try {
@@ -495,15 +490,15 @@
                         return [];
                     }
                 });
-                
+
                 // 모든 파일 로드 완료 대기
                 const allNewsArrays = await Promise.all(loadPromises);
-                
+
                 // 모든 뉴스 데이터를 하나의 배열로 합치기
                 allNews = allNewsArrays.flat();
-                
+
                 console.log(`총 ${allNews.length}개의 뉴스 기사를 로드했습니다.`);
-                
+
                 updateTopicList();
                 displayNews();
             } catch (error) {
@@ -514,8 +509,8 @@
 
         // 토픽 정렬 순서 정의
         const topicOrder = [
-            '에기평', '기후에너지환경부', '원자력', '수소, 연료전지', '태양광', 
-            '풍력', '전력', '에너지수요관리', '자원, CCUS', 'ESS', 
+            '에기평', '기후에너지환경부', '원자력', '수소, 연료전지', '태양광',
+            '풍력', '전력', '에너지수요관리', '자원, CCUS', 'ESS',
             '에너지안전', '기술사업화','산업부'
         ];
 
@@ -523,7 +518,7 @@
         function updateTopicList() {
             const topics = [...new Set(allNews.map(item => item.topic))];
             const topicList = document.getElementById('topicSection');
-            
+
             // 전체 뉴스 버튼
             topicList.innerHTML = `
                 <li>
@@ -533,7 +528,7 @@
                     </button>
                 </li>
             `;
-            
+
             // 정렬된 토픽 목록 생성
             const sortedTopics = topics
                 .filter(topic => topic) // null/undefined 제거
@@ -545,7 +540,7 @@
                     if (indexB === -1) return -1;
                     return indexA - indexB;
                 });
-            
+
             sortedTopics.forEach(topic => {
                 const li = document.createElement('li');
                 li.innerHTML = `
@@ -556,7 +551,7 @@
                 `;
                 topicList.appendChild(li);
             });
-            
+
             updateMenuHighlight();
         }
 
@@ -579,9 +574,9 @@
 
             let filtered = allNews.filter(news => {
                 if (currentTopic && news.topic !== currentTopic) return false;
-                
-                const matchSearch = !searchTerm || 
-                    news.title.toLowerCase().includes(searchTerm) || 
+
+                const matchSearch = !searchTerm ||
+                    news.title.toLowerCase().includes(searchTerm) ||
                     news.press.toLowerCase().includes(searchTerm) ||
                     (news.content && news.content.toLowerCase().includes(searchTerm));
 
@@ -616,16 +611,15 @@
                 const row = document.createElement('tr');
                 row.className = 'border-t hover:bg-gray-50 text-sm';
                 row.innerHTML = `
-                    <td class="p-3 w-1/12"><input type="checkbox" class="newsCheckbox" data-url="${news.original_url}"></td>
-                    <td class="p-3 w-2/12 truncate" title="${news.topic || '-'}">${news.topic || '-'}</td>
+                    <td class="p-3 w-1/12 truncate" title="${news.topic || '-'}">${news.topic || '-'}</td>
                     <td class="p-3 w-8/12 truncate" title="${news.title}">
-                        <a href="${news.original_url}" target="_blank" 
+                        <a href="${news.original_url}" target="_blank"
                            class="text-gray-900 hover:underline">
                             ${news.title}
                         </a>
                     </td>
                     <td class="p-3 w-2/12 truncate" title="${news.press}">${news.press}</td>
-                    <td class="p-3 w-2/12 truncate">${new Date(news.date).toLocaleDateString()}</td>
+                    <td class="p-3 w-1/12 truncate">${new Date(news.date).toLocaleDateString()}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -670,7 +664,7 @@
             // 페이지 번호 버튼
             let startPage = Math.max(1, currentPage - 4);
             let endPage = Math.min(startPage + 9, totalPages);
-            
+
             if (endPage - startPage < 9) {
                 startPage = Math.max(1, endPage - 9);
             }
@@ -715,123 +709,50 @@
             }
         }
 
-        // Export selected news to CSV
-        async function exportToCSV() {
-            try {
-                const selectedCheckboxes = document.querySelectorAll('.newsCheckbox:checked');
-                
-                if (selectedCheckboxes.length === 0) {
-                    alert('내보낼 뉴스를 선택해주세요.');
-                    return;
-                }
-
-                const selectedNews = Array.from(selectedCheckboxes).map(checkbox => {
-                    const url = checkbox.dataset.url;
-                    const newsItem = allNews.find(news => news.original_url === url);
-                    if (!newsItem) return null;
-                    
-                    return {
-                        '분야': newsItem.topic || '',
-                        '제목': newsItem.title || '',
-                        '언론사': newsItem.press || '',
-                        '날짜': new Date(newsItem.date).toLocaleDateString('ko-KR'),
-                        'URL': newsItem.original_url || '',
-                        '본문': newsItem.content || ''
-                    };
-                }).filter(item => item !== null);
-
-                if (selectedNews.length === 0) {
-                    throw new Error('선택된 뉴스 데이터를 처리할 수 없습니다.');
-                }
-
-                // CSV 파일 생성 설정
-                const csv = Papa.unparse(selectedNews, {
-                    delimiter: ",",
-                    header: true,
-                    skipEmptyLines: true
-                });
-                
-                // BOM 추가 및 CSV 컨텐츠 생성
-                const bomPrefix = new Uint8Array([0xEF, 0xBB, 0xBF]);
-                const csvBlob = new Blob([bomPrefix, csv], { 
-                    type: 'text/csv;charset=utf-8;' 
-                });
-                
-                // 안전한 파일명 생성
-                const safeDate = new Date().toISOString().split('T')[0];
-                const fileName = `뉴스목록_${safeDate}.csv`;
-                
-                // 다운로드 처리
-                const downloadUrl = URL.createObjectURL(csvBlob);
-                const link = document.createElement('a');
-                link.href = downloadUrl;
-                link.download = fileName;
-                
-                document.body.appendChild(link);
-                link.click();
-                
-                setTimeout(() => {
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(downloadUrl);
-                }, 100);
-
-            } catch (error) {
-                console.error('CSV 내보내기 오류:', error);
-                alert(`CSV 파일 생성 중 오류가 발생했습니다: ${error.message}`);
-            }
-        }
 
         // Event listeners
         document.getElementById('searchInput').addEventListener('input', () => {
             currentPage = 1;
             displayNews();
         });
-        
+
         document.getElementById('startDate').addEventListener('change', () => {
             currentPage = 1;
             displayNews();
         });
-        
+
         document.getElementById('endDate').addEventListener('change', () => {
             currentPage = 1;
             displayNews();
         });
-        
+
         document.getElementById('itemsPerPageSelect').addEventListener('change', (e) => {
             itemsPerPage = parseInt(e.target.value);
             currentPage = 1;
             displayNews();
-        });
-        
-        document.getElementById('exportBtn').addEventListener('click', exportToCSV);
-        
-        document.getElementById('selectAll').addEventListener('change', (e) => {
-            document.querySelectorAll('.newsCheckbox').forEach(checkbox => {
-                checkbox.checked = e.target.checked;
-            });
         });
 
         // 뉴스레터 로드 함수 수정
         window.loadNewsletterContent = function(url) {
             const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
-            
+
             // iframe 로드 이벤트 핸들러
             iframe.onload = function() {
                 try {
                     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    
+
                     // base target 설정
                     const baseEl = document.createElement('base');
                     baseEl.target = '_blank';
                     iframeDoc.head.appendChild(baseEl);
-                    
+
                     // 모든 링크에 대해 target="_blank" 추가
                     const links = iframeDoc.getElementsByTagName('a');
                     Array.from(links).forEach(link => {
                         link.target = '_blank';
                         link.rel = 'noopener noreferrer';
-                        
+
                         // 기존 onclick 이벤트를 제거하고 새 이벤트 리스너 추가
                         link.onclick = function(e) {
                             e.preventDefault();
@@ -842,7 +763,7 @@
                     console.error('iframe 설정 중 오류:', e);
                 }
             };
-            
+
             iframe.src = url;
             iframe.style.display = 'block';
             newsContent.style.display = 'none';
@@ -852,7 +773,7 @@
         function showNewsContent() {
             const iframe = document.getElementById('contentFrame');
             const newsContent = document.getElementById('newsContent');
-            
+
             iframe.style.display = 'none';
             newsContent.style.display = 'block';
         }
@@ -901,9 +822,9 @@
         window.toggleSection = function(sectionId) {
             const section = document.getElementById(sectionId);
             const arrow = document.getElementById(sectionId.replace('Section', 'Arrow'));
-            
+
             sectionStates[sectionId] = !sectionStates[sectionId];
-            
+
             if (sectionStates[sectionId]) {
                 section.style.display = 'block';
                 arrow.style.transform = 'rotate(0deg)';
@@ -918,7 +839,7 @@
             Object.keys(sectionStates).forEach(sectionId => {
                 const section = document.getElementById(sectionId);
                 const arrow = document.getElementById(sectionId.replace('Section', 'Arrow'));
-                
+
                 if (sectionStates[sectionId]) {
                     section.style.display = 'block';
                     arrow.style.transform = 'rotate(0deg)';
@@ -936,7 +857,7 @@
             updateMenuHighlight();
             showNewsContent();
             initializeSections();  // 섹션 초기화 추가
-            
+
             // 방문자 카운팅 및 표시 업데이트
             countVisitor();
             updateVisitorDisplay();
@@ -947,7 +868,3 @@
     </script>
 </body>
 </html>
-
-
-
-
