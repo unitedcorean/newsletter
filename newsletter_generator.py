@@ -203,8 +203,7 @@ class NewsletterGenerator:
                     title TEXT,
                     press TEXT,
                     date TEXT,
-                    original_url TEXT UNIQUE,
-                    content TEXT
+                    original_url TEXT UNIQUE
                 )
             ''')
 
@@ -214,16 +213,15 @@ class NewsletterGenerator:
             for news in news_list:
                 cursor.execute('''
                     INSERT OR IGNORE INTO news
-                    (topic, keywords, title, press, date, original_url, content)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    (topic, keywords, title, press, date, original_url)
+                    VALUES (?, ?, ?, ?, ?, ?)
                 ''', (
                     news['topic'],
                     news['search_keyword'],
                     news['title'],
                     news['press'],
                     news['date'],
-                    news['original_url'],
-                    news['content']
+                    news['original_url']
                 ))
 
                 if cursor.rowcount == 1:
@@ -246,7 +244,7 @@ class NewsletterGenerator:
             cursor = conn.cursor()
 
             cursor.execute("""
-                SELECT topic, keywords, title, press, date, original_url, content
+                SELECT topic, keywords, title, press, date, original_url
                 FROM news
                 ORDER BY date DESC, id DESC
             """)
@@ -258,8 +256,7 @@ class NewsletterGenerator:
                 "title": row[2],
                 "press": row[3],
                 "date": row[4],
-                "original_url": row[5],
-                "content": row[6]
+                "original_url": row[5]
             } for row in rows]
 
             json_filename = self.config['db_name'].replace('.db', '.json')
@@ -305,8 +302,7 @@ class NewsletterGenerator:
                     "title": article['title'],
                     "press": article['press'],
                     "date": article['date'],
-                    "original_url": article['original_url'],
-                    "content": article['content']
+                    "original_url": article['original_url']
                 })
                 existing_urls.add(article['original_url'])
                 new_count += 1
