@@ -20894,5 +20894,797 @@
         "press": "한국경제",
         "date": "Fri, 23 Oct 2026 06:23:33 GMT",
         "original_url": "https://www.hankyung.com/article/202610231375i"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "전기요금 인상? 인하? 호남 반도체 전력·용수 문제도…국감 쟁점 - 머니투데이 - 머니투데이",
+        "press": "머니투데이",
+        "date": "Sat, 24 Oct 2026 21:01:00 GMT",
+        "original_url": "https://www.mt.co.kr/index.php/economy/2026/10/25/2026102315572095007"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "KBS 김가람 기자, 재생에너지 발전 기후부 장관 표창 - KBS 뉴스",
+        "press": "KBS 뉴스",
+        "date": "Sat, 24 Oct 2026 12:28:00 GMT",
+        "original_url": "https://news.kbs.co.kr/news/view.do?ncd=8694363"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "전력 공공기관 산재 사고 1위‘위험의 외주화’, ‘다치는 곳’은 한전MCS, ‘사망’은 한국전력 하청업체 - 투데이안산",
+        "press": "투데이안산",
+        "date": "Sat, 24 Oct 2026 01:57:53 GMT",
+        "original_url": "http://www.todayansan.co.kr/news/articleViewAmp.html?idxno=39604"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "‘재생에너지의 날’ 첫 국가기념식…김기홍 한화솔루션 담당임원 은탑산업훈장·정승영 한국에너지기술평가원 본부장 석탑산업훈장 수상 - 넷제로뉴스",
+        "press": "넷제로뉴스",
+        "date": "Sat, 24 Oct 2026 11:38:00 GMT",
+        "original_url": "http://www.netzeronews.kr/news/articleView.html?idxno=6535"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "인천시, 하천·하구 쓰레기 정화사업 국비 1억 4630만 원 추가 확보 - 컨슈머타임스",
+        "press": "컨슈머타임스",
+        "date": "Sat, 24 Oct 2026 10:12:41 GMT",
+        "original_url": "https://www.cstimes.com/news/articleView.html?idxno=725167"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "전주천 상죽음보 철거 추진…2027년 4월 물길 연결 목표 - 비건뉴스",
+        "press": "비건뉴스",
+        "date": "Sat, 24 Oct 2026 09:36:17 GMT",
+        "original_url": "https://www.vegannews.co.kr/news/article.html?no=396531"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "재생에너지의 날 첫 정부 기념식 - 환경일보",
+        "press": "환경일보",
+        "date": "Sat, 24 Oct 2026 05:41:35 GMT",
+        "original_url": "https://www.hkbs.co.kr/news/articleView.html?idxno=836392"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "[포토뉴스]이호현 기후부 2차관, ‘2026 재생에너지의 날 기념식’ 참석 - BBS불교방송",
+        "press": "BBS불교방송",
+        "date": "Sat, 24 Oct 2026 03:50:42 GMT",
+        "original_url": "https://news.bbsi.co.kr/news/articleView.html?idxno=4114424"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "에너지·환경 창업기업 서류 절반 줄인다 - 환경일보",
+        "press": "환경일보",
+        "date": "Sat, 24 Oct 2026 06:15:14 GMT",
+        "original_url": "https://www.hkbs.co.kr/news/articleView.html?idxno=836390"
+    },
+    {
+        "topic": "기후에너지환경부",
+        "keywords": "(기후부 OR 기후에너지환경부 OR 기후에너지부) (에너지)",
+        "title": "박해철 의원, 시멘트 6가 크롬 검출치, 자율협약기준보다 낮아… 법적 기준 전환 서둘러야 - 투데이안산",
+        "press": "투데이안산",
+        "date": "Sat, 24 Oct 2026 01:57:54 GMT",
+        "original_url": "http://www.todayansan.co.kr/news/articleViewAmp.html?idxno=39603"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "수소 열전도도 분석기 시장 2035년 전망: 연료 품질 검사 기준이 성장 견인 - 뉴스 및 통계 - IndexBox",
+        "press": "IndexBox",
+        "date": "Sat, 24 Oct 2026 12:51:04 GMT",
+        "original_url": "https://www.indexbox.io/ko/blog/hydrogen-thermal-conductivity-analyzers-market-forecast-to-2035-driven-by-hydrogen-fuel-quality-testing-standards/"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "새만금 찾는 민주당 메가특위, 현대차 투자 ‘법·예산·규제’ 해소 속도 내야 - 전북도민일보",
+        "press": "전북도민일보",
+        "date": "Sat, 24 Oct 2026 02:05:00 GMT",
+        "original_url": "http://www.domin.co.kr/news/articleView.html?idxno=1572959&sc_section_code=S1N6"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "범한퓨얼셀 잠수함 연료전지 계약 종료일 앞당겨 - 비건뉴스",
+        "press": "비건뉴스",
+        "date": "Sat, 24 Oct 2026 21:27:31 GMT",
+        "original_url": "https://www.vegannews.co.kr/news/article.html?no=396684"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "캐나다, 달의 14일 밤 견딜 ‘원자력 열원’ 개발…우주 전력시장 선점 나서 - 에너지안전신문",
+        "press": "에너지안전신문",
+        "date": "Sat, 24 Oct 2026 01:28:28 GMT",
+        "original_url": "https://www.esnews.kr/news/articleView.html?idxno=6978"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "미코파워, 인도 최대 국영 전력사와 SOEC 파트너십 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 10:40:09 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32238"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "“얼음은 왜 물 위에 뜰까?”…수소 결합이 만든 밀도 차이 - 제주교통복지신문",
+        "press": "제주교통복지신문",
+        "date": "Sat, 24 Oct 2026 05:14:44 GMT",
+        "original_url": "http://www.jejutwn.com/news/article.html?no=464197"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "영덕군, 원전에서 수소·데이터센터까지…에너지산업 대전환 시동 - 메트로신문",
+        "press": "메트로신문",
+        "date": "Sat, 24 Oct 2026 10:33:29 GMT",
+        "original_url": "https://www.metroseoul.co.kr/article/20261023500202"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "장내 미생물 차이가 수소 보충제의 수면 개선 효과 좌우 - 메디컬투데이",
+        "press": "메디컬투데이",
+        "date": "Sat, 24 Oct 2026 03:55:01 GMT",
+        "original_url": "https://www.mdtoday.co.kr/news/articleView.html?idxno=620648"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "바이오세라 대표, ‘유럽 수소학회’ 공식 초청 … 글로벌 표준·안전 가이드라인 제시 - 파이낸스투데이",
+        "press": "파이낸스투데이",
+        "date": "Sat, 24 Oct 2026 06:49:44 GMT",
+        "original_url": "https://www.fntoday.co.kr/news/articleView.html?idxno=396156"
+    },
+    {
+        "topic": "수소, 연료전지",
+        "keywords": "수소 OR 연료전지 OR 수전해 OR 개질",
+        "title": "수소 펠리스터 센서 시장 2035년 전망: 연료전지 수요가 성장 뒷받침 - 뉴스 및 통계 - IndexBox",
+        "press": "IndexBox",
+        "date": "Sat, 24 Oct 2026 04:31:04 GMT",
+        "original_url": "https://www.indexbox.io/ko/blog/hydrogen-pellistor-sensors-market-forecast-to-2035-driven-by-expanding-hydrogen-fuel-cell-systems/"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "AI 전력대란에 원전 부활…2060년 수요 3배로 - 중소기업신문",
+        "press": "중소기업신문",
+        "date": "Sat, 24 Oct 2026 21:00:00 GMT",
+        "original_url": "http://www.smedaily.co.kr/news/articleView.html?idxno=365139"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "한수원노조·전력기술노조·사과넥 시민사회, 신규원전 지연 강력 규탄 - 한국원자력신문",
+        "press": "한국원자력신문",
+        "date": "Sat, 24 Oct 2026 08:15:44 GMT",
+        "original_url": "http://www.knpnews.com/news/articleView.html?idxno=34727"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "영국, SMR로 원자력 일자리 2배 확대 승부수…웨일스 산업 부활 시동 - 에너지안전신문",
+        "press": "에너지안전신문",
+        "date": "Sat, 24 Oct 2026 02:43:27 GMT",
+        "original_url": "https://www.esnews.kr/news/articleView.html?idxno=6982"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "[기획/경제] ⑫ 원전·SMR, 경쟁력의 조건은? - 기후에너지경제",
+        "press": "기후에너지경제",
+        "date": "Sat, 24 Oct 2026 07:23:55 GMT",
+        "original_url": "https://www.efn.co.kr/news/articleView.html?idxno=3150"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "AI패권 위해 원전 키우는 美, ‘팀 코리아’ 美에너지 굴기에 합류해야 - 매일경제",
+        "press": "매일경제",
+        "date": "Sat, 24 Oct 2026 20:35:00 GMT",
+        "original_url": "https://www.mk.co.kr/news/economy/12184525"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "IAEA \"2060년 원자력발전 수요 3배로 급증…AI 확산 영향 \" - 연합뉴스",
+        "press": "연합뉴스",
+        "date": "Sat, 24 Oct 2026 01:04:37 GMT",
+        "original_url": "https://www.yna.co.kr/view/AKR20261024020100009"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "영덕군, 원전·풍력 연계 미래 에너지산업 키운다 - 경북신문",
+        "press": "경북신문",
+        "date": "Sat, 24 Oct 2026 05:59:03 GMT",
+        "original_url": "https://www.kbsm.net/news/view.php?idx=538849"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "이철우 \"영덕 신규원전 환영.. 에너지 안보 거점\" - 안동MBC",
+        "press": "안동MBC",
+        "date": "Sat, 24 Oct 2026 13:53:06 GMT",
+        "original_url": "https://andongmbc.co.kr/main/news/news_view.php?num=83142&sfl=&stx="
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "[글로벌 원전 리포트] 美 세인트루시 원전 80년 운전 승인… 한국은 기존 원전 활용 어디까지 왔나 - 독립신문",
+        "press": "독립신문",
+        "date": "Sat, 24 Oct 2026 15:30:30 GMT",
+        "original_url": "https://www.ainews1.co.kr/news/articleView.html?idxno=37918"
+    },
+    {
+        "topic": "원자력",
+        "keywords": "원자력 OR 원자로 OR 원전 OR 방폐물 OR SMR OR 핵융합 OR 핵연료",
+        "title": "IAEA \"2060년 원자력 수요 현재의 3배 이상\"…AI 데이터센터가 끌어올린다 - 매일신문",
+        "press": "매일신문",
+        "date": "Sat, 24 Oct 2026 02:56:26 GMT",
+        "original_url": "https://www.imaeil.com/page/view/2026102411534571134"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "인피니언, 엔비디아와 800VDC AI 데이터센터용 GaN 기반 전력 변환 시스템 협력 - https://www.koreasprint.com/",
+        "press": "https://www.koreasprint.com/",
+        "date": "Sat, 24 Oct 2026 18:13:00 GMT",
+        "original_url": "https://www.koreasprint.com/news/articleView.html?idxno=21927"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "경동나비엔, HARFKO서 HVAC·생활공기솔루션 전시 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 11:04:40 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32246"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "인피니언, 엔비디아와 AI 데이터센터용 GaN 기반 전력변환 시스템 협력 - elec4",
+        "press": "elec4",
+        "date": "Sat, 24 Oct 2026 01:49:03 GMT",
+        "original_url": "https://elec4.co.kr/contents/article_detail?article_idx=38538"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "양평군, 2027년도 한강수계관리기금 특별지원사업비 105억 원 확보 - 뉴스폼",
+        "press": "뉴스폼",
+        "date": "Sat, 24 Oct 2026 13:38:16 GMT",
+        "original_url": "https://www.newsform.net/news/article.html?no=200544"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "대성히트에너시스, 친환경HP 풀 라인업 선봬 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 11:01:17 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32245"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "오텍캐리어, ‘2026 대한민국 ESG 친환경대전’ 참가 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 10:59:40 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32244"
+    },
+    {
+        "topic": "에너지수요관리",
+        "keywords": "히트펌프 OR 전동기 OR 유체기기 OR 전력변환 OR VPP OR 에너지효율 OR 수요자원 OR 수요반응",
+        "title": "[HARFKO 2026] 아시아 HP산업 현황·미래전략 공유 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 11:26:06 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32248"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "전력거래소-전력수요관리협회, 수요자원시장 고도화 ‘머리맞대’ - 한국원자력신문",
+        "press": "한국원자력신문",
+        "date": "Sat, 24 Oct 2026 06:46:25 GMT",
+        "original_url": "http://www.knpnews.com/news/articleViewAmp.html?idxno=34722"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "전력거래소, 전력수요관리협회와 소통 기회 확대 - 에너지플랫폼뉴스",
+        "press": "에너지플랫폼뉴스",
+        "date": "Fri, 23 Oct 2026 21:37:08 GMT",
+        "original_url": "http://www.e-platform.net/news/articleViewAmp.html?idxno=106379"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "불가리아, 배터리 저장에서 뜻밖의 유럽 선두주자로 - 초이스경제",
+        "press": "초이스경제",
+        "date": "Sat, 24 Oct 2026 01:00:09 GMT",
+        "original_url": "http://www.choicenews.co.kr/news/articleViewAmp.html?idxno=172525"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "서울시‧서울에너지公, ‘서울미래에너지포럼’ 개최 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 10:36:22 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32236"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "LS일렉트릭, 사상 최대 실적으로 100분기 연속 흑자 ‘금자탑’ - www.koreasprint.com",
+        "press": "www.koreasprint.com",
+        "date": "Sat, 24 Oct 2026 17:39:00 GMT",
+        "original_url": "https://www.koreasprint.com/news/articleView.html?idxno=21860"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "미국 옆에 둔 멕시코 '니어쇼어링'에 전력 수요 급증…韓기업 현지 인프라 시장 주목 - 더구루",
+        "press": "더구루",
+        "date": "Fri, 23 Oct 2026 22:11:52 GMT",
+        "original_url": "https://www.theguru.co.kr/news/article.html?no=108718"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "전력가격 하락에 4분기 눈높이 낮아져…SGC에너지, 12월 회복 기대 - 핀포인트뉴스",
+        "press": "핀포인트뉴스",
+        "date": "Sat, 24 Oct 2026 04:34:11 GMT",
+        "original_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=498115"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "효성중공업, 수출 전용 초고압차단기 신공장 준공 - 국민기자뉴스",
+        "press": "국민기자뉴스",
+        "date": "Sat, 24 Oct 2026 04:05:00 GMT",
+        "original_url": "http://www.kmkj.kr/news/articleView.html?idxno=140308"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "AI 데이터센터는 가득 찼는데 왜 투자자는 불안한가…3조5,000억 달러 자산손상 경고 - 시사프리즘",
+        "press": "시사프리즘",
+        "date": "Sat, 24 Oct 2026 03:41:52 GMT",
+        "original_url": "https://www.giprism.com/news/articleView.html?idxno=12957"
+    },
+    {
+        "topic": "전력",
+        "keywords": "전력 (기기 OR 계통 OR 시장 OR 기자재) OR 화력발전 OR 터빈 OR 혼소 OR 송배전 OR 그리드",
+        "title": "전력거래소, 공공기관 유일 ‘전력시장 K-뉴딜 아카데미’ 개설 '화제' - 한국원자력신문",
+        "press": "한국원자력신문",
+        "date": "Sat, 24 Oct 2026 05:44:57 GMT",
+        "original_url": "http://www.knpnews.com/news/articleView.html?idxno=34721"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "\"리튬이온 '열 폭주' 막는다\"…배터리 안전성 핵심 연구 공개 | - 하이테크정보",
+        "press": "하이테크정보",
+        "date": "Sat, 24 Oct 2026 19:23:20 GMT",
+        "original_url": "http://www.hitech.co.kr/news/articleViewAmp.html?idxno=62275"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "전고체 배터리 대중화 '2030년대 중반' 전망 나와, 삼성SDI 내년 양산 목표 실효성 주목 - 비즈니스포스트",
+        "press": "비즈니스포스트",
+        "date": "Sat, 24 Oct 2026 21:00:00 GMT",
+        "original_url": "https://www.businesspost.co.kr/BP?command=article_view&num=450048"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "“배터리가 안 빠지면 어떡하지?”…충전식 소형가전 배출법 - 제주교통복지신문",
+        "press": "제주교통복지신문",
+        "date": "Sat, 24 Oct 2026 10:36:40 GMT",
+        "original_url": "https://www.jejutwn.com/news/article.html?no=464335"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "한화파워, 1700TEU 배터리 추진선 개념설계 승인 획득 - 비건뉴스",
+        "press": "비건뉴스",
+        "date": "Sat, 24 Oct 2026 09:19:07 GMT",
+        "original_url": "https://www.vegannews.co.kr/news/article.html?no=396523"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "용인특례시, 시민과 재난안전 기관 관계자 대상 ‘배터리 화재 안전 교육 시연회’ 열어 - 수원뉴스",
+        "press": "수원뉴스",
+        "date": "Sat, 24 Oct 2026 12:42:59 GMT",
+        "original_url": "https://www.suwonnews.co.kr/news/articleView.html?idxno=35574"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "라오스, ‘동남아 배터리’에서 ‘K-에너지 시험장’으로 탈바꿈 - 이코노미트리뷴",
+        "press": "이코노미트리뷴",
+        "date": "Sat, 24 Oct 2026 10:51:17 GMT",
+        "original_url": "https://www.economytribune.co.kr/news/articleView.html?idxno=3904232"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "[배터리 대전환]② 삼성SDI, 전고체 핵심 소재 확보 총력…양산 체제 구축 속도 - 아시아타임즈",
+        "press": "아시아타임즈",
+        "date": "Sat, 24 Oct 2026 06:04:00 GMT",
+        "original_url": "https://www.asiatime.co.kr/article/20261023500335"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "GM, '리튬 없는 배터리' 투자 확대…LG도 가세 - 글로벌이코노믹",
+        "press": "글로벌이코노믹",
+        "date": "Sat, 24 Oct 2026 19:00:00 GMT",
+        "original_url": "https://www.g-enews.com/article/Global-Biz/2026/10/202610242030137549a1f309431_1"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "영하 30도에도 배터리 용량 97% 유지…도넛랩 극저온 시험 - 글로벌이코노믹",
+        "press": "글로벌이코노믹",
+        "date": "Sat, 24 Oct 2026 20:00:00 GMT",
+        "original_url": "https://www.g-enews.com/article/Global-Biz/2026/10/2026102420432997469a1f309431_1"
+    },
+    {
+        "topic": "ESS",
+        "keywords": "에너지저장 OR ESS OR 열저장 OR 배터리 OR 압축공기",
+        "title": "갤럭시S27 울트라·프로 배터리 인증 포착…용량 얼마나 늘까 - 지디넷코리아",
+        "press": "지디넷코리아",
+        "date": "Sat, 24 Oct 2026 03:16:19 GMT",
+        "original_url": "https://zdnet.co.kr/view/?no=20261024071650"
+    },
+    {
+        "topic": "자원, CCUS",
+        "keywords": "탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)",
+        "title": "IBK투자증권 최광진 탄소금융사업 기회 잡나, 중소기업 녹색전환 선도 준비 '이상 무' - 비즈니스포스트",
+        "press": "비즈니스포스트",
+        "date": "Sat, 24 Oct 2026 21:00:00 GMT",
+        "original_url": "https://www.businesspost.co.kr/BP?command=article_view&num=449937"
+    },
+    {
+        "topic": "자원, CCUS",
+        "keywords": "탄소 (포집 OR 저장) OR 온실가스 OR 자원순환 OR CCS OR CCU OR 지중저장 OR 재자원화 OR (천연가스 OR 유가스 OR 핵심광물) (개발 OR 운송)",
+        "title": "녹아내리는 동토에 LNG 개발까지...기후위기 악순환 시작되나 [자막뉴스] - YTN",
+        "press": "YTN",
+        "date": "Sat, 24 Oct 2026 07:09:00 GMT",
+        "original_url": "https://www.ytn.co.kr/_ln/0134_202610241609473992_001"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "오픈에너지, 태양광 견적 비교 플랫폼 ‘태양이’ 내달 출시 - 기후에너지데이터뱅크",
+        "press": "기후에너지데이터뱅크",
+        "date": "Sat, 24 Oct 2026 08:10:02 GMT",
+        "original_url": "https://edata.ekn.kr/article/view/ekn202610240001"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "관광 다음은 투자… 팔라완 관문 도시, 한국에 손 내밀다 - www.stnsports.co.kr",
+        "press": "www.stnsports.co.kr",
+        "date": "Sat, 24 Oct 2026 17:46:49 GMT",
+        "original_url": "https://www.stnsports.co.kr/news/articleView.html?idxno=324571"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "수명을 다한 태양광 패널, 정읍시는 재활용 대책 마련하고 있는가? - 아시아통신",
+        "press": "아시아통신",
+        "date": "Sat, 24 Oct 2026 03:34:27 GMT",
+        "original_url": "https://newsasia.kr/news/article.html?no=447345"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "화순군, 지역주민 소득증대 재생에너지사업 3곳 선정 - 진일보 | 전남일보",
+        "press": "진일보 | 전남일보",
+        "date": "Sat, 24 Oct 2026 15:05:00 GMT",
+        "original_url": "https://www.jnilbo.com/news/articleView.html?idxno=90000076206"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "[HARFKO 2026] 고효율 PVT 기술 경쟁력 주목 - 칸(KHARN)",
+        "press": "칸(KHARN)",
+        "date": "Sat, 24 Oct 2026 11:06:10 GMT",
+        "original_url": "https://www.kharn.kr/news/article.html?no=32247"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "이탈리아, 9월 태양광 발전량 5.32TWh…전년보다 27% 증가 - AI타임스",
+        "press": "AI타임스",
+        "date": "Sat, 24 Oct 2026 00:30:00 GMT",
+        "original_url": "https://www.aitimes.com/news/articleView.html?idxno=216558"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "태양광 견적 비교부터 설치 후 관리까지… 오픈에너지, ‘태양이’ 출시 앞둬 - https://www.koreasprint.com/",
+        "press": "https://www.koreasprint.com/",
+        "date": "Sat, 24 Oct 2026 18:07:00 GMT",
+        "original_url": "https://www.koreasprint.com/news/articleView.html?idxno=21913"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "새만금 국가산단 RE100 확산…입주기업 9개사 태양광 12.8MW 구축 - 산학뉴스",
+        "press": "산학뉴스",
+        "date": "Sat, 24 Oct 2026 04:33:00 GMT",
+        "original_url": "https://www.sanhaknews.kr/news/articleView.html?idxno=21929"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "\"밤에도 전기 만든다\"… 中, '원전 15기 맞먹는' 집중 태양열 15GW 확장 드라이브 - 글로벌이코노믹",
+        "press": "글로벌이코노믹",
+        "date": "Sat, 24 Oct 2026 20:25:00 GMT",
+        "original_url": "https://www.g-enews.com/article/Global-Biz/2026/10/20261024155956370c8c1c064d_1"
+    },
+    {
+        "topic": "태양광",
+        "keywords": "태양광 OR 결정질실리콘 OR 무기박막 OR 유기박막 OR 탠덤태양전지 OR 페로브스카이트",
+        "title": "태양광 폐패널 '폭증'…재활용 신기술로 돌파 - SBS 뉴스",
+        "press": "SBS 뉴스",
+        "date": "Fri, 23 Oct 2026 22:19:40 GMT",
+        "original_url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008812753"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "씨에스윈드, 환율 하락에도 3분기 선방 전망…하부구조물이 버팀목 - 핀포인트뉴스",
+        "press": "핀포인트뉴스",
+        "date": "Sat, 24 Oct 2026 04:36:01 GMT",
+        "original_url": "https://www.pinpointnews.co.kr/news/articleViewAmp.html?idxno=498114"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "해상풍력 키우고 중동 진출…소동욱 서부발전 실장 ‘산업포장’ - 에너지타임즈",
+        "press": "에너지타임즈",
+        "date": "Sat, 24 Oct 2026 09:19:00 GMT",
+        "original_url": "https://www.energytimes.kr/news/articleView.html?idxno=71222"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "KRISO, 해양플랜트 서비스산업 경쟁력 강화 나선다…산학연 협력 확대 - 행정수도뉴스",
+        "press": "행정수도뉴스",
+        "date": "Sat, 24 Oct 2026 11:34:40 GMT",
+        "original_url": "http://www.capnews.kr/news/articleView.html?idxno=79225"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "글로벌 기업 떠나는 韓 해상풍력···45GW 청사진 '공염불' 되나 - 서울파이낸스",
+        "press": "서울파이낸스",
+        "date": "Sat, 24 Oct 2026 00:00:00 GMT",
+        "original_url": "https://www.seoulfn.com/news/articleView.html?idxno=640683"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "[기획취재] 20조 원 추자해상풍력, 사업자도 못 구했는데… ‘2.37GW’ 장밋빛 청사진 - 독립신문",
+        "press": "독립신문",
+        "date": "Sat, 24 Oct 2026 06:43:48 GMT",
+        "original_url": "https://www.ainews1.co.kr/news/articleView.html?idxno=37910"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "에퀴노르 한국 해상풍력 접는다…2040 목표 누가 짓나 - 자본시장뉴스",
+        "press": "자본시장뉴스",
+        "date": "Sat, 24 Oct 2026 03:25:00 GMT",
+        "original_url": "https://www.jabon.co.kr/news/articleView.html?idxno=7958"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "단일권역 세계 최대 신안 해상풍력 본격 시동 걸었다 - KBC광주방송",
+        "press": "KBC광주방송",
+        "date": "Sat, 24 Oct 2026 12:19:19 GMT",
+        "original_url": "https://www.ikbc.co.kr/news/article/view/kbc202610240028"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "기상청 “해외보다 5배 정확”…알고 보니 ‘자화자찬’ - KBS 뉴스",
+        "press": "KBS 뉴스",
+        "date": "Sat, 24 Oct 2026 17:17:56 GMT",
+        "original_url": "https://news.kbs.co.kr/news/view.do?ncd=8693190"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "비싼 중희토류 없이 고성능 영구자석 만든다! - 전기신문",
+        "press": "전기신문",
+        "date": "Sat, 24 Oct 2026 15:16:55 GMT",
+        "original_url": "https://www.electimes.com/news/articleViewAmp.html?idxno=373842"
+    },
+    {
+        "topic": "풍력",
+        "keywords": "풍력 OR 해상변전소",
+        "title": "[이슈국감] 재생에너지 REC 비용 90조원 육박…기후환경요금 동결 지속 - 한스경제",
+        "press": "한스경제",
+        "date": "Sat, 24 Oct 2026 05:13:40 GMT",
+        "original_url": "http://www.hansbiz.co.kr/news/articleViewAmp.html?idxno=875879"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "경기도, 내년 가용예산 예년 40%대…확보 재원 안전·민생 우선 반영 - 전자신문",
+        "press": "전자신문",
+        "date": "Sat, 24 Oct 2026 12:30:25 GMT",
+        "original_url": "https://www.etnews.com/20261024000035"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "삼천리, '가스안전 집중강화의 달' 안전 결의대회 개최 - 인천in 시민의 손으로 만드는 인터넷신문",
+        "press": "인천in 시민의 손으로 만드는 인터넷신문",
+        "date": "Fri, 23 Oct 2026 23:35:36 GMT",
+        "original_url": "https://www.incheonin.com/news/articleView.html?idxno=121742"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "안전보건공단, KOSHA-MS 인증사업장 사후관리 강화 - 에너지신문",
+        "press": "에너지신문",
+        "date": "Sat, 24 Oct 2026 11:39:42 GMT",
+        "original_url": "https://www.energy-news.co.kr/news/articleView.html?idxno=229224"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "김종민 의원 “10억 아끼려다 100억 잃는다... 가스안전검사 지원 시범사업 제안” - 기후에너지경제",
+        "press": "기후에너지경제",
+        "date": "Sat, 24 Oct 2026 07:48:43 GMT",
+        "original_url": "https://www.efn.co.kr/news/articleView.html?idxno=3154"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "선그로우 \"현지화와 신뢰성으로 유럽 에너지 전환 선도\" - 투데이에너지",
+        "press": "투데이에너지",
+        "date": "Sat, 24 Oct 2026 04:34:15 GMT",
+        "original_url": "https://www.todayenergy.kr/news/articleView.html?idxno=304625"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "울산 중구, 2026년 재난대응 안전한국훈련 실시 - 경상일보",
+        "press": "경상일보",
+        "date": "Sat, 24 Oct 2026 07:16:49 GMT",
+        "original_url": "https://www.ksilbo.co.kr/news/articleView.html?idxno=1070454"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "평택시․삼성전자․한국가스안전공사․평택시사회복지협의회, 가스 안전 지원 MOU - 수도권지역뉴스",
+        "press": "수도권지역뉴스",
+        "date": "Sat, 24 Oct 2026 00:23:59 GMT",
+        "original_url": "https://www.mp-news.com/news/articleView.html?idxno=72637"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "캐나다 | 캘거리 버스 폭발 참사... 밴쿠버 천연가스 버스 안전한가 - 밴쿠버 중앙일보",
+        "press": "밴쿠버 중앙일보",
+        "date": "Sat, 24 Oct 2026 15:10:29 GMT",
+        "original_url": "https://joinsmediacanada.com/bbs/board.php?bo_table=news&wr_id=54660"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "휴대용 가스레인지 불판 크기, 왜 중요할까 - 제주교통복지신문",
+        "press": "제주교통복지신문",
+        "date": "Sat, 24 Oct 2026 13:51:04 GMT",
+        "original_url": "https://www.jejutwn.com/news/article.html?no=464429"
+    },
+    {
+        "topic": "에너지안전",
+        "keywords": "(에너지 OR 가스 OR 전기 OR ESS) 안전 OR 안전성평가",
+        "title": "키키의 '연프'?! '키키팡팡' 물들인 '모태소울로지옥' - 전자신문",
+        "press": "전자신문",
+        "date": "Sat, 24 Oct 2026 05:50:01 GMT",
+        "original_url": "https://www.etnews.com/20261024000016"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "바이오가스·AI 더빙·실내위치인식…과기대 교원창업 '3인3색' - 머니투데이 - 머니투데이",
+        "press": "머니투데이",
+        "date": "Sat, 24 Oct 2026 01:00:00 GMT",
+        "original_url": "https://www.mt.co.kr/amp/future/2026/10/24/2026101915435945145"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "\"알래스카 LNG 개발사업에 러 '제재기업' 몰래 자금 대\" - 연합뉴스",
+        "press": "연합뉴스",
+        "date": "Sat, 24 Oct 2026 07:39:16 GMT",
+        "original_url": "https://www.yna.co.kr/amp/view/AKR20261024039200009"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "초소형 CT·손해사정 AI·ESG 양산…과기대 학생창업 아이템 보니 - 유니콘팩토리",
+        "press": "유니콘팩토리",
+        "date": "Sat, 24 Oct 2026 20:00:00 GMT",
+        "original_url": "https://www.unicornfactory.co.kr/article/2026102016170493484"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "환경기업 사업화 지원서류 간소화 추진…필수서류 15개→5개 - 비건뉴스",
+        "press": "비건뉴스",
+        "date": "Sat, 24 Oct 2026 05:02:03 GMT",
+        "original_url": "https://www.vegannews.co.kr/news/article.html?no=396388"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "카타르, 미국산 LNG 장기 구매 계약…美 에너지 패권 강화 - 블로터",
+        "press": "블로터",
+        "date": "Sat, 24 Oct 2026 10:00:00 GMT",
+        "original_url": "https://www.bloter.net/news/articleView.html?idxno=676626"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "용인시산업진흥원 기후테크 펀딩, 목표액의 평균 12배 모금 - 동방일보",
+        "press": "동방일보",
+        "date": "Sat, 24 Oct 2026 10:32:48 GMT",
+        "original_url": "https://www.dongbangilbo.co.kr/news/articleView.html?idxno=110576"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "[2027 산업] 내년 사업계획 시동…AI '성과내기'·중국과는 생존경쟁 - 매일경제 마켓",
+        "press": "매일경제 마켓",
+        "date": "Sat, 24 Oct 2026 20:31:10 GMT",
+        "original_url": "https://stock.mk.co.kr/news/view/1180595"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "경기혁신센터, 성남 판교 창업존서 스타트업 815 IR 연합 개최 - 성남포커스",
+        "press": "성남포커스",
+        "date": "Sat, 24 Oct 2026 05:51:00 GMT",
+        "original_url": "http://www.snfocus.net/124374"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "이란 전쟁으로 달라진 에너지 시장… LNG 수출국 카타르, 美서 수입 계약 - 파이낸셜뉴스",
+        "press": "파이낸셜뉴스",
+        "date": "Sat, 24 Oct 2026 04:03:07 GMT",
+        "original_url": "https://www.fnnews.com/news/202610241252498455"
+    },
+    {
+        "topic": "기술사업화",
+        "keywords": "기후테크 OR 에너지 (벤처 OR 스타트업 OR 사업화)",
+        "title": "[수상] 33년 한결같은 경영·나눔… 제주 희진주유소 강희진 대표, 중기부 장관상 수상 - 라이브제주 LIVEJEJU",
+        "press": "라이브제주 LIVEJEJU",
+        "date": "Sat, 24 Oct 2026 05:44:02 GMT",
+        "original_url": "http://www.livejeju.co.kr/news/articleViewAmp.html?idxno=3021477"
     }
 ]
